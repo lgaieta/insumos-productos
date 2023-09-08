@@ -10,7 +10,11 @@ export const metadata: Metadata = {
     description: 'Aplicación de gestión de insumos y productos.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
         <html lang='es'>
             <body className={inter.className}>

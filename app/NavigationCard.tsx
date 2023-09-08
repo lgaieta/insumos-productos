@@ -11,11 +11,13 @@ function NavigationCard(props: NavigationCardProps) {
     return (
         <Card
             classNames={{
-                base: 'mb-12 px-8 py-4 border border-transparent hover:border-foreground-300',
+                base: 'px-8 py-4 border border-transparent lg:max-h-[50vh] hover:border-foreground-300',
                 header: 'flex flex-col gap-2',
+                body: 'justify-end p-0 py-4',
             }}
             shadow='md'
             isPressable
+            fullWidth
         >
             <CardHeader>
                 <h2 className='text-2xl font-bold w-full text-center text-foreground-800'>
@@ -31,8 +33,9 @@ function NavigationCard(props: NavigationCardProps) {
                     as={NextImage}
                     {...props.imageProps}
                     classNames={{
-                        wrapper: 'w-full aspect-[11 / 9]',
-                        img: 'h-full w-full',
+                        wrapper:
+                            'w-full justify-self-end border aspect-[16 / 12]',
+                        img: 'h-full w-full object-cover',
                     }}
                 />
             </CardBody>
