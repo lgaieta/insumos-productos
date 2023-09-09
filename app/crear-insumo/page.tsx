@@ -1,11 +1,27 @@
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
+import mysql from 'mysql2/promise';
 
 function CreateMaterialPage() {
     async function create(formData: FormData) {
         'use server';
-        console.log(formData.get('name'));
-        console.log(formData.get('price'));
+
+        const pool = mysql.createPool({
+            host: process.env.DB_HOST,
+            password: process.env.DB_PASSWORD,
+            user: process.env.DB_USER,
+            database: process.env.DB_DBNAME,
+        });
+
+        const name = formData.get('name');
+        const price = formData.get('price');
+
+        await pool.query(
+            'INSERT INTO INSUMO (NOMBRE, COSTO_UNITARIO) VALUES (?, ?)',
+            [name, price],
+        );
+
+        console.log('Success!');
     }
 
     return (
