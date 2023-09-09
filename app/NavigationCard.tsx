@@ -1,4 +1,5 @@
-import { Card, CardBody, CardHeader, Image } from '@nextui-org/react';
+import { Card, CardBody, CardHeader } from '@nextui-org/card';
+import { Image } from '@nextui-org/image';
 import NextImage from 'next/image';
 
 type NavigationCardProps = {
@@ -11,7 +12,7 @@ function NavigationCard(props: NavigationCardProps) {
     return (
         <Card
             classNames={{
-                base: 'px-8 py-4 border border-transparent lg:max-h-[50vh] hover:border-foreground-300',
+                base: 'px-8 py-4 border border-transparent lg:max-h-[50vh] transition-colors hover:border-foreground-300',
                 header: 'flex flex-col gap-2',
                 body: 'justify-end p-0 py-4',
             }}
@@ -33,8 +34,7 @@ function NavigationCard(props: NavigationCardProps) {
                     as={NextImage}
                     {...props.imageProps}
                     classNames={{
-                        wrapper:
-                            'w-full justify-self-end border aspect-[16 / 12]',
+                        wrapper: 'w-full justify-self-end aspect-[16 / 12]',
                         img: 'h-full w-full object-cover',
                     }}
                 />
