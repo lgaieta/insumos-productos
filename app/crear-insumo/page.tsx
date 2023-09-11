@@ -1,28 +1,50 @@
+'use client';
+
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
-import mysql from 'mysql2/promise';
+import { Metadata } from 'next';
+import { useState } from 'react';
+import { createMaterialServerAction } from './createMaterialServerAction';
+import { SafeParseReturnType } from 'zod';
+import Material from './Material';
+
+export const metadata: Metadata = {
+    title: 'Crear insumo - Insumos y Productos',
+};
+
+type InputFields = Omit<Material, 'id'>;
 
 function CreateMaterialPage() {
-    async function create(formData: FormData) {
-        'use server';
+    const [fieldsState, setFieldsState] = useState({
+        name: '',
+        price: '',
+    });
 
-        const pool = mysql.createPool({
-            host: process.env.DB_HOST,
-            password: process.env.DB_PASSWORD,
-            user: process.env.DB_USER,
-            database: process.env.DB_DBNAME,
-        });
+    const create = async (formData: FormData) => {
+        const result = JSON.parse(
+            await createMaterialServerAction(formData),
+        ) as SafeParseReturnType<InputFields, InputFields>;
 
-        const name = formData.get('name');
-        const price = formData.get('price');
-
-        await pool.query(
-            'INSERT INTO INSUMO (NOMBRE, COSTO_UNITARIO) VALUES (?, ?)',
-            [name, price],
-        );
-
-        console.log('Success!');
-    }
+        if (result.success === false) {
+            const errors = result.error.issues.reduce(
+                (errorsAccumulator, issue) => ({
+                    ...errorsAccumulator,
+                    [issue.path[0]]: issue.message,
+                }),
+                {},
+            );
+            setFieldsState({
+                ...fieldsState,
+                ...errors,
+            });
+        } else {
+            setFieldsState({
+                name: '',
+                price: '',
+            });
+            console.log('happy path');
+        }
+    };
 
     return (
         <main className='flex flex-col items-center px-8 py-12 w-full text-foreground-900 bg-background'>
@@ -40,8 +62,15 @@ function CreateMaterialPage() {
                     variant='bordered'
                     placeholder='Ingrese el nombre del insumo'
                     labelPlacement='outside'
-                    classNames={{ label: 'font-bold font-xl' }}
+                    classNames={{ label: 'font-bold' }}
                     size='lg'
+                    isClearable
+                    validationState={
+                        fieldsState.name.length > 0 ? 'invalid' : 'valid'
+                    }
+                    errorMessage={
+                        fieldsState.name.length > 0 ? fieldsState.name : null
+                    }
                 />
                 <Input
                     type='number'
@@ -57,8 +86,14 @@ function CreateMaterialPage() {
                             </span>
                         </div>
                     }
-                    classNames={{ label: 'font-bold font-xl' }}
+                    classNames={{ label: 'font-bold' }}
                     size='lg'
+                    validationState={
+                        fieldsState.price.length > 0 ? 'invalid' : 'valid'
+                    }
+                    errorMessage={
+                        fieldsState.price.length > 0 ? fieldsState.price : null
+                    }
                 />
                 <Button
                     color='primary'
@@ -67,6 +102,9 @@ function CreateMaterialPage() {
                 >
                     Continuar
                 </Button>
+                <p className='text-sm text-foreground-400 text-center'>
+                    Los links se agregan luego de completar este formulario
+                </p>
             </form>
         </main>
     );
