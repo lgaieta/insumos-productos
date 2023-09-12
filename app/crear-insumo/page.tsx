@@ -4,6 +4,7 @@ import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import { Metadata } from 'next';
 import { useCreateMaterial } from './useCreateMaterial';
+import ImageUploader from './ImageUploader';
 
 export const metadata: Metadata = {
     title: 'Crear insumo - Insumos y Productos',
@@ -38,6 +39,7 @@ function CreateMaterialPage() {
                         fieldsState.name.length > 0 ? fieldsState.name : null
                     }
                 />
+                <ImageUploader />
                 <Input
                     type='number'
                     label='Costo'
