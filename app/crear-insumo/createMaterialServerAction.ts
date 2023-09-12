@@ -4,7 +4,7 @@ import { MaterialValidationSchema } from './MaterialValidationSchema';
 import { getPool } from './getPool';
 import { saveMaterialInDatabase } from './saveMaterialInDatabase';
 
-export async function createMaterialServerAction(formData: FormData) {
+export const createMaterialServerAction = async (formData: FormData) => {
     const name = formData.get('name') as string;
     const price = parseFloat(formData.get('price') as string);
 
@@ -22,5 +22,9 @@ export async function createMaterialServerAction(formData: FormData) {
 
     await saveMaterialInDatabase(pool, parsedResult.data);
 
+    console.log(
+        `Saved material with name ${name} and price ${price} successfully`,
+    );
+
     return JSON.stringify(parsedResult);
-}
+};
