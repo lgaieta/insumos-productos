@@ -36,6 +36,7 @@ function ImageUploader() {
                 name='image'
                 id='imageInput'
                 className='hidden'
+                accept='image/png, image/jpeg'
                 ref={inputRef}
                 onChange={handleInputChange}
             />
