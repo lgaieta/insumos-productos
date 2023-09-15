@@ -6,10 +6,15 @@ import { saveMaterialInDatabase } from './saveMaterialInDatabase';
 
 export const createMaterialServerAction = async (formData: FormData) => {
     const name = formData.get('name') as string;
+    const file = formData.get('image') as File;
     const price = parseFloat(formData.get('price') as string);
+
+    console.log(file);
+    console.log('---------------------------------------------------------');
 
     const parsedResult = MaterialValidationSchema.safeParse({
         name,
+        image: file,
         price,
     });
 
