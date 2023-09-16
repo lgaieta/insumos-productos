@@ -4,7 +4,14 @@ import { Button } from '@nextui-org/button';
 import NextImage from 'next/image';
 import { useRef, useState } from 'react';
 
-function ImageUploader() {
+type ImageUploaderProps = {
+    isError: boolean;
+    errorMessage: string | null;
+};
+
+function ImageUploader(props: ImageUploaderProps) {
+    const { isError, errorMessage } = props;
+
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [isSelected, setIsSelected] = useState(false);
 
@@ -29,14 +36,18 @@ function ImageUploader() {
     };
 
     return (
-        <div className='flex flex-col gap-2  select-none'>
+        <div
+            className={`flex flex-col gap-2 select-none ${
+                isError ? 'text-danger' : ''
+            }`}
+        >
             <p className='text-sm font-bold'>Imagen</p>
             <input
                 type='file'
                 name='image'
                 id='imageInput'
                 className='hidden'
-                accept='image/png, image/jpeg'
+                // accept='image/png, image/jpeg'
                 ref={inputRef}
                 onChange={handleInputChange}
             />
@@ -66,7 +77,9 @@ function ImageUploader() {
                 <Card
                     shadow='none'
                     classNames={{
-                        base: 'border-1 border-divider',
+                        base: `border-1 ${
+                            isError ? 'border-danger' : 'border-divider'
+                        }`,
                         body: 'flex-col items-center gap-4',
                     }}
                 >
@@ -91,6 +104,9 @@ function ImageUploader() {
                     </CardBody>
                 </Card>
             )}
+            {isError ? (
+                <p className='text-sm text-danger'>{errorMessage}</p>
+            ) : null}
         </div>
     );
 }

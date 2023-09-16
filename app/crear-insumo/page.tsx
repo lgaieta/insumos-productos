@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 function CreateMaterialPage() {
-    const { fieldsState, createMaterial, isLoading } = useCreateMaterial();
+    const { fieldsErrors, createMaterial, isLoading } = useCreateMaterial();
 
     return (
         <main className='flex flex-col items-center px-8 py-12 w-full text-foreground-900 bg-background'>
@@ -33,13 +33,20 @@ function CreateMaterialPage() {
                     size='lg'
                     isClearable
                     validationState={
-                        fieldsState.name.length > 0 ? 'invalid' : 'valid'
+                        fieldsErrors.name.length > 0 ? 'invalid' : 'valid'
                     }
                     errorMessage={
-                        fieldsState.name.length > 0 ? fieldsState.name : null
+                        fieldsErrors.name.length > 0 ? fieldsErrors.name : null
                     }
                 />
-                <ImageUploader />
+                <ImageUploader
+                    isError={fieldsErrors.image.length > 0}
+                    errorMessage={
+                        fieldsErrors.image.length > 0
+                            ? fieldsErrors.image
+                            : null
+                    }
+                />
                 <Input
                     type='number'
                     label='Costo'
@@ -57,10 +64,12 @@ function CreateMaterialPage() {
                     classNames={{ label: 'font-bold' }}
                     size='lg'
                     validationState={
-                        fieldsState.price.length > 0 ? 'invalid' : 'valid'
+                        fieldsErrors.price.length > 0 ? 'invalid' : 'valid'
                     }
                     errorMessage={
-                        fieldsState.price.length > 0 ? fieldsState.price : null
+                        fieldsErrors.price.length > 0
+                            ? fieldsErrors.price
+                            : null
                     }
                 />
                 <Button

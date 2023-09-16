@@ -2,15 +2,17 @@ import { useState } from 'react';
 import { SafeParseReturnType } from 'zod';
 import { createMaterialServerAction } from './createMaterialServerAction';
 import Material from './Material';
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 
 type InputFields = Omit<Material, 'id'>;
 
+const emptyErrors = {
+    name: '',
+    price: '',
+    image: '',
+};
+
 export const useCreateMaterial = () => {
-    const [fieldsState, setFieldsState] = useState({
-        name: '',
-        price: '',
-    });
+    const [fieldsErrors, setFieldsErrors] = useState(emptyErrors);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -33,19 +35,13 @@ export const useCreateMaterial = () => {
                 {},
             );
 
-            setFieldsState({
-                ...fieldsState,
-                ...errors,
-            });
+            setFieldsErrors({ ...emptyErrors, ...errors });
         } else {
-            setFieldsState({
-                name: '',
-                price: '',
-            });
+            setFieldsErrors(emptyErrors);
         }
 
         setIsLoading(false);
     };
 
-    return { fieldsState, createMaterial, isLoading };
+    return { fieldsErrors, createMaterial, isLoading };
 };

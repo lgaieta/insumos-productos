@@ -17,7 +17,8 @@ export const MaterialValidationSchema = object({
             {
                 message: 'El archivo debe ser de tipo .png o .jpg',
             },
-        ),
+        )
+        .nullable(),
     price: number({
         required_error: 'El precio es requerido',
         invalid_type_error: 'El precio no es válido',

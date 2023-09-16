@@ -1,7 +1,11 @@
 import { Pool } from 'mysql2/promise';
 import Material from './Material';
 
-type IncomingMaterial = Omit<Material, 'id'>;
+type IncomingMaterial = {
+    name: string;
+    price: number;
+    image?: any;
+};
 
 export const saveMaterialInDatabase = async (
     pool: Pool,
