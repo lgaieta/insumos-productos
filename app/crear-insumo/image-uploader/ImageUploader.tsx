@@ -27,6 +27,8 @@ function ImageUploader(props: ImageUploaderProps) {
         }
     };
 
+    const getSelectedImageURL = (file: File) => URL.createObjectURL(file);
+
     const handleRemoveImageClick = () => {
         if (inputRef.current === null || !inputRef.current.files) return;
 
@@ -86,7 +88,13 @@ function ImageUploader(props: ImageUploaderProps) {
                     <CardBody>
                         <Image
                             as={NextImage}
-                            src='/cup-image.png'
+                            src={
+                                inputRef.current?.files
+                                    ? getSelectedImageURL(
+                                          inputRef.current.files[0],
+                                      )
+                                    : ''
+                            }
                             alt='Icono de imagen'
                             width={52}
                             height={52}
