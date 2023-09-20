@@ -47,7 +47,7 @@ function ImageUploader(props: ImageUploaderProps) {
                 name='image'
                 id='imageInput'
                 className='hidden'
-                // accept='image/png, image/jpeg'
+                accept='image/png, image/jpeg'
                 ref={inputRef}
                 onChange={handleInputChange}
             />

@@ -22,7 +22,7 @@ export const createMaterialServerAction = async (formData: FormData) => {
 
     const pool = getPool();
 
-    await saveMaterialInDatabase(pool, parsedResult.data);
+    await saveMaterialInDatabase(pool, { image: null, ...parsedResult.data });
 
     console.log(
         `Saved material with name ${name} and price ${price} successfully`,
