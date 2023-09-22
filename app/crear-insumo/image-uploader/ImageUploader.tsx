@@ -2,7 +2,7 @@ import { Card, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
 import { Button } from '@nextui-org/button';
 import NextImage from 'next/image';
-import { useRef, useState } from 'react';
+import { DragEventHandler, useRef, useState } from 'react';
 
 type ImageUploaderProps = {
     isError: boolean;
@@ -14,11 +14,10 @@ function ImageUploader(props: ImageUploaderProps) {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [isSelected, setIsSelected] = useState(false);
+    const [isDragActive, setIsDragActive] = useState(false);
 
     const handleInputChange = () => {
         if (inputRef.current === null || !inputRef.current.files) return;
-
-        console.log(inputRef.current.files);
 
         if (inputRef.current.files.length > 0) {
             setIsSelected(true);
@@ -27,7 +26,31 @@ function ImageUploader(props: ImageUploaderProps) {
         }
     };
 
-    const getSelectedImageURL = (file: File) => URL.createObjectURL(file);
+    const handleDrag: DragEventHandler<HTMLElement> = event => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (event.type === 'dragenter' || event.type === 'dragover') {
+            setIsDragActive(true);
+        } else if (event.type === 'dragleave') {
+            setIsDragActive(false);
+        }
+    };
+
+    const handleFileDrop: DragEventHandler<HTMLDivElement> = event => {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsDragActive(false);
+
+        const file = event.dataTransfer?.files[0];
+
+        if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+            const list = new DataTransfer();
+            list.items.add(file);
+            if (inputRef.current) inputRef.current.files = list.files;
+            setIsSelected(true);
+        }
+    };
 
     const handleRemoveImageClick = () => {
         if (inputRef.current === null || !inputRef.current.files) return;
@@ -36,6 +59,8 @@ function ImageUploader(props: ImageUploaderProps) {
         setIsSelected(false);
         console.log(inputRef.current.files);
     };
+
+    const getSelectedImageURL = (file: File) => URL.createObjectURL(file);
 
     return (
         <div
@@ -54,11 +79,15 @@ function ImageUploader(props: ImageUploaderProps) {
                 onChange={handleInputChange}
             />
             {!isSelected ? (
-                <label htmlFor='imageInput'>
+                <label
+                    htmlFor='imageInput'
+                    className='relative'
+                    onDragEnter={handleDrag}
+                >
                     <Card
                         shadow='none'
                         classNames={{
-                            base: 'border-2 border-dashed border-divider transition-colors hover:bg-default-50',
+                            base: 'relative border-2 border-dashed border-divider transition-colors hover:bg-default-50',
                             body: 'flex-col items-center gap-1 py-8',
                         }}
                     >
@@ -74,6 +103,15 @@ function ImageUploader(props: ImageUploaderProps) {
                             </p>
                         </CardBody>
                     </Card>
+                    {isDragActive && (
+                        <div
+                            className='absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-0'
+                            onDragEnter={handleDrag}
+                            onDragLeave={handleDrag}
+                            onDragOver={handleDrag}
+                            onDrop={handleFileDrop}
+                        ></div>
+                    )}
                 </label>
             ) : (
                 <Card
