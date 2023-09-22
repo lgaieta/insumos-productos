@@ -15,6 +15,7 @@ function ImageUploader(props: ImageUploaderProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [isSelected, setIsSelected] = useState(false);
     const [isDragActive, setIsDragActive] = useState(false);
+    const [isInvalidFiletype, setIsInvalidFiletype] = useState(false);
 
     const handleInputChange = () => {
         if (inputRef.current === null || !inputRef.current.files) return;
@@ -29,6 +30,8 @@ function ImageUploader(props: ImageUploaderProps) {
     const handleDrag: DragEventHandler<HTMLElement> = event => {
         event.preventDefault();
         event.stopPropagation();
+        console.log(event);
+        setIsInvalidFiletype(false);
 
         if (event.type === 'dragenter' || event.type === 'dragover') {
             setIsDragActive(true);
@@ -41,10 +44,12 @@ function ImageUploader(props: ImageUploaderProps) {
         event.preventDefault();
         event.stopPropagation();
         setIsDragActive(false);
-
         const file = event.dataTransfer?.files[0];
 
-        if (file && (file.type === 'image/png' || file.type === 'image/jpeg')) {
+        if (!(file.type === 'image/png' || file.type === 'image/jpeg'))
+            return setIsInvalidFiletype(true);
+
+        if (file) {
             const list = new DataTransfer();
             list.items.add(file);
             if (inputRef.current) inputRef.current.files = list.files;
@@ -97,8 +102,16 @@ function ImageUploader(props: ImageUploaderProps) {
                                 width={32}
                                 height={32}
                             />
-                            <p className='text-foreground-500'>
-                                Arrastre su imagen o haga click aquí
+                            <p
+                                className={
+                                    !isInvalidFiletype
+                                        ? 'text-foreground-500'
+                                        : 'text-danger'
+                                }
+                            >
+                                {!isInvalidFiletype
+                                    ? 'Arrastre su imagen o haga click aquí'
+                                    : 'Solo se aceptan imágenes de tipo PNG o JPEG'}
                             </p>
                         </CardBody>
                     </Card>
