@@ -3,8 +3,8 @@
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import { Metadata } from 'next';
-import { useCreateMaterial } from './useCreateMaterial';
-import ImageUploader from './image-uploader/ImageUploader';
+import { useCreateMaterial } from '@/crear-insumo/useCreateMaterial';
+import ImageUploader from '@/components/ImageUploader';
 
 export const metadata: Metadata = {
     title: 'Crear insumo - Insumos y Productos',

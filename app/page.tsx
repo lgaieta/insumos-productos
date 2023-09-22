@@ -1,4 +1,4 @@
-import NavigationCard from './NavigationCard';
+import NavigationCard from '@/components/NavigationCard';
 
 export default function Home() {
     return (

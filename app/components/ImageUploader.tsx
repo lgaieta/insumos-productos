@@ -57,7 +57,6 @@ function ImageUploader(props: ImageUploaderProps) {
 
         inputRef.current.value = '';
         setIsSelected(false);
-        console.log(inputRef.current.files);
     };
 
     const getSelectedImageURL = (file: File) => URL.createObjectURL(file);

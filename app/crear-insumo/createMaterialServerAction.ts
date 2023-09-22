@@ -1,8 +1,8 @@
 'use server';
 
-import { MaterialValidationSchema } from './MaterialValidationSchema';
-import { getPool } from './getPool';
-import { saveMaterialInDatabase } from './saveMaterialInDatabase';
+import { MaterialValidationSchema } from '@/crear-insumo/MaterialValidationSchema';
+import { getPool } from '@/crear-insumo/getPool';
+import { saveMaterialInDatabase } from '@/crear-insumo/saveMaterialInDatabase';
 
 export const createMaterialServerAction = async (formData: FormData) => {
     const name = formData.get('name') as string;
@@ -16,7 +16,6 @@ export const createMaterialServerAction = async (formData: FormData) => {
     });
 
     if (parsedResult.success === false) {
-        console.log(parsedResult.error.issues);
         return JSON.stringify(parsedResult);
     }
 
