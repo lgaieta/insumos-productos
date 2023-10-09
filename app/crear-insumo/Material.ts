@@ -3,6 +3,7 @@ type Material = {
     name: string;
     image: null | Blob;
     price: number;
+    link: string;
 };
 
 export default Material;

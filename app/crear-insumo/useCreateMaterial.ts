@@ -9,6 +9,7 @@ const emptyErrors = {
     name: '',
     price: '',
     image: '',
+    link: '',
 };
 
 export const useCreateMaterial = () => {

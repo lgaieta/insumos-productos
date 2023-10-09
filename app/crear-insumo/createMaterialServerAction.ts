@@ -8,11 +8,13 @@ export const createMaterialServerAction = async (formData: FormData) => {
     const name = formData.get('name') as string;
     const file = formData.get('image') as File;
     const price = parseFloat(formData.get('price') as string);
+    const link = (formData.get('link') as string) || null;
 
     const parsedResult = MaterialValidationSchema.safeParse({
         name,
         image: file.size === 0 ? null : file,
         price,
+        link,
     });
 
     if (parsedResult.success === false) {

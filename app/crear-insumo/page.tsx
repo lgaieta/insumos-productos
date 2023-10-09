@@ -72,6 +72,22 @@ function CreateMaterialPage() {
                             : null
                     }
                 />
+                <Input
+                    type='text'
+                    label='Link'
+                    name='link'
+                    variant='bordered'
+                    placeholder='Copie el link del insumo y péguelo aquí'
+                    labelPlacement='outside'
+                    classNames={{ label: 'font-bold' }}
+                    size='lg'
+                    validationState={
+                        fieldsErrors.link.length > 0 ? 'invalid' : 'valid'
+                    }
+                    errorMessage={
+                        fieldsErrors.link.length > 0 ? fieldsErrors.link : null
+                    }
+                />
                 <Button
                     color='primary'
                     size='lg'

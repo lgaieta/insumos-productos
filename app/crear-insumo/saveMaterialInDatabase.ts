@@ -4,22 +4,19 @@ type IncomingMaterial = {
     name: string;
     price: number;
     image: File;
+    link: string | null;
 };
 
 export const saveMaterialInDatabase = async (
     pool: Pool,
     materialData: IncomingMaterial,
 ) => {
-    const { name, price, image } = materialData;
+    const { name, price, image, link } = materialData;
 
-    if (image !== null) {
-        await pool.query(
-            'INSERT INTO INSUMO (NOMBRE, IMAGEN, COSTO_UNITARIO) VALUES (?, ?, ?)',
-            [name, await image.text(), price],
-        );
-    } else
-        await pool.query(
-            'INSERT INTO INSUMO (NOMBRE, COSTO_UNITARIO) VALUES (?, ?)',
-            [name, price],
-        );
+    await pool.query(
+        `INSERT INTO INSUMO (NOMBRE, IMAGEN, COSTO_UNITARIO, LINK) VALUES (?, ${
+            image !== null ? await image.text() : 'NULL'
+        }, ?, ${link || 'NULL'})`,
+        [name, price],
+    );
 };
