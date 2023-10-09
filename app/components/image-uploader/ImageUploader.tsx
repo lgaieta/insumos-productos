@@ -68,6 +68,7 @@ function ImageUploader(props: ImageUploaderProps) {
 
     return (
         <div
+            data-testid='ImageUploaderContainer'
             className={`flex flex-col gap-2 select-none ${
                 isError ? 'text-danger' : ''
             }`}
@@ -78,6 +79,7 @@ function ImageUploader(props: ImageUploaderProps) {
                 name='image'
                 id='imageInput'
                 className='hidden'
+                aria-hidden
                 accept='image/png, image/jpeg'
                 ref={inputRef}
                 onChange={handleInputChange}
@@ -87,6 +89,7 @@ function ImageUploader(props: ImageUploaderProps) {
                     htmlFor='imageInput'
                     className='relative'
                     onDragEnter={handleDrag}
+                    tabIndex={0}
                 >
                     <Card
                         shadow='none'
