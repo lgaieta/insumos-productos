@@ -1,4 +1,5 @@
 'use client';
+import Material from '@/entities/Material';
 import {
     Table,
     TableHeader,
@@ -8,70 +9,82 @@ import {
     TableCell,
     getKeyValue,
 } from '@nextui-org/table';
-
-const rows = [
-    {
-        key: '1',
-        name: 'Tony Reichert',
-        role: 'CEO',
-        status: 'Active',
-    },
-    {
-        key: '2',
-        name: 'Zoey Lang',
-        role: 'Technical Lead',
-        status: 'Paused',
-    },
-    {
-        key: '3',
-        name: 'Jane Fisher',
-        role: 'Senior Developer',
-        status: 'Active',
-    },
-    {
-        key: '4',
-        name: 'William Howard',
-        role: 'Community Manager',
-        status: 'Vacation',
-    },
-];
+import { Key, useEffect, useState } from 'react';
+import { adaptDatabaseMaterialList } from './adaptDatabaseMaterial';
+import { Button } from '@nextui-org/button';
+import { Avatar } from '@nextui-org/react';
 
 const columns = [
+    { key: 'image', label: 'Imagen' },
     {
         key: 'name',
-        label: 'NAME',
+        label: 'Nombre',
     },
     {
-        key: 'role',
-        label: 'ROLE',
+        key: 'price',
+        label: 'Precio',
     },
     {
-        key: 'status',
-        label: 'STATUS',
+        key: 'link',
+        label: 'Link',
     },
 ];
 
+const getCellContent = (material: Material, columnKey: Key) => {
+    const keyValue = getKeyValue(material, columnKey);
+
+    if (columnKey === 'image')
+        return (
+            <Avatar
+                src={keyValue}
+                showFallback
+            />
+        );
+
+    if (columnKey === 'link' && keyValue === null)
+        return <Button variant='flat'>Agregar link</Button>;
+
+    if (columnKey === 'price') return '$' + keyValue;
+
+    return keyValue;
+};
+
 function MaterialsTable() {
+    const [materials, setMaterials] = useState<Material[] | null>(null);
+
+    useEffect(() => {
+        fetch('/insumos/db')
+            .then(res => res.json())
+            .then(data => adaptDatabaseMaterialList(data))
+            .then(adaptedData => setMaterials(adaptedData));
+    }, []);
+
     return (
         <Table
+            isStriped
             aria-label='Example table with dynamic content'
             classNames={{ base: 'mt-6' }}
         >
             <TableHeader columns={columns}>
                 {column => (
-                    <TableColumn key={column.key}>{column.label}</TableColumn>
+                    <TableColumn
+                        key={column.key}
+                        width={column.key === 'image' ? '32' : null}
+                    >
+                        {column.label}
+                    </TableColumn>
                 )}
             </TableHeader>
-            <TableBody items={rows}>
-                {item => (
-                    <TableRow key={item.key}>
-                        {columnKey => (
-                            <TableCell>
-                                {getKeyValue(item, columnKey)}
-                            </TableCell>
-                        )}
-                    </TableRow>
-                )}
+            <TableBody items={materials || undefined}>
+                {materials
+                    ? material => (
+                          <TableRow key={material.id}>
+                              {columnKey => (
+                                  <TableCell>{getCellContent(material, columnKey)}</TableCell>
+                              )}
+                          </TableRow>
+                      )
+                    : []}
             </TableBody>
         </Table>
     );

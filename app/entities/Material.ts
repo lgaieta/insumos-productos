@@ -1,9 +1,9 @@
 type Material = {
     id: number;
     name: string;
-    image: null | Blob;
+    image: Blob | null;
     price: number;
-    link: string;
+    link: string | null;
 };
 
 export default Material;
