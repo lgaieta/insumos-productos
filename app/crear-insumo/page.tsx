@@ -95,9 +95,6 @@ function CreateMaterialPage() {
                 >
                     {isLoading ? 'Cargando...' : 'Continuar'}
                 </Button>
-                <p className='text-sm text-foreground-400 text-center'>
-                    Los links se agregan luego de completar este formulario
-                </p>
             </form>
         </main>
     );
