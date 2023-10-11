@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SafeParseReturnType } from 'zod';
-import { createMaterialServerAction } from '@/crear-insumo/createMaterialServerAction';
-import Material from '@/crear-insumo/Material';
+import { createMaterialServerAction } from '@/(insumo)/crear-insumo/createMaterialServerAction';
+import Material from '@/(insumo)/crear-insumo/Material';
 
 type InputFields = Omit<Material, 'id'>;
 

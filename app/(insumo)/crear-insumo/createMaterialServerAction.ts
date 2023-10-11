@@ -1,8 +1,8 @@
 'use server';
 
-import { MaterialValidationSchema } from '@/crear-insumo/MaterialValidationSchema';
-import { getPool } from '@/crear-insumo/getPool';
-import { saveMaterialInDatabase } from '@/crear-insumo/saveMaterialInDatabase';
+import { MaterialValidationSchema } from '@/(insumo)/crear-insumo/MaterialValidationSchema';
+import { getPool } from '@/(insumo)/crear-insumo/getPool';
+import { saveMaterialInDatabase } from '@/(insumo)/crear-insumo/saveMaterialInDatabase';
 
 export const createMaterialServerAction = async (formData: FormData) => {
     const name = formData.get('name') as string;
