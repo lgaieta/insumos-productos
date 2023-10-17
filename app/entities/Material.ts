@@ -1,7 +1,7 @@
 type Material = {
     id: number;
     name: string;
-    image: Blob | null;
+    image: Blob | string | null;
     price: number;
     link: string | null;
 };

@@ -7,9 +7,7 @@ type DBMaterial = {
     LINK: null | string;
 };
 
-export const adaptDatabaseMaterial = (
-    incomingMaterial: DBMaterial,
-): Material => {
+export const materialAdapter = (incomingMaterial: DBMaterial): Material => {
     return {
         id: incomingMaterial.INSUMO_ID,
         name: incomingMaterial.NOMBRE,
@@ -19,5 +17,5 @@ export const adaptDatabaseMaterial = (
     };
 };
 
-export const adaptDatabaseMaterialList = (materialsList: DBMaterial[]) =>
-    materialsList.map(adaptDatabaseMaterial);
+export const materialListAdapter = (materialsList: DBMaterial[]) =>
+    materialsList.map(materialAdapter);

@@ -7,16 +7,12 @@ type IncomingMaterial = {
     link: string | null;
 };
 
-export const saveMaterialInDatabase = async (
-    pool: Pool,
-    materialData: IncomingMaterial,
-) => {
+export const saveMaterialInDatabase = async (pool: Pool, materialData: IncomingMaterial) => {
     const { name, price, image, link } = materialData;
 
     await pool.query(
-        `INSERT INTO INSUMO (NOMBRE, IMAGEN, COSTO_UNITARIO, LINK) VALUES (?, ${
-            image !== null ? await image.text() : 'NULL'
-        }, ?, ${link || 'NULL'})`,
-        [name, price],
+        `INSERT INTO INSUMO (NOMBRE, COSTO_UNITARIO, IMAGEN, LINK) VALUES (?, ?,
+            ${image !== null ? '?' : 'NULL'}, ${link ? `"${link}"` : 'NULL'})`,
+        [name, price, image !== null ? Buffer.from(await image.arrayBuffer()) : undefined],
     );
 };

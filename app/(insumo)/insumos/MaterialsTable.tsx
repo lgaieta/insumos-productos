@@ -10,9 +10,12 @@ import {
     getKeyValue,
 } from '@nextui-org/table';
 import { Key, useEffect, useState } from 'react';
-import { adaptDatabaseMaterialList } from './adaptDatabaseMaterial';
+import { materialListAdapter } from './materialAdapter';
 import { Button } from '@nextui-org/button';
 import { Avatar } from '@nextui-org/react';
+import { materialImageListAdapter } from './materialImageAdapter';
+import { Link } from '@nextui-org/link';
+import NextLink from 'next/link';
 
 const columns = [
     { key: 'image', label: 'Imagen' },
@@ -37,12 +40,22 @@ const getCellContent = (material: Material, columnKey: Key) => {
         return (
             <Avatar
                 src={keyValue}
-                showFallback
+                showFallback={keyValue === null}
             />
         );
 
     if (columnKey === 'link' && keyValue === null)
         return <Button variant='flat'>Agregar link</Button>;
+
+    if (columnKey === 'link')
+        return (
+            <Link
+                href={keyValue}
+                as={NextLink}
+            >
+                {keyValue}
+            </Link>
+        );
 
     if (columnKey === 'price') return '$' + keyValue;
 
@@ -55,8 +68,26 @@ function MaterialsTable() {
     useEffect(() => {
         fetch('/insumos/db')
             .then(res => res.json())
-            .then(data => adaptDatabaseMaterialList(data))
+            .then(data => materialListAdapter(data))
             .then(adaptedData => setMaterials(adaptedData));
+
+        fetch('/insumos/db/imagenes')
+            .then(res => res.json())
+            .then(data => materialImageListAdapter(data))
+            .then(adaptedData => {
+                if (Object.keys(adaptedData).length === 0) return;
+
+                setMaterials(previous =>
+                    previous
+                        ? previous.map(material => ({
+                              ...material,
+                              image: (adaptedData as { [id: number]: string })[material.id]
+                                  ? (adaptedData as { [id: number]: string })[material.id]
+                                  : null,
+                          }))
+                        : null,
+                );
+            });
     }, []);
 
     return (
