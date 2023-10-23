@@ -67,7 +67,10 @@ function MaterialsTable() {
 
     useEffect(() => {
         fetch('/insumos/db')
-            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                return res.json();
+            })
             .then(data => materialListAdapter(data))
             .then(adaptedData => setMaterials(adaptedData));
 
