@@ -26,7 +26,7 @@ dependencies:
     specifier: 10.16.4
     version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
   jimp:
-    specifier: ^0.22.10
+    specifier: 0.22.10
     version: 0.22.10
   mysql2:
     specifier: 3.6.2
