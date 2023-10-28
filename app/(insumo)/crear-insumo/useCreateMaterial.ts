@@ -37,10 +37,10 @@ export const useCreateMaterial = () => {
             setFieldsErrors({ ...emptyErrors, ...errors });
         } else {
             setFieldsErrors(emptyErrors);
+            router.push('/insumos');
         }
 
         setIsLoading(false);
-        router.push('/insumos');
     };
 
     return { fieldsErrors, createMaterial, isLoading };
