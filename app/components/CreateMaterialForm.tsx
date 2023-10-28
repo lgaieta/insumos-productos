@@ -6,7 +6,7 @@ import { useCreateMaterial } from '@/(insumo)/crear-insumo/useCreateMaterial';
 import ImageUploader from '@/components/image-uploader/ImageUploader';
 
 function CreateMaterialForm() {
-    const { fieldsErrors, createMaterial, isLoading } = useCreateMaterial();
+    const { fieldsErrors, createMaterial, isLoading, requestError } = useCreateMaterial();
 
     return (
         <form
@@ -66,6 +66,11 @@ function CreateMaterialForm() {
             >
                 {isLoading ? 'Cargando...' : 'Continuar'}
             </Button>
+            {requestError && (
+                <p className='text-danger text-center text-sm'>
+                    Ha ocurrido un error al guardar los datos, por favor inténtelo nuevamente.
+                </p>
+            )}
         </form>
     );
 }

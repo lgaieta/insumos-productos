@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 
 type InputFields = Omit<Material, 'id'>;
 
+export const SERVER_ERROR_STRING = 'SERVER_ERROR';
+
 const emptyErrors = {
     name: '',
     price: '',
@@ -15,6 +17,7 @@ const emptyErrors = {
 
 export const useCreateMaterial = () => {
     const [fieldsErrors, setFieldsErrors] = useState(emptyErrors);
+    const [requestError, setRequestError] = useState(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const router = useRouter();
 
@@ -22,6 +25,13 @@ export const useCreateMaterial = () => {
         setIsLoading(true);
 
         const stringResult = await createMaterialServerAction(formData);
+
+        if (stringResult === SERVER_ERROR_STRING) {
+            setFieldsErrors(emptyErrors);
+            setIsLoading(false);
+            setRequestError(true);
+            return;
+        }
 
         const result = JSON.parse(stringResult) as SafeParseReturnType<InputFields, InputFields>;
 
@@ -41,7 +51,8 @@ export const useCreateMaterial = () => {
         }
 
         setIsLoading(false);
+        setRequestError(false);
     };
 
-    return { fieldsErrors, createMaterial, isLoading };
+    return { fieldsErrors, createMaterial, isLoading, requestError };
 };
