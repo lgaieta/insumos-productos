@@ -1,4 +1,4 @@
-import { object, string, number, any } from 'zod';
+import { object, string, number, instanceof as zodInstanceof } from 'zod';
 
 export const MaterialValidationSchema = object({
     name: string({
@@ -9,16 +9,13 @@ export const MaterialValidationSchema = object({
         .min(1, { message: 'El nombre es requerido' })
         .max(45, { message: 'El nombre puede tener solo hasta 45 caracteres' }),
 
-    image: any()
+    image: zodInstanceof(File)
         .refine(file => file.size / 1000 < 16000, {
             message: 'El archivo no puede ser más pesado que 16MB',
         })
-        .refine(
-            file => file.type === 'image/png' || file.type === 'image/jpeg',
-            {
-                message: 'El archivo debe ser de tipo .png o .jpg',
-            },
-        )
+        .refine(file => file.type === 'image/png' || file.type === 'image/jpeg', {
+            message: 'El archivo debe ser de tipo .png o .jpg',
+        })
         .nullable(),
 
     price: number({

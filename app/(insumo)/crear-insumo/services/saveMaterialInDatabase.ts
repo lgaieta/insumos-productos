@@ -3,7 +3,7 @@ import { Pool } from 'mysql2/promise';
 type IncomingMaterial = {
     name: string;
     price: number;
-    image: File;
+    image: File | null;
     link: string | null;
 };
 

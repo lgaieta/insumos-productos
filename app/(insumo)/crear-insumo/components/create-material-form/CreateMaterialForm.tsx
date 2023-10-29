@@ -1,17 +1,32 @@
 'use client';
 
-import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
-import { useCreateMaterial } from '@/(insumo)/crear-insumo/useCreateMaterial';
-import ImageUploader from '@/components/image-uploader/ImageUploader';
+import ImageUploader from '@/(insumo)/crear-insumo/components/image-uploader/ImageUploader';
+import SubmitButton from '@/(insumo)/crear-insumo/components/submit-button/SubmitButton';
+import { useFormState } from 'react-dom';
+import { createMaterialServerAction } from '@/(insumo)/crear-insumo/actions/createMaterialServerAction';
+import Material from '@/entities/Material';
+
+export type CreateMaterialFormErrors = {
+    name: string;
+    price: string;
+    image: string;
+    link: string;
+    /** Used for errors caught by catch statement */
+    server: string;
+};
+
+type FormState = { errors: Partial<CreateMaterialFormErrors> };
 
 function CreateMaterialForm() {
-    const { fieldsErrors, createMaterial, isLoading, requestError } = useCreateMaterial();
+    const [{ errors }, formAction] = useFormState<FormState, FormData>(createMaterialServerAction, {
+        errors: {},
+    });
 
     return (
         <form
             className='flex flex-col gap-6 w-full max-w-[500px]'
-            action={createMaterial}
+            action={formAction}
         >
             <Input
                 type='text'
@@ -23,12 +38,12 @@ function CreateMaterialForm() {
                 classNames={{ label: 'font-bold' }}
                 size='lg'
                 isClearable
-                validationState={fieldsErrors.name.length > 0 ? 'invalid' : 'valid'}
-                errorMessage={fieldsErrors.name.length > 0 ? fieldsErrors.name : null}
+                validationState={errors?.name ? 'invalid' : 'valid'}
+                errorMessage={errors?.name || null}
             />
             <ImageUploader
-                isError={fieldsErrors.image.length > 0}
-                errorMessage={fieldsErrors.image.length > 0 ? fieldsErrors.image : null}
+                isError={errors?.image !== undefined}
+                errorMessage={errors?.image || null}
             />
             <Input
                 type='number'
@@ -44,8 +59,8 @@ function CreateMaterialForm() {
                 }
                 classNames={{ label: 'font-bold' }}
                 size='lg'
-                validationState={fieldsErrors.price.length > 0 ? 'invalid' : 'valid'}
-                errorMessage={fieldsErrors.price.length > 0 ? fieldsErrors.price : null}
+                validationState={errors?.price ? 'invalid' : 'valid'}
+                errorMessage={errors?.price || null}
             />
             <Input
                 type='text'
@@ -56,21 +71,11 @@ function CreateMaterialForm() {
                 labelPlacement='outside'
                 classNames={{ label: 'font-bold' }}
                 size='lg'
-                validationState={fieldsErrors.link.length > 0 ? 'invalid' : 'valid'}
-                errorMessage={fieldsErrors.link.length > 0 ? fieldsErrors.link : null}
+                validationState={errors?.link ? 'invalid' : 'valid'}
+                errorMessage={errors?.link || null}
             />
-            <Button
-                color='primary'
-                size='lg'
-                type='submit'
-            >
-                {isLoading ? 'Cargando...' : 'Continuar'}
-            </Button>
-            {requestError && (
-                <p className='text-danger text-center text-sm'>
-                    Ha ocurrido un error al guardar los datos, por favor inténtelo nuevamente.
-                </p>
-            )}
+            <SubmitButton />
+            {errors?.server && <p className='text-danger text-center text-sm'>{errors?.server}</p>}
         </form>
     );
 }

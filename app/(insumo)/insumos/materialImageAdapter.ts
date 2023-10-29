@@ -5,7 +5,7 @@ type IncomingImage = {
 
 export const materialImageAdapter = (imageObject: IncomingImage['IMAGEN']) =>
     imageObject !== null
-        ? `data:image/jpeg;base64,${Buffer.from(imageObject.data).toString('base64')}`
+        ? `data:image/png;base64,${Buffer.from(imageObject.data).toString('base64')}`
         : null;
 
 export const materialImageListAdapter = (
