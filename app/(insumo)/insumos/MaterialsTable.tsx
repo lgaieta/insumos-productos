@@ -66,7 +66,7 @@ function MaterialsTable() {
     const [materials, setMaterials] = useState<Material[] | null>(null);
 
     useEffect(() => {
-        fetch('/insumos/db')
+        fetch('/insumos/api')
             .then(res => {
                 console.log(res);
                 return res.json();
@@ -74,7 +74,7 @@ function MaterialsTable() {
             .then(data => materialListAdapter(data))
             .then(adaptedData => setMaterials(adaptedData));
 
-        fetch('/insumos/db/imagenes')
+        fetch('/insumos/api/imagenes')
             .then(res => res.json())
             .then(data => materialImageListAdapter(data))
             .then(adaptedData => {
