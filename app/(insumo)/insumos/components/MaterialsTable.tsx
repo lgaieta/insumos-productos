@@ -9,13 +9,17 @@ import {
     TableCell,
     getKeyValue,
 } from '@nextui-org/table';
-import { Key, useEffect, useState } from 'react';
-import { materialListAdapter } from './materialAdapter';
+import { Key } from 'react';
+import { materialListAdapter } from '../adapters/materialAdapter';
 import { Button } from '@nextui-org/button';
-import { Avatar } from '@nextui-org/react';
-import { materialImageListAdapter } from './materialImageAdapter';
+import { Avatar } from '@nextui-org/avatar';
 import { Link } from '@nextui-org/link';
 import NextLink from 'next/link';
+import { getMaterialsFromDatabase } from '../services/getMaterialsFromDatabase';
+import { useQuery } from '@tanstack/react-query';
+import MaterialsTableBodySkeleton from './MaterialsTableBodySkeleton';
+import { materialImageListAdapter } from '../adapters/materialImageAdapter';
+import { getMaterialImagesFromDatabase } from '../services/getMaterialImagesFromDatabase';
 
 const columns = [
     { key: 'image', label: 'Imagen' },
@@ -63,41 +67,24 @@ const getCellContent = (material: Material, columnKey: Key) => {
 };
 
 function MaterialsTable() {
-    const [materials, setMaterials] = useState<Material[] | null>(null);
+    const { isPending, data: materials } = useQuery({
+        queryKey: ['materials'],
+        queryFn: async () => materialListAdapter(await getMaterialsFromDatabase()),
+    });
 
-    useEffect(() => {
-        fetch('/insumos/api')
-            .then(res => {
-                console.log(res);
-                return res.json();
-            })
-            .then(data => materialListAdapter(data))
-            .then(adaptedData => setMaterials(adaptedData));
-
-        fetch('/insumos/api/imagenes')
-            .then(res => res.json())
-            .then(data => materialImageListAdapter(data))
-            .then(adaptedData => {
-                if (Object.keys(adaptedData).length === 0) return;
-
-                setMaterials(previous =>
-                    previous
-                        ? previous.map(material => ({
-                              ...material,
-                              image: (adaptedData as { [id: number]: string })[material.id]
-                                  ? (adaptedData as { [id: number]: string })[material.id]
-                                  : null,
-                          }))
-                        : null,
-                );
-            });
-    }, []);
+    const { data: images } = useQuery({
+        queryKey: ['materials', 'images'],
+        queryFn: async () => materialImageListAdapter(await getMaterialImagesFromDatabase()),
+    });
 
     return (
         <Table
             isStriped
             aria-label='Example table with dynamic content'
-            classNames={{ base: 'mt-6' }}
+            classNames={{
+                base: 'mt-6',
+                loadingWrapper: 'relative table-cell',
+            }}
         >
             <TableHeader columns={columns}>
                 {column => (
@@ -109,7 +96,15 @@ function MaterialsTable() {
                     </TableColumn>
                 )}
             </TableHeader>
-            <TableBody items={materials || undefined}>
+            <TableBody
+                items={materials || undefined}
+                isLoading={isPending}
+                loadingContent={
+                    <div className='flex w-full min-h-[100vh]'>
+                        <MaterialsTableBodySkeleton />
+                    </div>
+                }
+            >
                 {materials
                     ? material => (
                           <TableRow key={material.id}>

@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@nextui-org/react": "2.1.13",
+        "@tanstack/react-query": "^5.4.3",
         "framer-motion": "10.16.4",
         "jimp": "0.22.10",
         "mysql2": "3.6.2",

@@ -1,7 +1,8 @@
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import Link from 'next/link';
-import MaterialsTable from './MaterialsTable';
+import MaterialsTable from './components/MaterialsTable';
+import MaterialsTableBodySkeleton from './components/MaterialsTableBodySkeleton';
 
 function MaterialsPage() {
     return (
