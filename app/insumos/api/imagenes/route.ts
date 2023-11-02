@@ -1,4 +1,4 @@
-import { getPool } from '@/services/getPool';
+import { getPool } from '@/(common)/services/getPool';
 import { RowDataPacket } from 'mysql2';
 
 export async function GET() {

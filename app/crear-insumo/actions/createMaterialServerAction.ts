@@ -1,9 +1,9 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { MaterialValidationSchema } from '@/(insumo)/crear-insumo/schemas/MaterialValidationSchema';
-import { getPool } from '@/services/getPool';
-import { saveMaterialInDatabase } from '@/(insumo)/crear-insumo/services/saveMaterialInDatabase';
+import { MaterialValidationSchema } from '@/crear-insumo/schemas/MaterialValidationSchema';
+import { getPool } from '@/(common)/services/getPool';
+import { saveMaterialInDatabase } from '@/crear-insumo/services/saveMaterialInDatabase';
 import { CreateMaterialFormErrors } from '../components/create-material-form/CreateMaterialForm';
 
 export const createMaterialServerAction = async (_: any, formData: FormData) => {

@@ -1,5 +1,5 @@
 'use client';
-import Material from '@/entities/Material';
+import Material from '@/(common)/entities/Material';
 import {
     Table,
     TableHeader,

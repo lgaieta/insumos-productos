@@ -1,4 +1,4 @@
-import Material from '@/entities/Material';
+import Material from '@/(common)/entities/Material';
 
 type DBMaterial = {
     INSUMO_ID: number;

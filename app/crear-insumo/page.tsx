@@ -1,6 +1,5 @@
-import CreateMaterialForm from '@/(insumo)/crear-insumo/components/create-material-form/CreateMaterialForm';
+import CreateMaterialForm from '@/crear-insumo/components/create-material-form/CreateMaterialForm';
 import { Metadata } from 'next';
-import { createMaterialServerAction } from './actions/createMaterialServerAction';
 
 export const metadata: Metadata = {
     title: 'Crear insumo - Insumos y Productos',

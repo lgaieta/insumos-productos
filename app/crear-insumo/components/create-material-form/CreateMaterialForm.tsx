@@ -1,11 +1,10 @@
 'use client';
 
 import { Input } from '@nextui-org/input';
-import ImageUploader from '@/(insumo)/crear-insumo/components/image-uploader/ImageUploader';
-import SubmitButton from '@/(insumo)/crear-insumo/components/submit-button/SubmitButton';
+import ImageUploader from '@/crear-insumo/components/image-uploader/ImageUploader';
+import SubmitButton from '@/crear-insumo/components/submit-button/SubmitButton';
 import { useFormState } from 'react-dom';
-import { createMaterialServerAction } from '@/(insumo)/crear-insumo/actions/createMaterialServerAction';
-import Material from '@/entities/Material';
+import { createMaterialServerAction } from '@/crear-insumo/actions/createMaterialServerAction';
 
 export type CreateMaterialFormErrors = {
     name: string;
