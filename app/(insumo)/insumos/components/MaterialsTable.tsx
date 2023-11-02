@@ -100,7 +100,7 @@ function MaterialsTable() {
                 items={materials || undefined}
                 isLoading={isPending}
                 loadingContent={
-                    <div className='flex w-full min-h-[100vh]'>
+                    <div className='flex w-full min-h-[450px]'>
                         <MaterialsTableBodySkeleton />
                     </div>
                 }
