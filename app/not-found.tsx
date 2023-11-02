@@ -26,6 +26,15 @@ function NotFoundPage() {
             >
                 Volver al inicio
             </Button>
+            <Button
+                as={NextLink}
+                href='https://wa.me/5491126547481'
+                color='primary'
+                variant='light'
+                size='lg'
+            >
+                Enviar reporte
+            </Button>
         </main>
     );
 }
