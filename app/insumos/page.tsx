@@ -1,7 +1,9 @@
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 import Link from 'next/link';
-import MaterialsTable from './components/MaterialsTable';
+import MaterialsTable from './components/materials-table/MaterialsTable';
+import MaterialsTableSkeleton from './components/materials-table/MaterialsTableSkeleton';
+import { Suspense } from 'react';
 
 function MaterialsPage() {
     return (
@@ -26,7 +28,9 @@ function MaterialsPage() {
                     Nuevo Insumo
                 </Button>
             </div>
-            <MaterialsTable />
+            <Suspense fallback={<MaterialsTableSkeleton />}>
+                <MaterialsTable />
+            </Suspense>
         </main>
     );
 }

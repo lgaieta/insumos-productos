@@ -1,12 +1,7 @@
-type IncomingImage = {
-    INSUMO_ID: number;
-    IMAGEN: null | { type: string; data: number[] };
-};
+import { IncomingImage } from '../services/getMaterialImagesFromDatabase';
 
-export const materialImageAdapter = (imageObject: IncomingImage['IMAGEN']) =>
-    imageObject !== null
-        ? `data:image/png;base64,${Buffer.from(imageObject.data).toString('base64')}`
-        : null;
+export const materialImageAdapter = (imageBuffer: IncomingImage['IMAGEN']) =>
+    imageBuffer !== null ? `data:image/png;base64,${imageBuffer.toString('base64')}` : null;
 
 export const materialImageListAdapter = (
     materialImageList: IncomingImage[],

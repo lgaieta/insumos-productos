@@ -1,11 +1,5 @@
 import Material from '@/(common)/entities/Material';
-
-type DBMaterial = {
-    INSUMO_ID: number;
-    NOMBRE: string;
-    COSTO_UNITARIO: string;
-    LINK: null | string;
-};
+import { DBMaterial } from '../services/getMaterialsFromDatabase';
 
 export const materialAdapter = (incomingMaterial: DBMaterial): Material => {
     return {
