@@ -2,6 +2,8 @@
 import Material from '@/(common)/entities/Material';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
 import { getCellContent } from './getCellContent';
+import NextLink from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const materialsTableColumns = [
     { key: 'image', label: 'Imagen' },
@@ -26,6 +28,8 @@ type MaterialsTableClientProps = {
 function MaterialsTableClient(props: MaterialsTableClientProps) {
     const { materials } = props;
 
+    const router = useRouter();
+
     return (
         <Table
             isStriped
@@ -48,7 +52,10 @@ function MaterialsTableClient(props: MaterialsTableClientProps) {
             <TableBody items={materials || undefined}>
                 {materials
                     ? material => (
-                          <TableRow key={material.id}>
+                          <TableRow
+                              key={material.id}
+                              onClick={() => router.push(`/insumo/${material.id}`)}
+                          >
                               {columnKey => (
                                   <TableCell>{getCellContent(material, columnKey)}</TableCell>
                               )}

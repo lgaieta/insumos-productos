@@ -5,6 +5,7 @@ export type DBMaterial = {
     NOMBRE: string;
     COSTO_UNITARIO: string;
     LINK: null | string;
+    IMAGE?: null | Buffer;
 };
 
 export async function getMaterialsFromDatabase() {

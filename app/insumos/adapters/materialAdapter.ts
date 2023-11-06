@@ -1,5 +1,6 @@
 import Material from '@/(common)/entities/Material';
 import { DBMaterial } from '../services/getMaterialsFromDatabase';
+import { materialImageAdapter } from './materialImageAdapter';
 
 export const materialAdapter = (incomingMaterial: DBMaterial): Material => {
     return {
@@ -7,7 +8,7 @@ export const materialAdapter = (incomingMaterial: DBMaterial): Material => {
         name: incomingMaterial.NOMBRE,
         price: parseFloat(incomingMaterial.COSTO_UNITARIO),
         link: incomingMaterial.LINK,
-        image: null,
+        image: incomingMaterial?.IMAGE ? materialImageAdapter(incomingMaterial.IMAGE) : null,
     };
 };
 
