@@ -7,5 +7,7 @@ export const getSingleMaterialFromDatabase = async (id: number) => {
         await pool.query('SELECT * FROM INSUMO WHERE INSUMO_ID = ?', [id])
     )[0] as DBMaterial[];
 
+    console.log(data);
+
     return data[0];
 };
