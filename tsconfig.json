@@ -19,6 +19,11 @@
             }
         ],
         "paths": {
+            "@insumos/*": ["./app/insumos/*"],
+            "@insumo/*": ["./app/insumo/[id]/*"],
+            "@crear-insumo/*": ["./app/crear-insumo/*"],
+            "@common/*": ["./app/(common)/*"],
+            "@home/*": ["./app/(home)/*"],
             "@/*": ["./app/*"]
         }
     },
