@@ -1,4 +1,4 @@
-import { getPool } from '@/(common)/services/getPool';
+import { pool } from '@common/services/pool';
 
 export type IncomingImage = {
     INSUMO_ID: number;
@@ -6,7 +6,6 @@ export type IncomingImage = {
 };
 
 export async function getMaterialImagesFromDatabase() {
-    const pool = getPool();
     const data = (await pool.query('SELECT INSUMO_ID, IMAGEN FROM insumo'))[0] as IncomingImage[];
     return data;
 }

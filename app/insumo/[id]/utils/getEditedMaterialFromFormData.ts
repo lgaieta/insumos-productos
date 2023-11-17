@@ -13,6 +13,6 @@ export const getEditedMaterialFromFormData = (
         name: typeof name === 'string' ? name : null,
         image: file instanceof File ? file : null,
         price: typeof price === 'string' ? parseFloat(price) : null,
-        link: typeof link === 'string' ? link : null,
+        link: typeof link === 'string' && link !== '' ? link : null,
     };
 };

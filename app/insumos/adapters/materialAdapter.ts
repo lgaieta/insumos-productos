@@ -1,6 +1,6 @@
 import Material from '@/(common)/entities/Material';
-import { DBMaterial } from '../services/getMaterialsFromDatabase';
 import { materialImageAdapter } from './materialImageAdapter';
+import { DBMaterial } from '@common/services/DBMaterial';
 
 export const materialAdapter = (incomingMaterial: DBMaterial) => {
     return {

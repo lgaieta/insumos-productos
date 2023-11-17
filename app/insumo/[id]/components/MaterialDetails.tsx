@@ -17,23 +17,35 @@ type MaterialDetailsProps = {
 };
 
 export type MaterialDetailsFormErrors = {
-    name: string;
-    price: string;
-    image: string;
-    link: string;
+    name?: string;
+    price?: string;
+    image?: string;
+    link?: string;
     /** Used for errors caught by catch statement */
-    server: string;
+    server?: string;
+};
+
+const useEditMaterial = (material: Material) => {
+    const [isEditable, setIsEditable] = useState<boolean>(false);
+    const editMaterialServerActionWithId = editMaterialServerAction.bind(null, material.id);
+
+    const [state, editFormActionRaw] = useFormState(editMaterialServerActionWithId, {
+        errors: {},
+        isFinished: false,
+    });
+
+    const editFormAction = (formData: FormData) => {
+        editFormActionRaw(formData);
+        setIsEditable(false);
+    };
+
+    return { editFormAction, isEditable, setIsEditable };
 };
 
 function MaterialDetails(props: MaterialDetailsProps) {
     const { material } = props;
 
-    const [isEditable, setIsEditable] = useState<boolean>(false);
-    const [state, editFormAction] = useFormState(
-        (previousState: MaterialDetailsFormErrors, formData) =>
-            editMaterialServerAction(previousState, formData, material.id),
-        {},
-    );
+    const { editFormAction, isEditable, setIsEditable } = useEditMaterial(material);
 
     return (
         <form>
@@ -58,8 +70,10 @@ function MaterialDetails(props: MaterialDetailsProps) {
                 <CardFooter className='w-full gap-2 justify-end'>
                     <EditButton
                         isEditable={isEditable}
-                        onEditPress={() => setIsEditable(!isEditable)}
-                        onConfirmPress={() => setIsEditable(!isEditable)}
+                        onEditPress={() => {
+                            console.log('ashee');
+                            setIsEditable(true);
+                        }}
                         formAction={editFormAction}
                     />
                     <Button color='danger'>Borrar</Button>

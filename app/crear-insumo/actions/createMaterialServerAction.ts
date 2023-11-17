@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { MaterialValidationSchema } from '@/crear-insumo/schemas/MaterialValidationSchema';
-import { getPool } from '@/(common)/services/getPool';
+import { pool } from '@common/services/pool';
 import { saveMaterialInDatabase } from '@/crear-insumo/services/saveMaterialInDatabase';
 import { CreateMaterialFormErrors } from '../components/create-material-form/CreateMaterialForm';
 
@@ -31,8 +31,6 @@ export const createMaterialServerAction = async (_: any, formData: FormData) => 
 
             return { errors };
         }
-
-        const pool = getPool();
 
         await saveMaterialInDatabase(pool, parsedResult.data);
 
