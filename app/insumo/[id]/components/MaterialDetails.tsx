@@ -31,7 +31,6 @@ const useEditMaterial = (material: Material) => {
 
     const [state, editFormActionRaw] = useFormState(editMaterialServerActionWithId, {
         errors: {},
-        isFinished: false,
     });
 
     const editFormAction = (formData: FormData) => {
@@ -39,13 +38,18 @@ const useEditMaterial = (material: Material) => {
         setIsEditable(false);
     };
 
-    return { editFormAction, isEditable, setIsEditable };
+    return { editFormAction, isEditable, setIsEditable, formState: state };
 };
 
 function MaterialDetails(props: MaterialDetailsProps) {
     const { material } = props;
 
-    const { editFormAction, isEditable, setIsEditable } = useEditMaterial(material);
+    const {
+        editFormAction,
+        isEditable,
+        setIsEditable,
+        formState: { errors },
+    } = useEditMaterial(material);
 
     return (
         <form>
@@ -71,7 +75,6 @@ function MaterialDetails(props: MaterialDetailsProps) {
                     <EditButton
                         isEditable={isEditable}
                         onEditPress={() => {
-                            console.log('ashee');
                             setIsEditable(true);
                         }}
                         formAction={editFormAction}
@@ -79,6 +82,14 @@ function MaterialDetails(props: MaterialDetailsProps) {
                     <Button color='danger'>Borrar</Button>
                 </CardFooter>
             </Card>
+            {Object.entries(errors).map(([key, message]) => (
+                <p
+                    className='text-danger text-center mt-4'
+                    key={key}
+                >
+                    {message}
+                </p>
+            ))}
         </form>
     );
 }
