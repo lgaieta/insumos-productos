@@ -25,6 +25,7 @@ function EditMaterialForm(props: EditMaterialFormProps) {
                 size='lg'
                 isClearable
                 isRequired
+                autoFocus
             />
             <Input
                 label='Precio'

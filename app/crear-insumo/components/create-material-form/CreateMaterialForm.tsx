@@ -39,6 +39,7 @@ function CreateMaterialForm() {
                 isClearable
                 validationState={errors?.name ? 'invalid' : 'valid'}
                 errorMessage={errors?.name || null}
+                autoFocus
             />
             <ImageUploader
                 isError={errors?.image !== undefined}
