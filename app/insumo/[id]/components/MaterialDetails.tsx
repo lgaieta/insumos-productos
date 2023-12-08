@@ -11,6 +11,7 @@ import EditButton from '@insumo/components/EditButton';
 import EditMaterialForm from './EditMaterialForm';
 import MaterialDetailsBody from './MaterialDetailsBody';
 import { editMaterialServerAction } from '@insumo/actions/editMaterialServerAction';
+import MaterialImage from './MaterialImage';
 
 type MaterialDetailsProps = {
     material: Material & { image: string | null };
@@ -56,10 +57,9 @@ function MaterialDetails(props: MaterialDetailsProps) {
             <Card>
                 <CardHeader className='justify-between p-5 flex-wrap gap-4'>
                     <div className='flex items-center gap-3'>
-                        <Avatar
-                            size='lg'
-                            src={material.image || undefined}
-                            showFallback={material.image === null}
+                        <MaterialImage
+                            isEditable={isEditable}
+                            imageSrc={material.image}
                         />
                         <h1 className='text-2xl font-bold'>{material.name}</h1>
                     </div>

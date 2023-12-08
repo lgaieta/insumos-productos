@@ -11,7 +11,7 @@ export const getEditedMaterialFromFormData = (
 
     return {
         name: typeof name === 'string' ? name : null,
-        image: file instanceof File ? file : null,
+        image: file instanceof File && file.size > 0 ? file : null,
         price: typeof price === 'string' ? parseFloat(price) : null,
         link: typeof link === 'string' && link !== '' ? link : null,
     };
