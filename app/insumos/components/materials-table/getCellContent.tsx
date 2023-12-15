@@ -22,12 +22,15 @@ export const getCellContent = (material: Material, columnKey: Key) => {
 
     if (columnKey === 'link')
         return (
-            <Link
-                href={keyValue}
+            <Button
+                className='w-fit'
                 as={NextLink}
+                href={keyValue}
+                variant='ghost'
+                color='primary'
             >
-                {keyValue}
-            </Link>
+                Visitar link
+            </Button>
         );
 
     if (columnKey === 'price') return '$' + keyValue;
