@@ -6,7 +6,7 @@ async function MaterialPage({ params }: { params: { id: string } }) {
     const material = materialAdapter(await getSingleMaterialFromDatabase(+params.id));
 
     return (
-        <main className='max-w-5xl w-full mt-10 mx-auto px-8'>
+        <main className='max-w-5xl w-full mt-10 mx-auto px-4 min-[400px]:px-8'>
             <MaterialDetails material={material} />
         </main>
     );

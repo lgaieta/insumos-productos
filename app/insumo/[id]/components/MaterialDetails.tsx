@@ -2,7 +2,6 @@
 
 import Material from '@common/entities/Material';
 import { Button } from '@nextui-org/button';
-import { Avatar } from '@nextui-org/avatar';
 import { Divider } from '@nextui-org/divider';
 import { Card, CardHeader, CardFooter, CardBody } from '@nextui-org/card';
 import { useState } from 'react';
@@ -12,7 +11,7 @@ import EditMaterialForm from './EditMaterialForm';
 import MaterialDetailsBody from './MaterialDetailsBody';
 import { editMaterialServerAction } from '@insumo/actions/editMaterialServerAction';
 import MaterialImage from './MaterialImage';
-import Image from 'next/image';
+import MaterialImageAvatar from './MaterialImageAvatar';
 
 type MaterialDetailsProps = {
     material: Material & { image: string | null };
@@ -54,20 +53,18 @@ function MaterialDetails(props: MaterialDetailsProps) {
     } = useEditMaterial(material);
 
     return (
-        <form className='grid grid-cols-1 min-[800px]:grid-cols-3 grid-rows-none auto-rows-auto min-[800px]:grid-rows-1 gap-6 mb-10'>
-            <Card className='aspect-square sm:aspect-auto max-w-[300px] mx-auto'>
-                <CardBody className='p-0'>
-                    <Image
-                        src={material.image || ''}
-                        alt={material.name}
-                        className='w-full h-full aspect-square object-cover'
-                        width={300}
-                        height={300}
-                    />
-                </CardBody>
-            </Card>
+        <form className='grid grid-cols-1 md:grid-cols-3 grid-rows-none auto-rows-auto md:grid-rows-1 gap-6 mb-10'>
+            <MaterialImage
+                isEditable={isEditable}
+                imageSrc={material.image}
+                imageAlt={material.name}
+            />
             <Card className='w-full sm:col-span-2'>
-                <CardHeader className='justify-between p-5 flex-wrap gap-4'>
+                <CardHeader className='p-5 flex-wrap gap-4'>
+                    <MaterialImageAvatar
+                        isEditable={isEditable}
+                        imageSrc={material.image}
+                    />
                     <h1 className='text-2xl font-bold'>{material.name}</h1>
                 </CardHeader>
                 <Divider />
