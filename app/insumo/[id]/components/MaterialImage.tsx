@@ -1,6 +1,7 @@
 import { Card, CardBody } from '@nextui-org/card';
 import { ChangeEventHandler, MutableRefObject, useRef, useState } from 'react';
-import { MdEdit } from 'react-icons/md';
+import { MdEdit, MdCameraAlt } from 'react-icons/md';
+
 import NextImage from 'next/image';
 
 type MaterialImageProps = {
@@ -21,19 +22,25 @@ function MaterialImage(props: MaterialImageProps) {
     const src =
         newImage !== null && isEditable && inputRef.current !== null
             ? getNewImage(inputRef.current)
-            : imageSrc || '';
+            : imageSrc || null;
 
     return (
         <div className='hidden md:flex relative w-full h-full'>
             <Card className='w-full aspect-square md:aspect-auto h-full max-w-md'>
                 <CardBody className='relative block p-0 w-full h-full'>
-                    <NextImage
-                        priority
-                        src={src}
-                        alt={imageAlt}
-                        className='object-cover'
-                        fill
-                    />
+                    {typeof src === 'string' ? (
+                        <NextImage
+                            priority
+                            src={src}
+                            alt={imageAlt}
+                            className='object-cover'
+                            fill
+                        />
+                    ) : (
+                        <div className='w-full h-full bg-foreground-200 flex items-center justify-center'>
+                            <MdCameraAlt size='48px' />
+                        </div>
+                    )}
                 </CardBody>
             </Card>
             {isEditable ? (
