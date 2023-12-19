@@ -1,21 +1,18 @@
 'use client';
 
 import Material from '@common/entities/Material';
-import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
-import { Card, CardHeader, CardFooter, CardBody } from '@nextui-org/card';
-import { useState } from 'react';
-import { useFormState } from 'react-dom';
+import { Card, CardHeader, CardFooter } from '@nextui-org/card';
 import EditButton from '@insumo/components/EditButton';
 import EditMaterialForm from './EditMaterialForm';
 import MaterialDetailsBody from './MaterialDetailsBody';
-import { editMaterialServerAction } from '@insumo/actions/editMaterialServerAction';
 import MaterialImage from './MaterialImage';
 import MaterialImageAvatar from './MaterialImageAvatar';
-
-type MaterialDetailsProps = {
-    material: Material & { image: string | null };
-};
+import DeleteButton from './DeleteButton';
+import { useEditMaterial } from '@insumo/hooks/useEditMaterial';
+import { useDeleteMaterial } from '@insumo/hooks/useDeleteMaterial';
+import { useDisclosure } from '@nextui-org/modal';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
 
 export type MaterialDetailsFormErrors = {
     name?: string;
@@ -26,20 +23,8 @@ export type MaterialDetailsFormErrors = {
     server?: string;
 };
 
-const useEditMaterial = (material: Material) => {
-    const [isEditable, setIsEditable] = useState<boolean>(false);
-    const editMaterialServerActionWithId = editMaterialServerAction.bind(null, material.id);
-
-    const [state, editFormActionRaw] = useFormState(editMaterialServerActionWithId, {
-        errors: {},
-    });
-
-    const editFormAction = (formData: FormData) => {
-        editFormActionRaw(formData);
-        setIsEditable(false);
-    };
-
-    return { editFormAction, isEditable, setIsEditable, formState: state };
+type MaterialDetailsProps = {
+    material: Material & { image: string | null };
 };
 
 function MaterialDetails(props: MaterialDetailsProps) {
@@ -52,8 +37,21 @@ function MaterialDetails(props: MaterialDetailsProps) {
         formState: { errors },
     } = useEditMaterial(material);
 
+    const { deleteFormAction } = useDeleteMaterial(material.id);
+
+    const { onOpen: openModal, isOpen, onOpenChange } = useDisclosure();
+
     return (
-        <form className='grid grid-cols-1 md:grid-cols-3 grid-rows-none auto-rows-auto md:grid-rows-1 gap-6 mb-10'>
+        <form
+            id='materialForm'
+            className='grid grid-cols-1 md:grid-cols-3 grid-rows-none auto-rows-auto md:grid-rows-1 gap-6 mb-10'
+        >
+            <ConfirmDeleteModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                materialName={material.name}
+                buttonFormAction={deleteFormAction}
+            />
             <MaterialImage
                 isEditable={isEditable}
                 imageSrc={material.image}
@@ -82,7 +80,10 @@ function MaterialDetails(props: MaterialDetailsProps) {
                         }}
                         formAction={editFormAction}
                     />
-                    <Button color='danger'>Borrar</Button>
+                    <DeleteButton
+                        isEditing={isEditable}
+                        onPress={openModal}
+                    />
                 </CardFooter>
             </Card>
             {Object.entries(errors).map(([key, message]) => (
