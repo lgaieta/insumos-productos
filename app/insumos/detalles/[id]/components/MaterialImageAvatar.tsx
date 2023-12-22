@@ -1,10 +1,12 @@
 import { Avatar } from '@nextui-org/avatar';
 import { ChangeEventHandler, MutableRefObject, useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
+import { twMerge } from 'tailwind-merge';
 
 type MaterialImageProps = {
     isEditable: boolean;
     imageSrc: string | null;
+    classNames?: { imageContainer: string };
 };
 
 function ImageOverlay(props: {
@@ -51,7 +53,7 @@ function MaterialImageAvatar(props: MaterialImageProps) {
             : imageSrc || undefined;
 
     return (
-        <div className='relative block md:hidden'>
+        <div className={twMerge('relative block', props.classNames?.imageContainer)}>
             <Avatar
                 size='lg'
                 src={src}

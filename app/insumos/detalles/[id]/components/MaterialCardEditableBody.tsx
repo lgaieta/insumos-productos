@@ -2,11 +2,11 @@ import { CardBody } from '@nextui-org/card';
 import { Input } from '@nextui-org/input';
 import Material from '@common/entities/Material';
 
-type EditMaterialFormProps = {
+type MaterialCardEditableBodyProps = {
     material: Material;
 };
 
-function EditMaterialForm(props: EditMaterialFormProps) {
+function MaterialCardEditableBody(props: MaterialCardEditableBodyProps) {
     const { material } = props;
 
     return (
@@ -54,4 +54,4 @@ function EditMaterialForm(props: EditMaterialFormProps) {
     );
 }
 
-export default EditMaterialForm;
+export default MaterialCardEditableBody;

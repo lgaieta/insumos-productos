@@ -1,18 +1,17 @@
 'use client';
 
 import Material from '@common/entities/Material';
-import { Divider } from '@nextui-org/divider';
-import { Card, CardHeader, CardFooter } from '@nextui-org/card';
-import EditButton from '@insumo/components/EditButton';
-import EditMaterialForm from './EditMaterialForm';
-import MaterialDetailsBody from './MaterialDetailsBody';
-import MaterialImage from './MaterialImage';
-import MaterialImageAvatar from './MaterialImageAvatar';
-import DeleteButton from './DeleteButton';
-import { useEditMaterial } from '@insumo/hooks/useEditMaterial';
-import { useDeleteMaterial } from '@insumo/hooks/useDeleteMaterial';
+import { useEditMaterial } from '@insumo-detalles/hooks/useEditMaterial';
+import { useDeleteMaterial } from '@insumo-detalles/hooks/useDeleteMaterial';
 import { useDisclosure } from '@nextui-org/modal';
+import MaterialCard from './MaterialCard';
+import MaterialCardHeader from './MaterialCardHeader';
+import MaterialCardBody from './MaterialCardBody';
+import MaterialCardEditableBody from './MaterialCardEditableBody';
+import MaterialCardFooter from './MaterialCardFooter';
+import { Divider } from '@nextui-org/divider';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
+import MaterialImage from './MaterialImage';
 
 export type MaterialDetailsFormErrors = {
     name?: string;
@@ -57,35 +56,27 @@ function MaterialDetails(props: MaterialDetailsProps) {
                 imageSrc={material.image}
                 imageAlt={material.name}
             />
-            <Card className='w-full sm:col-span-2'>
-                <CardHeader className='p-5 flex-wrap gap-4'>
-                    <MaterialImageAvatar
-                        isEditable={isEditable}
-                        imageSrc={material.image}
-                    />
-                    <h1 className='text-2xl font-bold'>{material.name}</h1>
-                </CardHeader>
+            <MaterialCard className='sm:col-span-2'>
+                <MaterialCardHeader
+                    title={material.name}
+                    isEditable={isEditable}
+                    imageSrc={material.image}
+                    classNames={{ imageContainer: 'md:hidden' }}
+                />
                 <Divider />
                 {isEditable ? (
-                    <EditMaterialForm material={material} />
+                    <MaterialCardEditableBody material={material} />
                 ) : (
-                    <MaterialDetailsBody material={material} />
+                    <MaterialCardBody material={material} />
                 )}
                 <Divider />
-                <CardFooter className='w-full gap-2 justify-end'>
-                    <EditButton
-                        isEditable={isEditable}
-                        onEditPress={() => {
-                            setIsEditable(true);
-                        }}
-                        formAction={editFormAction}
-                    />
-                    <DeleteButton
-                        isEditing={isEditable}
-                        onPress={openModal}
-                    />
-                </CardFooter>
-            </Card>
+                <MaterialCardFooter
+                    isEditable={isEditable}
+                    onEditPress={() => setIsEditable(true)}
+                    editFormAction={editFormAction}
+                    onDeletePress={openModal}
+                />
+            </MaterialCard>
             {Object.entries(errors).map(([key, message]) => (
                 <p
                     className='text-danger text-center mt-4'

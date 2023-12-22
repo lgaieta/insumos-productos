@@ -54,7 +54,7 @@ function MaterialsTableClient(props: MaterialsTableClientProps) {
                     ? material => (
                           <TableRow
                               key={material.id}
-                              onClick={() => router.push(`/insumo/${material.id}`)}
+                              onClick={() => router.push(`/insumos/detalles/${material.id}`)}
                           >
                               {columnKey => (
                                   <TableCell>{getCellContent(material, columnKey)}</TableCell>

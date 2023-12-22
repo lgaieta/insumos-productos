@@ -1,6 +1,6 @@
 import Material from '@common/entities/Material';
-import { deleteMaterialServerAction } from '@insumo/actions/deleteMaterialServerAction';
-import { MaterialDetailsFormErrors } from '@insumo/components/MaterialDetails';
+import { deleteMaterialServerAction } from '@insumo-detalles/actions/deleteMaterialServerAction';
+import { MaterialDetailsFormErrors } from '@insumo-detalles/components/MaterialDetails';
 import { useFormState } from 'react-dom';
 
 export const useDeleteMaterial = (materialId: Material['id']) => {

@@ -1,6 +1,6 @@
 import { materialAdapter } from '@insumos/adapters/materialAdapter';
-import MaterialDetails from '@insumo/components/MaterialDetails';
-import { getSingleMaterialFromDatabase } from '@insumo/services/getSingleMaterialFromDatabase';
+import MaterialDetails from '@insumo-detalles/components/MaterialDetails';
+import { getSingleMaterialFromDatabase } from '@insumo-detalles/services/getSingleMaterialFromDatabase';
 
 async function MaterialPage({ params }: { params: { id: string } }) {
     const material = materialAdapter(await getSingleMaterialFromDatabase(+params.id));

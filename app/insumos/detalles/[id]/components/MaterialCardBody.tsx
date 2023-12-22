@@ -2,11 +2,11 @@ import Material from '@common/entities/Material';
 import { CardBody, Button } from '@nextui-org/react';
 import NextLink from 'next/link';
 
-type MaterialDetailsBodyProps = {
+type MaterialCardBodyProps = {
     material: Material;
 };
 
-function MaterialDetailsBody(props: MaterialDetailsBodyProps) {
+function MaterialCardBody(props: MaterialCardBodyProps) {
     const { material } = props;
 
     return (
@@ -43,4 +43,4 @@ function MaterialDetailsBody(props: MaterialDetailsBodyProps) {
     );
 }
 
-export default MaterialDetailsBody;
+export default MaterialCardBody;

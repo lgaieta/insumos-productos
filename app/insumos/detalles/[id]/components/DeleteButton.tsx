@@ -1,5 +1,4 @@
 import { Button } from '@nextui-org/button';
-import { ButtonHTMLAttributes } from 'react';
 import { useFormStatus } from 'react-dom';
 
 type DeleteButtonProps = {

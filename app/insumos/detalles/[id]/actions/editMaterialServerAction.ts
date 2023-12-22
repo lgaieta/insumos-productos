@@ -3,10 +3,10 @@
 import Material from '@common/entities/Material';
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
 import { MaterialValidationSchema } from '@crear-insumo/schemas/MaterialValidationSchema';
-import { updateMaterialAdapter } from '@insumo/adapter/updateMaterialAdapter';
-import { MaterialDetailsFormErrors } from '@insumo/components/MaterialDetails';
-import { updateMaterialFromDatabase } from '@insumo/services/updateMaterialFromDatabase';
-import { getEditedMaterialFromFormData } from '@insumo/utils/getEditedMaterialFromFormData';
+import { updateMaterialAdapter } from '@insumo-detalles/adapter/updateMaterialAdapter';
+import { MaterialDetailsFormErrors } from '@insumo-detalles/components/MaterialDetails';
+import { updateMaterialFromDatabase } from '@insumo-detalles/services/updateMaterialFromDatabase';
+import { getEditedMaterialFromFormData } from '@insumo-detalles/utils/getEditedMaterialFromFormData';
 import { revalidatePath } from 'next/cache';
 
 export async function editMaterialServerAction(
