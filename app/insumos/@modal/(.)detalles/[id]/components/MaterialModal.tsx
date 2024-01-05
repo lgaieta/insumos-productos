@@ -50,7 +50,7 @@ function MaterialModal(props: MaterialModalProps) {
                 materialName={material.name}
                 buttonFormAction={deleteFormAction}
             />
-            <MaterialCard className='w-full'>
+            <MaterialCard>
                 <MaterialCardHeader
                     title={material.name}
                     isEditable={isEditable}

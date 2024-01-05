@@ -5,7 +5,7 @@ import HeaderLink from './HeaderLink';
 import HeaderMenu from './HeaderMenu';
 
 const NavbarClassNames: SlotsToClasses<NavbarSlots> = {
-    base: 'border-b',
+    base: 'border-b bg-background',
     wrapper: 'w-full max-w-[100vw] px-8',
     brand: 'font-bold',
 };

@@ -22,7 +22,7 @@ function MaterialModalOverlay(props: { children: ReactNode }) {
             ref={overlayRef}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            className='flex w-screen h-screen items-center justify-center fixed bottom-0 left-0 right-0 top-16 bg-foreground/50'
+            className='flex w-screen h-screen items-center justify-center fixed bottom-0 left-0 right-0 top-16 bg-foreground/50 z-50'
         >
             {props.children}
         </section>
