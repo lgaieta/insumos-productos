@@ -11,7 +11,7 @@ function MaterialNotFoundErrorPage() {
             </h1>
             <Button
                 as={NextLink}
-                href='/'
+                href='/insumos'
                 color='primary'
                 variant='light'
                 size='lg'
