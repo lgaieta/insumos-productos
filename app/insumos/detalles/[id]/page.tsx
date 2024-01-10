@@ -1,9 +1,14 @@
 import { materialAdapter } from '@insumos/adapters/materialAdapter';
 import MaterialDetails from '@insumo-detalles/components/MaterialDetails';
 import { getSingleMaterialFromDatabase } from '@insumo-detalles/services/getSingleMaterialFromDatabase';
+import MaterialNotFoundErrorPage from './components/MaterialNotFoundErrorPage';
 
 async function MaterialPage({ params }: { params: { id: string } }) {
-    const material = materialAdapter(await getSingleMaterialFromDatabase(+params.id));
+    const dbResult = await getSingleMaterialFromDatabase(+params.id);
+
+    if (dbResult === undefined) return <MaterialNotFoundErrorPage />;
+
+    const material = materialAdapter(dbResult);
 
     return (
         <main className='max-w-5xl w-full mt-10 mx-auto px-4 min-[400px]:px-8'>
