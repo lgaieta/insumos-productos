@@ -7,7 +7,7 @@ import Header from '@/(common)/components/header/Header';
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
-    title: 'Insumos y Productos',
+    title: 'Insumos y productos',
     description: 'Aplicación de gestión de insumos y productos.',
 };
 
