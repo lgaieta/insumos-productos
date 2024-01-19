@@ -3,8 +3,8 @@ import { getKeyValue } from '@nextui-org/table';
 import { Key } from 'react';
 import { Button } from '@nextui-org/button';
 import { Avatar } from '@nextui-org/avatar';
-import { Link } from '@nextui-org/link';
 import NextLink from 'next/link';
+import { MdCameraAlt } from 'react-icons/md';
 
 export const getCellContent = (material: Material, columnKey: Key) => {
     const keyValue = getKeyValue(material, columnKey);
@@ -14,6 +14,12 @@ export const getCellContent = (material: Material, columnKey: Key) => {
             <Avatar
                 src={keyValue}
                 showFallback={keyValue === null}
+                fallback={
+                    <MdCameraAlt
+                        size={24}
+                        color='#3F3F46'
+                    />
+                }
             />
         );
 

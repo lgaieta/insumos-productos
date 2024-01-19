@@ -2,6 +2,7 @@ import { Avatar } from '@nextui-org/avatar';
 import { ChangeEventHandler, MutableRefObject, useRef, useState } from 'react';
 import { MdEdit } from 'react-icons/md';
 import { twMerge } from 'tailwind-merge';
+import { MdCameraAlt } from 'react-icons/md';
 
 type MaterialImageProps = {
     isEditable: boolean;
@@ -58,6 +59,12 @@ function MaterialImageAvatar(props: MaterialImageProps) {
                 size='lg'
                 src={src}
                 showFallback={imageSrc === null && newImage === null}
+                fallback={
+                    <MdCameraAlt
+                        size={32}
+                        color='#3F3F46'
+                    />
+                }
             />
             {isEditable ? (
                 <ImageOverlay

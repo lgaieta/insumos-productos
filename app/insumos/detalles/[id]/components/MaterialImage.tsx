@@ -38,7 +38,10 @@ function MaterialImage(props: MaterialImageProps) {
                         />
                     ) : (
                         <div className='w-full h-full bg-foreground-200 flex items-center justify-center'>
-                            <MdCameraAlt size='48px' />
+                            <MdCameraAlt
+                                size='48px'
+                                color='#3F3F46'
+                            />
                         </div>
                     )}
                 </CardBody>
