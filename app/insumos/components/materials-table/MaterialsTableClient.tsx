@@ -32,7 +32,6 @@ function MaterialsTableClient(props: MaterialsTableClientProps) {
 
     return (
         <Table
-            isStriped
             aria-label='Example table with dynamic content'
             classNames={{
                 base: 'mt-6',
@@ -54,10 +53,13 @@ function MaterialsTableClient(props: MaterialsTableClientProps) {
                     ? material => (
                           <TableRow
                               key={material.id}
+                              className='hover:bg-content2 transition-colors rounded-2xl'
                               onClick={() => router.push(`/insumos/detalles/${material.id}`)}
                           >
                               {columnKey => (
-                                  <TableCell>{getCellContent(material, columnKey)}</TableCell>
+                                  <TableCell className='first:rounded-tl-2xl first:rounded-bl-2xl last:rounded-tr-2xl last:rounded-br-2xl'>
+                                      {getCellContent(material, columnKey)}
+                                  </TableCell>
                               )}
                           </TableRow>
                       )
