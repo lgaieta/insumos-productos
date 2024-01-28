@@ -27,7 +27,7 @@ export async function editMaterialServerAction(
             await updateMaterialAdapter({ ...parsedResult.data, id: materialId }),
         );
 
-        revalidatePath(`/insumo/${materialId}`);
+        revalidatePath(`/insumo/detalles/${materialId}`);
 
         console.log('Updated material with id ' + materialId + ' successfully');
 
