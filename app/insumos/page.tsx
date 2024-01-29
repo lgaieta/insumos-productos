@@ -22,7 +22,7 @@ function MaterialsPage() {
                 <Button
                     color='primary'
                     as={Link}
-                    href='/crear-insumo'
+                    href='/insumos/nuevo'
                     className='w-full sm:w-fit'
                 >
                     Nuevo Insumo

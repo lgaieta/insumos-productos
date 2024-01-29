@@ -1,8 +1,7 @@
 'use client';
 
 import Material from '@common/entities/Material';
-import { useEditMaterial } from '@insumo-detalles/hooks/useEditMaterial';
-import { useDeleteMaterial } from '@insumo-detalles/hooks/useDeleteMaterial';
+import { useDeleteMaterial } from '@insumos-detalles/hooks/useDeleteMaterial';
 import { useDisclosure } from '@nextui-org/modal';
 import { Divider } from '@nextui-org/divider';
 import ConfirmDeleteModal from '@insumos/detalles/[id]/components/ConfirmDeleteModal';
@@ -11,6 +10,7 @@ import MaterialCardBody from '@insumos/detalles/[id]/components/MaterialCardBody
 import MaterialCardEditableBody from '@insumos/detalles/[id]/components/MaterialCardEditableBody';
 import MaterialCardFooter from '@insumos/detalles/[id]/components/MaterialCardFooter';
 import MaterialCardHeader from '@insumos/detalles/[id]/components/MaterialCardHeader';
+import { useEditMaterialModal } from '../hooks/useEditMaterialModal';
 
 export type MaterialModalFormErrors = {
     name?: string;
@@ -33,7 +33,7 @@ function MaterialModal(props: MaterialModalProps) {
         isEditable,
         setIsEditable,
         formState: { errors },
-    } = useEditMaterial(material);
+    } = useEditMaterialModal(material);
 
     const { deleteFormAction } = useDeleteMaterial(material.id);
 

@@ -1,4 +1,4 @@
-import { getSingleMaterialFromDatabase } from '@insumo-detalles/services/getSingleMaterialFromDatabase';
+import { getSingleMaterialFromDatabase } from '@insumos-detalles/services/getSingleMaterialFromDatabase';
 import { materialAdapter } from '@insumos/adapters/materialAdapter';
 import MaterialModal from './components/MaterialModal';
 import MaterialModalOverlay from './components/MaterialModalOverlay';
