@@ -20,8 +20,8 @@
         ],
         "paths": {
             "@insumos/*": ["./app/insumos/*"],
-            "@insumo-detalles/*": ["./app/insumos/detalles/[id]/*"],
-            "@crear-insumo/*": ["./app/crear-insumo/*"],
+            "@insumos-detalles/*": ["./app/insumos/detalles/[id]/*"],
+            "@insumos-nuevo/*": ["./app/insumos/nuevo/*"],
             "@common/*": ["./app/(common)/*"],
             "@home/*": ["./app/(home)/*"],
             "@/*": ["./app/*"]

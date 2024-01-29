@@ -1,6 +1,6 @@
 import { materialAdapter } from '@insumos/adapters/materialAdapter';
-import MaterialDetails from '@insumo-detalles/components/MaterialDetails';
-import { getSingleMaterialFromDatabase } from '@insumo-detalles/services/getSingleMaterialFromDatabase';
+import MaterialDetails from '@insumos-detalles/components/MaterialDetails';
+import { getSingleMaterialFromDatabase } from '@insumos-detalles/services/getSingleMaterialFromDatabase';
 import MaterialNotFoundErrorPage from './components/MaterialNotFoundErrorPage';
 
 async function MaterialPage({ params }: { params: { id: string } }) {

@@ -2,11 +2,11 @@
 
 import Material from '@common/entities/Material';
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
-import { MaterialValidationSchema } from '@crear-insumo/schemas/MaterialValidationSchema';
-import { updateMaterialAdapter } from '@insumo-detalles/adapter/updateMaterialAdapter';
-import { MaterialDetailsFormErrors } from '@insumo-detalles/components/MaterialDetails';
-import { updateMaterialFromDatabase } from '@insumo-detalles/services/updateMaterialFromDatabase';
-import { getEditedMaterialFromFormData } from '@insumo-detalles/utils/getEditedMaterialFromFormData';
+import { MaterialValidationSchema } from '@insumos-nuevo/schemas/MaterialValidationSchema';
+import { updateMaterialAdapter } from '@insumos-detalles/adapter/updateMaterialAdapter';
+import { MaterialDetailsFormErrors } from '@insumos-detalles/components/MaterialDetails';
+import { updateMaterialFromDatabase } from '@insumos-detalles/services/updateMaterialFromDatabase';
+import { getEditedMaterialFromFormData } from '@insumos-detalles/utils/getEditedMaterialFromFormData';
 import { revalidatePath } from 'next/cache';
 
 export async function editMaterialServerAction(
