@@ -5,6 +5,7 @@ import { Button } from '@nextui-org/button';
 import { Avatar } from '@nextui-org/avatar';
 import NextLink from 'next/link';
 import { MdCameraAlt } from 'react-icons/md';
+import AddLinkButton from './AddLinkButton';
 
 export const getCellContent = (material: Material, columnKey: Key) => {
     const keyValue = getKeyValue(material, columnKey);
@@ -24,7 +25,7 @@ export const getCellContent = (material: Material, columnKey: Key) => {
         );
 
     if (columnKey === 'link' && keyValue === null)
-        return <Button variant='flat'>Agregar link</Button>;
+        return <AddLinkButton materialId={material.id} />;
 
     if (columnKey === 'link')
         return (
