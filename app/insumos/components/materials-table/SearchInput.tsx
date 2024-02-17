@@ -9,7 +9,9 @@ function SearchInput(props: { value: string; onValueChange: (value: string) => v
             variant='bordered'
             isClearable
             label='Buscar por nombre'
-            classNames={{ base: 'w-full sm:w-auto sm:max-w-[300px]' }}
+            classNames={{
+                base: 'w-full max-w-[276px] min-[700px]:w-auto min-[700px]:max-w-[300px]',
+            }}
             value={props.value}
             onValueChange={props.onValueChange}
         />

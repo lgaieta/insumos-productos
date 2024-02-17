@@ -1,6 +1,7 @@
 'use client';
 import Material from '@/(common)/entities/Material';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
+import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { getCellContent } from './getCellContent';
 import { useRouter } from 'next/navigation';
@@ -8,7 +9,7 @@ import { useAsyncList } from 'react-stately';
 import { fetchMaterials } from '@insumos/services/fetchMaterials';
 import SearchInput from './SearchInput';
 import NewMaterialButton from './NewMaterialButton';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import MaterialsTableSkeleton from './MaterialsTableSkeleton';
 import { fetchMaterialsImages } from '@insumos/services/fetchMaterialsImages';
 import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
@@ -47,12 +48,25 @@ function MaterialsTable() {
 
     return (
         <>
-            <div className='flex flex-col-reverse gap-6 sm:flex-row items-center justify-between w-full'>
-                <SearchInput
-                    value={list.filterText}
-                    onValueChange={list.setFilterText}
-                />
-                <NewMaterialButton />
+            <div className='flex flex-col gap-6 min-[700px]:flex-row items-center justify-between w-full'>
+                <span className='flex justify-center min-[700px]:justify-start w-full grow basis-0'>
+                    <SearchInput
+                        value={list.filterText}
+                        onValueChange={list.setFilterText}
+                    />
+                </span>
+                <span className='order-3 min-[700px]:order-none'>
+                    <Pagination
+                        loop
+                        siblings={0}
+                        showControls={true}
+                        total={10}
+                        initialPage={1}
+                    />
+                </span>
+                <span className='flex w-full justify-center min-[700px]:justify-end grow basis-0'>
+                    <NewMaterialButton />
+                </span>
             </div>
             {isSkeleton ? (
                 <MaterialsTableSkeleton />

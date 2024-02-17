@@ -4,10 +4,9 @@ import Link from 'next/link';
 function NewMaterialButton() {
     return (
         <Button
-            color='primary'
             as={Link}
             href='/insumos/nuevo'
-            className='w-full sm:w-fit'
+            className='w-full min-[700px]:w-fit max-w-[276px]'
         >
             Nuevo Insumo
         </Button>
