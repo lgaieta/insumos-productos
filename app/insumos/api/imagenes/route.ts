@@ -11,11 +11,14 @@ export type IncomingImage = {
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const filterText = searchParams.get('filterText');
+    const pageParam = searchParams.get('page');
+
+    const page = pageParam ? parseInt(pageParam) : 1;
 
     const data = (
         await pool.query<RowDataPacket[]>(
-            'SELECT INSUMO_ID, IMAGEN FROM insumo WHERE NOMBRE LIKE ?',
-            `%${filterText || ''}%`,
+            'SELECT INSUMO_ID, IMAGEN FROM insumo WHERE NOMBRE LIKE ? LIMIT ?, 10',
+            [`%${filterText || ''}%`, (page - 1) * 10],
         )
     )[0] as IncomingImage[];
 

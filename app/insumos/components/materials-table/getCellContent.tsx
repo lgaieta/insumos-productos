@@ -42,5 +42,7 @@ export const getCellContent = (material: Material, columnKey: Key) => {
 
     if (columnKey === 'price') return '$' + keyValue;
 
+    if (columnKey === 'name') return <div className='min-w-[150px]'>{keyValue}</div>;
+
     return keyValue;
 };

@@ -9,7 +9,7 @@ import { useAsyncList } from 'react-stately';
 import { fetchMaterials } from '@insumos/services/fetchMaterials';
 import SearchInput from './SearchInput';
 import NewMaterialButton from './NewMaterialButton';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MaterialsTableSkeleton from './MaterialsTableSkeleton';
 import { fetchMaterialsImages } from '@insumos/services/fetchMaterialsImages';
 import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
@@ -32,17 +32,34 @@ const materialsTableColumns = [
 
 function MaterialsTable() {
     const [isSkeleton, setIsSkeleton] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalMaterials, setTotalMaterials] = useState(50);
 
     const list = useAsyncList<Material>({
         async load({ signal, filterText }) {
-            const materials = await fetchMaterials({ signal, filterText });
-            const materialsImages = await fetchMaterialsImages({ signal, filterText });
-            const data = mergeMaterialsWithImages(materials, materialsImages);
+            const materialsResponse = await fetchMaterials({
+                signal,
+                filterText,
+                page: currentPage,
+                cache: 'no-store',
+            });
+            const materialsImages = await fetchMaterialsImages({
+                signal,
+                filterText,
+                page: currentPage,
+                cache: 'no-store',
+            });
+            const data = mergeMaterialsWithImages(materialsResponse.data, materialsImages);
+
+            setTotalMaterials(materialsResponse.total);
 
             setIsSkeleton(false);
             return { items: data };
         },
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => list.reload(), [currentPage]);
 
     const router = useRouter();
 
@@ -57,11 +74,13 @@ function MaterialsTable() {
                 </span>
                 <span className='order-3 min-[700px]:order-none'>
                     <Pagination
+                        isDisabled={isSkeleton}
                         loop
                         siblings={0}
                         showControls={true}
-                        total={10}
-                        initialPage={1}
+                        total={Math.ceil(totalMaterials / 10)}
+                        page={currentPage}
+                        onChange={page => setCurrentPage(page)}
                     />
                 </span>
                 <span className='flex w-full justify-center min-[700px]:justify-end grow basis-0'>
@@ -75,6 +94,7 @@ function MaterialsTable() {
                     aria-label='Tabla de Insumos'
                     classNames={{
                         base: 'mt-6',
+                        table: 'min-h-[300px]',
                     }}
                 >
                     <TableHeader columns={materialsTableColumns}>
@@ -89,7 +109,7 @@ function MaterialsTable() {
                     </TableHeader>
                     <TableBody
                         items={list.items}
-                        isLoading={list.isLoading}
+                        loadingState={list.isLoading ? 'loading' : 'idle'}
                         loadingContent={<Spinner />}
                     >
                         {list.items
