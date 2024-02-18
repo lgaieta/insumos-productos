@@ -74,6 +74,10 @@ function MaterialsTable() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
+    const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
+        ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
+        : 5;
+
     return (
         <>
             <div className='flex flex-col gap-6 min-[700px]:flex-row items-center justify-between w-full'>
@@ -89,7 +93,7 @@ function MaterialsTable() {
                         loop
                         siblings={0}
                         showControls={true}
-                        total={Math.ceil(totalMaterials / 10)}
+                        total={Math.ceil(totalMaterials / rowsPerPage)}
                         page={currentPage}
                         onChange={page => setCurrentPage(page)}
                     />
