@@ -4,15 +4,17 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from 
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { getCellContent } from './getCellContent';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAsyncList } from 'react-stately';
 import { fetchMaterials } from '@insumos/services/fetchMaterials';
 import SearchInput from './SearchInput';
 import NewMaterialButton from './NewMaterialButton';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MaterialsTableSkeleton from './MaterialsTableSkeleton';
 import { fetchMaterialsImages } from '@insumos/services/fetchMaterialsImages';
 import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
+
+const PAGE_PARAM_NAME = 'pagina';
 
 const materialsTableColumns = [
     { key: 'image', label: 'Imagen' },
@@ -32,8 +34,13 @@ const materialsTableColumns = [
 
 function MaterialsTable() {
     const [isSkeleton, setIsSkeleton] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalMaterials, setTotalMaterials] = useState(50);
+
+    const searchParams = useSearchParams();
+    const pageParam = searchParams.get(PAGE_PARAM_NAME);
+    const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
+    const router = useRouter();
+    const pathname = usePathname();
 
     const list = useAsyncList<Material>({
         async load({ signal, filterText }) {
@@ -58,10 +65,14 @@ function MaterialsTable() {
         },
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => list.reload(), [currentPage]);
-
-    const router = useRouter();
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams);
+        params.set(PAGE_PARAM_NAME, String(currentPage));
+        list.reload();
+        router.replace(`${pathname}?${params.toString()}`);
+        console.log(params.toString());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPage]);
 
     return (
         <>
