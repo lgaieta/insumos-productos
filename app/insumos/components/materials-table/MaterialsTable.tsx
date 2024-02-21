@@ -9,7 +9,7 @@ import { useAsyncList } from 'react-stately';
 import { fetchMaterials } from '@insumos/services/fetchMaterials';
 import SearchInput from './SearchInput';
 import NewMaterialButton from './NewMaterialButton';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import MaterialsTableSkeleton from './MaterialsTableSkeleton';
 import { fetchMaterialsImages } from '@insumos/services/fetchMaterialsImages';
 import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
@@ -33,8 +33,9 @@ const materialsTableColumns = [
 ];
 
 function MaterialsTable() {
-    const [isSkeleton, setIsSkeleton] = useState(true);
+    const isSkeletonRef = useRef(true);
     const [totalMaterials, setTotalMaterials] = useState(50);
+    const [materialsImages, setMaterialsImages] = useState({});
 
     const searchParams = useSearchParams();
     const pageParam = searchParams.get(PAGE_PARAM_NAME);
@@ -50,27 +51,39 @@ function MaterialsTable() {
                 page: currentPage,
                 cache: 'no-store',
             });
-            const materialsImages = await fetchMaterialsImages({
-                signal,
-                filterText,
-                page: currentPage,
-                cache: 'no-store',
-            });
-            const data = mergeMaterialsWithImages(materialsResponse.data, materialsImages);
 
             setTotalMaterials(materialsResponse.total);
 
-            setIsSkeleton(false);
-            return { items: data };
+            isSkeletonRef.current = false;
+            return { items: materialsResponse.data };
         },
     });
 
+    const loadImages = async ({ signal }: { signal: AbortSignal }) => {
+        const imagesResponse = await fetchMaterialsImages({
+            signal,
+            filterText: list.filterText,
+            page: currentPage,
+            cache: 'no-store',
+        });
+
+        setMaterialsImages(imagesResponse);
+    };
+
+    // Update images when list.items changes
+    useEffect(() => {
+        const controller = new AbortController();
+        loadImages({ signal: controller.signal });
+        return () => controller.abort();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [list.items]);
+
+    // Reload list when current page changes
     useEffect(() => {
         const params = new URLSearchParams(searchParams);
         params.set(PAGE_PARAM_NAME, String(currentPage));
         list.reload();
         router.replace(`${pathname}?${params.toString()}`);
-        console.log(params.toString());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage]);
 
@@ -89,7 +102,7 @@ function MaterialsTable() {
                 </span>
                 <span className='order-3 min-[700px]:order-none'>
                     <Pagination
-                        isDisabled={isSkeleton}
+                        isDisabled={isSkeletonRef.current}
                         loop
                         siblings={0}
                         showControls={true}
@@ -102,7 +115,7 @@ function MaterialsTable() {
                     <NewMaterialButton />
                 </span>
             </div>
-            {isSkeleton ? (
+            {isSkeletonRef.current ? (
                 <MaterialsTableSkeleton />
             ) : (
                 <Table
@@ -123,7 +136,7 @@ function MaterialsTable() {
                         )}
                     </TableHeader>
                     <TableBody
-                        items={list.items}
+                        items={mergeMaterialsWithImages(list.items, materialsImages)}
                         loadingState={list.isLoading ? 'loading' : 'idle'}
                         loadingContent={<Spinner />}
                     >

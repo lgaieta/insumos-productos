@@ -1,4 +1,4 @@
-import { IncomingImage } from '../services/getMaterialImagesFromDatabase';
+import { IncomingImage } from '@insumos/api/imagenes/route';
 
 export const materialImageAdapter = (imageBuffer: IncomingImage['IMAGEN']) =>
     imageBuffer !== null ? `data:image/png;base64,${imageBuffer.toString('base64')}` : null;

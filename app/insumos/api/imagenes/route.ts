@@ -25,5 +25,7 @@ export async function GET(request: NextRequest) {
         )
     )[0] as IncomingImage[];
 
-    return Response.json(materialImageListAdapter(data));
+    const dataWithNullsFiltered = data.filter(row => row.IMAGEN !== null);
+
+    return Response.json(materialImageListAdapter(dataWithNullsFiltered));
 }
