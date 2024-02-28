@@ -48,10 +48,11 @@ function MaterialsTable() {
             const materialsResponse = await fetchMaterials({
                 signal,
                 filterText,
-                page: currentPage,
+                page: filterText ? 1 : currentPage,
                 cache: 'no-store',
             });
 
+            if (filterText) setCurrentPage(1);
             setTotalMaterials(materialsResponse.total);
 
             isSkeletonRef.current = false;
@@ -91,6 +92,8 @@ function MaterialsTable() {
         ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
         : 5;
 
+    const totalPages = Math.ceil(totalMaterials / rowsPerPage);
+
     return (
         <>
             <div className='flex flex-col gap-6 min-[700px]:flex-row items-center justify-between w-full'>
@@ -106,8 +109,8 @@ function MaterialsTable() {
                         loop
                         siblings={0}
                         showControls={true}
-                        total={Math.ceil(totalMaterials / rowsPerPage)}
-                        page={currentPage}
+                        total={Math.max(totalPages, 1)}
+                        page={currentPage <= totalPages ? currentPage : 1}
                         onChange={page => setCurrentPage(page)}
                     />
                 </span>
@@ -122,7 +125,7 @@ function MaterialsTable() {
                     aria-label='Tabla de Insumos'
                     classNames={{
                         base: 'mt-6',
-                        table: list.isLoading ? 'min-h-[56px]' : '',
+                        table: list.isLoading ? 'min-h-[200px]' : '',
                     }}
                 >
                     <TableHeader columns={materialsTableColumns}>
@@ -139,7 +142,7 @@ function MaterialsTable() {
                         items={mergeMaterialsWithImages(list.items, materialsImages)}
                         loadingState={list.isLoading ? 'loading' : 'idle'}
                         loadingContent={<Spinner />}
-                        emptyContent={<p>No se encontraron insumos</p>}
+                        emptyContent={!list.isLoading && <p>No se encontraron insumos</p>}
                     >
                         {list.items
                             ? material => (
