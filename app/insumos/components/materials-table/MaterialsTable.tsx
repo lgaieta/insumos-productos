@@ -122,7 +122,7 @@ function MaterialsTable() {
                     aria-label='Tabla de Insumos'
                     classNames={{
                         base: 'mt-6',
-                        table: 'min-h-[300px]',
+                        table: list.isLoading ? 'min-h-[56px]' : '',
                     }}
                 >
                     <TableHeader columns={materialsTableColumns}>
