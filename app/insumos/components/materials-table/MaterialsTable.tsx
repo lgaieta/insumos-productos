@@ -139,6 +139,7 @@ function MaterialsTable() {
                         items={mergeMaterialsWithImages(list.items, materialsImages)}
                         loadingState={list.isLoading ? 'loading' : 'idle'}
                         loadingContent={<Spinner />}
+                        emptyContent={<p>No se encontraron insumos</p>}
                     >
                         {list.items
                             ? material => (
