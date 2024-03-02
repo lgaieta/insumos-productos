@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
     const data = (
         await pool.query<RowDataPacket[]>(
-            'SELECT INSUMO_ID, IMAGEN FROM insumo WHERE NOMBRE LIKE ? LIMIT ?, ?',
+            'SELECT INSUMO_ID, IMAGEN FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ?, ?',
             [`%${filterText || ''}%`, (page - 1) * rowsPerPage, rowsPerPage],
         )
     )[0] as IncomingImage[];

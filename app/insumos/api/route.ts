@@ -20,14 +20,14 @@ export async function GET(request: NextRequest) {
 
     const data = (
         await pool.query<RowDataPacket[]>(
-            'SELECT INSUMO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM insumo WHERE NOMBRE LIKE ? LIMIT ?, ?',
+            'SELECT INSUMO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ?, ?',
             [filterTextForQuery, rowsStartIndex, rowsPerPage],
         )
     )[0] as DBMaterial[];
 
     const rowCountQuery = (
         await pool.query<RowDataPacket[]>(
-            'SELECT COUNT(*) AS total FROM insumo WHERE NOMBRE LIKE ?',
+            'SELECT COUNT(*) AS total FROM INSUMO WHERE NOMBRE LIKE ?',
             [filterTextForQuery],
         )
     )[0][0];
