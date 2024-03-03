@@ -1,20 +1,13 @@
 'use client';
-import Material from '@/(common)/entities/Material';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { getCellContent } from './getCellContent';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useAsyncList } from 'react-stately';
-import { fetchMaterials } from '@insumos/services/fetchMaterials';
+import { useRouter } from 'next/navigation';
 import SearchInput from './SearchInput';
 import NewMaterialButton from './NewMaterialButton';
-import { useEffect, useState, useRef } from 'react';
 import MaterialsTableSkeleton from './MaterialsTableSkeleton';
-import { fetchMaterialsImages } from '@insumos/services/fetchMaterialsImages';
-import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
-
-const PAGE_PARAM_NAME = 'pagina';
+import { useMaterialList } from '@insumos/hooks/useMaterialList';
 
 const materialsTableColumns = [
     { key: 'image', label: 'Imagen' },
@@ -33,79 +26,31 @@ const materialsTableColumns = [
 ];
 
 function MaterialsTable() {
-    const isSkeletonRef = useRef(true);
-    const [totalMaterials, setTotalMaterials] = useState(50);
-    const [materialsImages, setMaterialsImages] = useState({});
+    const {
+        items,
+        filterText,
+        setFilterText,
+        isSkeleton,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        isLoading,
+    } = useMaterialList();
 
-    const searchParams = useSearchParams();
-    const pageParam = searchParams.get(PAGE_PARAM_NAME);
-    const [currentPage, setCurrentPage] = useState(pageParam ? parseInt(pageParam) : 1);
     const router = useRouter();
-    const pathname = usePathname();
-
-    const list = useAsyncList<Material>({
-        async load({ signal, filterText }) {
-            const materialsResponse = await fetchMaterials({
-                signal,
-                filterText,
-                page: filterText ? 1 : currentPage,
-                cache: 'no-store',
-            });
-
-            if (filterText) setCurrentPage(1);
-            setTotalMaterials(materialsResponse.total);
-
-            isSkeletonRef.current = false;
-            return { items: materialsResponse.data };
-        },
-    });
-
-    const loadImages = async ({ signal }: { signal: AbortSignal }) => {
-        const imagesResponse = await fetchMaterialsImages({
-            signal,
-            filterText: list.filterText,
-            page: currentPage,
-            cache: 'no-store',
-        });
-
-        setMaterialsImages(imagesResponse);
-    };
-
-    // Update images when list.items changes
-    useEffect(() => {
-        const controller = new AbortController();
-        loadImages({ signal: controller.signal });
-        return () => controller.abort();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [list.items]);
-
-    // Reload list when current page changes
-    useEffect(() => {
-        const params = new URLSearchParams(searchParams);
-        params.set(PAGE_PARAM_NAME, String(currentPage));
-        list.reload();
-        router.replace(`${pathname}?${params.toString()}`);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage]);
-
-    const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
-        ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
-        : 5;
-
-    const totalPages = Math.ceil(totalMaterials / rowsPerPage);
 
     return (
         <>
             <div className='flex flex-col gap-6 min-[700px]:flex-row items-center justify-between w-full'>
                 <span className='flex justify-center min-[700px]:justify-start w-full grow basis-0'>
                     <SearchInput
-                        value={list.filterText}
-                        onValueChange={list.setFilterText}
+                        value={filterText}
+                        onValueChange={setFilterText}
                     />
                 </span>
                 <span className='order-3 min-[700px]:order-none'>
                     <Pagination
-                        isDisabled={isSkeletonRef.current}
+                        isDisabled={isSkeleton}
                         loop
                         siblings={0}
                         showControls={true}
@@ -118,14 +63,14 @@ function MaterialsTable() {
                     <NewMaterialButton />
                 </span>
             </div>
-            {isSkeletonRef.current ? (
+            {isSkeleton ? (
                 <MaterialsTableSkeleton />
             ) : (
                 <Table
                     aria-label='Tabla de Insumos'
                     classNames={{
                         base: 'mt-6',
-                        table: list.isLoading ? 'min-h-[200px]' : '',
+                        table: isLoading ? 'min-h-[200px]' : '',
                     }}
                 >
                     <TableHeader columns={materialsTableColumns}>
@@ -139,12 +84,12 @@ function MaterialsTable() {
                         )}
                     </TableHeader>
                     <TableBody
-                        items={mergeMaterialsWithImages(list.items, materialsImages)}
-                        loadingState={list.isLoading ? 'loading' : 'idle'}
+                        items={items}
+                        loadingState={isLoading ? 'loading' : 'idle'}
                         loadingContent={<Spinner />}
-                        emptyContent={!list.isLoading && <p>No se encontraron insumos</p>}
+                        emptyContent={!isLoading && <p>No se encontraron insumos</p>}
                     >
-                        {list.items
+                        {items
                             ? material => (
                                   <TableRow
                                       key={material.id}
