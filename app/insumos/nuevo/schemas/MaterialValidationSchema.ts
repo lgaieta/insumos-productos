@@ -9,11 +9,11 @@ export const MaterialValidationSchema = object({
         .min(1, { message: 'El nombre es requerido' })
         .max(45, { message: 'El nombre puede tener solo hasta 45 caracteres' }),
 
-    image: zodInstanceof(File)
-        .refine(file => file.size / 1000 < 16000, {
+    image: zodInstanceof(Blob)
+        .refine(blob => blob.size / 1000 < 16000, {
             message: 'El archivo no puede ser más pesado que 16MB',
         })
-        .refine(file => file.type === 'image/png' || file.type === 'image/jpeg', {
+        .refine(blob => blob.type === 'image/png' || blob.type === 'image/jpeg', {
             message: 'El archivo debe ser de tipo .png o .jpg',
         })
         .nullable(),

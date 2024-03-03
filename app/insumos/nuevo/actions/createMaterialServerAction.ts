@@ -9,7 +9,7 @@ import { CreateMaterialFormErrors } from '../components/create-material-form/Cre
 export const createMaterialServerAction = async (_: any, formData: FormData) => {
     try {
         const name = formData.get('name') as string;
-        const file = formData.get('image') as File;
+        const file = formData.get('image') as Blob;
         const price = parseFloat(formData.get('price') as string);
         const link = (formData.get('link') as string) || null;
 

@@ -3,7 +3,7 @@ import { DBMaterial } from '@common/services/DBMaterial';
 
 type Output = Omit<DBMaterial, 'COSTO_UNITARIO'> & { COSTO_UNITARIO: number };
 
-type Input = Omit<Material, 'image'> & { image: File | null };
+type Input = Omit<Material, 'image'> & { image: Blob | null };
 
 export const updateMaterialAdapter = async (material: Input): Promise<Output> => ({
     INSUMO_ID: material.id,
