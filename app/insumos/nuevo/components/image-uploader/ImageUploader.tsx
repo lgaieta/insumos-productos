@@ -30,7 +30,6 @@ function ImageUploader(props: ImageUploaderProps) {
     const handleDrag: DragEventHandler<HTMLElement> = event => {
         event.preventDefault();
         event.stopPropagation();
-        console.log(event);
         setIsInvalidFiletype(false);
 
         if (event.type === 'dragenter' || event.type === 'dragover') {
@@ -69,9 +68,7 @@ function ImageUploader(props: ImageUploaderProps) {
     return (
         <div
             data-testid='ImageUploaderContainer'
-            className={`flex flex-col gap-2 select-none ${
-                isError ? 'text-danger' : ''
-            }`}
+            className={`flex flex-col gap-2 select-none ${isError ? 'text-danger' : ''}`}
         >
             <p className='text-sm font-bold'>Imagen</p>
             <input
@@ -107,9 +104,7 @@ function ImageUploader(props: ImageUploaderProps) {
                             />
                             <p
                                 className={
-                                    !isInvalidFiletype
-                                        ? 'text-foreground-500'
-                                        : 'text-danger'
+                                    !isInvalidFiletype ? 'text-foreground-500' : 'text-danger'
                                 }
                             >
                                 {!isInvalidFiletype
@@ -132,9 +127,7 @@ function ImageUploader(props: ImageUploaderProps) {
                 <Card
                     shadow='none'
                     classNames={{
-                        base: `border-1 ${
-                            isError ? 'border-danger' : 'border-divider'
-                        }`,
+                        base: `border-1 ${isError ? 'border-danger' : 'border-divider'}`,
                         body: 'flex-col items-center gap-4',
                     }}
                 >
@@ -143,9 +136,7 @@ function ImageUploader(props: ImageUploaderProps) {
                             as={NextImage}
                             src={
                                 inputRef.current?.files
-                                    ? getSelectedImageURL(
-                                          inputRef.current.files[0],
-                                      )
+                                    ? getSelectedImageURL(inputRef.current.files[0])
                                     : ''
                             }
                             alt='Icono de imagen'
@@ -165,9 +156,7 @@ function ImageUploader(props: ImageUploaderProps) {
                     </CardBody>
                 </Card>
             )}
-            {isError ? (
-                <p className='text-sm text-danger'>{errorMessage}</p>
-            ) : null}
+            {isError ? <p className='text-sm text-danger'>{errorMessage}</p> : null}
         </div>
     );
 }

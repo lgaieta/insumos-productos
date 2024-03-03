@@ -5,7 +5,7 @@ export const updateMaterialFromDatabase = async (material: Partial<DBMaterialAsO
     const { INSUMO_ID, ...newMaterial } = material;
 
     const { IMAGEN, ...materialWithoutImage } = newMaterial;
-    console.log(material);
+
     return await pool.query('UPDATE INSUMO SET ? WHERE INSUMO_ID = ?', [
         IMAGEN ? newMaterial : materialWithoutImage,
         INSUMO_ID,
