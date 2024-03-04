@@ -54,8 +54,8 @@ function MaterialsTable() {
                         loop
                         siblings={0}
                         showControls={true}
-                        total={Math.max(totalPages, 1)}
-                        page={currentPage <= totalPages ? currentPage : 1}
+                        total={totalPages}
+                        page={currentPage}
                         onChange={page => setCurrentPage(page)}
                     />
                 </span>

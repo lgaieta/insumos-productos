@@ -15,15 +15,24 @@ const calcTotalPages = (totalMaterials: number) =>
 
 export const useMaterialList = () => {
     const isSkeletonRef = useRef(true);
+    const previousFilterTextRef = useRef<string>('');
     const [currentPage, setCurrentPage] = usePageNumber();
     const [totalPages, setTotalPages] = useState(10);
     const [materialsImages, setMaterialsImages] = useState({});
 
-    const loadImages = async (signal: AbortSignal) => {
+    const loadImages = async ({
+        page,
+        filterText,
+        signal,
+    }: {
+        page: number;
+        filterText?: string;
+        signal: AbortSignal;
+    }) => {
         const imagesResponse = await fetchMaterialsImages({
             signal,
-            filterText: list.filterText,
-            page: currentPage,
+            filterText,
+            page,
             cache: 'no-store',
         });
 
@@ -32,19 +41,29 @@ export const useMaterialList = () => {
 
     const list = useAsyncList<Material>({
         async load({ signal, filterText }) {
+            const isNewFilterText = filterText !== previousFilterTextRef.current;
+
             const materialsResponse = await fetchMaterials({
                 signal,
                 filterText,
-                page: filterText ? 1 : currentPage,
+                page: isNewFilterText ? 1 : currentPage,
                 cache: 'no-store',
             });
 
-            loadImages(signal);
+            const newTotal = calcTotalPages(materialsResponse.total);
+
+            if (isNewFilterText || currentPage > newTotal) setCurrentPage(1);
+
+            loadImages({
+                page: isNewFilterText || currentPage > newTotal ? 1 : currentPage,
+                signal,
+                filterText,
+            });
 
             isSkeletonRef.current = false;
+            previousFilterTextRef.current = filterText || '';
 
-            setTotalPages(calcTotalPages(materialsResponse.total));
-            if (filterText) setCurrentPage(1);
+            setTotalPages(newTotal);
 
             return { items: materialsResponse.data };
         },
