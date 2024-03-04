@@ -1,10 +1,12 @@
-import { IncomingImage } from '@insumos/api/imagenes/route';
+import { DBMaterialImage } from '@insumos/api/services/getMaterialsImagesFromDatabase';
 
-export const materialImageAdapter = (imageBuffer: IncomingImage['IMAGEN']) =>
-    imageBuffer !== null ? `data:image/png;base64,${imageBuffer.toString('base64')}` : null;
+export const materialImageAdapter = (imageBuffer: DBMaterialImage['IMAGEN']) =>
+    imageBuffer !== null && imageBuffer !== undefined
+        ? `data:image/png;base64,${imageBuffer.toString('base64')}`
+        : null;
 
 export const materialImageListAdapter = (
-    materialImageList: IncomingImage[],
+    materialImageList: DBMaterialImage[],
 ): {} | { [id: number]: string } =>
     materialImageList.reduce(
         (acc, incomingImage) => ({

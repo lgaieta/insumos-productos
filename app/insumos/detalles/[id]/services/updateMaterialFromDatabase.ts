@@ -1,7 +1,9 @@
 import { pool } from '@common/services/pool';
 import { DBMaterial } from '@insumos/api/services/getMaterialsListFromDatabase';
 
-export const updateMaterialFromDatabase = async (material: Partial<DBMaterial>) => {
+export const updateMaterialFromDatabase = async (
+    material: Partial<Omit<DBMaterial, 'constructor'>>,
+) => {
     const { INSUMO_ID, ...newMaterial } = material;
 
     const { IMAGEN, ...materialWithoutImage } = newMaterial;
