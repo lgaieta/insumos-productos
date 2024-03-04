@@ -1,14 +1,14 @@
 import Material from '@common/entities/Material';
-import { DBMaterial } from '@common/services/DBMaterial';
-
-type Output = Omit<DBMaterial, 'COSTO_UNITARIO'> & { COSTO_UNITARIO: number };
+import { DBMaterial } from '@insumos/api/services/getMaterialsListFromDatabase';
 
 type Input = Omit<Material, 'image'> & { image: Blob | null };
 
-export const updateMaterialAdapter = async (material: Input): Promise<Output> => ({
+export const updateMaterialAdapter = async (
+    material: Input,
+): Promise<Omit<DBMaterial, 'constructor'>> => ({
     INSUMO_ID: material.id,
     NOMBRE: material.name,
     IMAGEN: material.image ? Buffer.from(await material.image.arrayBuffer()) : null,
-    COSTO_UNITARIO: material.price,
+    COSTO_UNITARIO: String(material.price),
     LINK: material.link,
 });

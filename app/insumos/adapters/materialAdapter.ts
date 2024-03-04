@@ -1,6 +1,5 @@
-import Material from '@/(common)/entities/Material';
 import { materialImageAdapter } from './materialImageAdapter';
-import { DBMaterial } from '@common/services/DBMaterial';
+import { DBMaterial } from '@insumos/api/services/getMaterialsListFromDatabase';
 
 export const materialAdapter = (incomingMaterial: DBMaterial) => {
     return {
