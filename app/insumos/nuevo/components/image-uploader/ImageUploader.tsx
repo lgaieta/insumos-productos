@@ -70,7 +70,7 @@ function ImageUploader(props: ImageUploaderProps) {
             data-testid='ImageUploaderContainer'
             className={`flex flex-col gap-2 select-none ${isError ? 'text-danger' : ''}`}
         >
-            <p className='text-sm font-bold'>Imagen</p>
+            <p className='font-bold'>Imagen</p>
             <input
                 type='file'
                 name='image'
