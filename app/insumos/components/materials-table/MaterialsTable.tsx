@@ -14,10 +14,12 @@ const materialsTableColumns = [
     {
         key: 'name',
         label: 'Nombre',
+        allowSorting: true,
     },
     {
         key: 'price',
         label: 'Precio',
+        allowSorting: true,
     },
     {
         key: 'link',
@@ -35,6 +37,8 @@ function MaterialsTable() {
         setCurrentPage,
         totalPages,
         isLoading,
+        sort,
+        sortDescriptor,
     } = useMaterialList();
 
     const router = useRouter();
@@ -72,12 +76,15 @@ function MaterialsTable() {
                         base: 'mt-6',
                         table: isLoading ? 'min-h-[200px]' : '',
                     }}
+                    onSortChange={sort}
+                    sortDescriptor={sortDescriptor}
                 >
                     <TableHeader columns={materialsTableColumns}>
                         {column => (
                             <TableColumn
                                 key={column.key}
                                 width={column.key === 'image' ? '32' : null}
+                                allowsSorting={column.allowSorting || false}
                             >
                                 {column.label}
                             </TableColumn>

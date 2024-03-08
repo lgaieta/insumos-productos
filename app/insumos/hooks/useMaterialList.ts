@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAsyncList } from 'react-stately';
 import { usePageNumber } from './usePageNumber';
 import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
+import { sortItems } from '@insumos/utils/sortItems';
 
 const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
     ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
@@ -40,15 +41,15 @@ export const useMaterialList = () => {
     };
 
     const list = useAsyncList<Material>({
-        async load({ signal, filterText }) {
+        async load({ signal, filterText, sortDescriptor }) {
             const isNewFilterText = filterText !== previousFilterTextRef.current;
 
-            const materialsResponse = await fetchMaterials({
+            const materialsResponse = (await fetchMaterials({
                 signal,
                 filterText,
                 page: isNewFilterText ? 1 : currentPage,
                 cache: 'no-store',
-            });
+            })) as { total: number; data: Material[] };
 
             const newTotal = calcTotalPages(materialsResponse.total);
 
@@ -65,7 +66,17 @@ export const useMaterialList = () => {
 
             setTotalPages(newTotal);
 
-            return { items: materialsResponse.data };
+            return {
+                items: materialsResponse.data.sort((a, b) =>
+                    sortItems(a, b, sortDescriptor || { column: 'name', direction: 'ascending' }),
+                ),
+            };
+        },
+
+        async sort({ items, sortDescriptor }) {
+            return {
+                items: items.sort((first, second) => sortItems(first, second, sortDescriptor)),
+            };
         },
     });
 
@@ -84,5 +95,7 @@ export const useMaterialList = () => {
         setCurrentPage,
         totalPages,
         isLoading: list.isLoading,
+        sort: list.sort,
+        sortDescriptor: list.sortDescriptor,
     };
 };
