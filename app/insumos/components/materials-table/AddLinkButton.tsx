@@ -4,6 +4,7 @@ import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import { MouseEventHandler, useState } from 'react';
 import { useFormStatus } from 'react-dom';
+import { Tooltip } from '@nextui-org/tooltip';
 
 function ConfirmButton() {
     const { pending } = useFormStatus();
@@ -63,12 +64,18 @@ function AddLinkButton(props: { materialId: Material['id'] }) {
 
     if (!isInput)
         return (
-            <Button
-                variant='flat'
-                onPress={handleDefaultButtonClick}
+            <Tooltip
+                color='foreground'
+                placement='bottom'
+                content='El sitio donde consultas el precio de este insumo (por ejemplo, MercadoLibre)'
             >
-                Agregar link
-            </Button>
+                <Button
+                    variant='flat'
+                    onPress={handleDefaultButtonClick}
+                >
+                    Agregar link
+                </Button>
+            </Tooltip>
         );
 }
 
