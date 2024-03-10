@@ -44,7 +44,5 @@ export const getCellContent = (product: Product, columnKey: Key) => {
 
     if (columnKey === 'name') return <div className='min-w-[150px]'>{keyValue}</div>;
 
-    if (columnKey === 'materialsUsed') return <ShowMaterialsButton productId={product.id} />;
-
     return keyValue;
 };
