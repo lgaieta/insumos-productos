@@ -1,8 +1,8 @@
 'use server';
 
 import Material from '@common/entities/Material';
-import { deleteMaterialAdapter } from '@insumos-detalles/adapter/deleteMaterialAdapter';
-import { deleteMaterialFromDatabase } from '@insumos-detalles/services/deleteMaterialFromDatabase';
+import { deleteMaterialAdapter } from '@insumos/detalles/[id]/adapters/deleteMaterialAdapter';
+import { deleteMaterialFromDatabase } from '@insumos/detalles/[id]/services/deleteMaterialFromDatabase';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 

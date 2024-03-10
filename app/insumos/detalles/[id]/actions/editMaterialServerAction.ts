@@ -3,7 +3,7 @@
 import Material from '@common/entities/Material';
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
 import { MaterialValidationSchema } from '@insumos-nuevo/schemas/MaterialValidationSchema';
-import { updateMaterialAdapter } from '@insumos-detalles/adapter/updateMaterialAdapter';
+import { updateMaterialAdapter } from '@insumos/detalles/[id]/adapters/updateMaterialAdapter';
 import { MaterialDetailsFormErrors } from '@insumos-detalles/components/MaterialDetails';
 import { updateMaterialFromDatabase } from '@insumos-detalles/services/updateMaterialFromDatabase';
 import { getEditedMaterialFromFormData } from '@insumos-detalles/utils/getEditedMaterialFromFormData';
