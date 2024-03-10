@@ -22,16 +22,18 @@ export default function Home() {
                         }
                     />
                 </Link>
-                <NavigationCard
-                    title='Productos'
-                    subtitle='Artículos listos para vender'
-                    bodyContent={
-                        <TbShirt
-                            size='100%'
-                            color='#212121'
-                        />
-                    }
-                />
+                <Link href='/productos'>
+                    <NavigationCard
+                        title='Productos'
+                        subtitle='Artículos listos para vender'
+                        bodyContent={
+                            <TbShirt
+                                size='100%'
+                                color='#212121'
+                            />
+                        }
+                    />
+                </Link>
                 <NavigationCard
                     title='Compras'
                     subtitle='Gastos en insumos'

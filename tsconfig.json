@@ -22,6 +22,9 @@
             "@insumos/*": ["./app/insumos/*"],
             "@insumos-detalles/*": ["./app/insumos/detalles/[id]/*"],
             "@insumos-nuevo/*": ["./app/insumos/nuevo/*"],
+            "@productos/*": ["./app/productos/*"],
+            "@productos-detalles/*": ["./app/productos/detalles/[id]/*"],
+            "@productos-nuevo/*": ["./app/productos/nuevo/*"],
             "@common/*": ["./app/(common)/*"],
             "@home/*": ["./app/(home)/*"],
             "@/*": ["./app/*"]
