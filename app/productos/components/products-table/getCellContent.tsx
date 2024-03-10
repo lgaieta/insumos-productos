@@ -6,7 +6,6 @@ import { Avatar } from '@nextui-org/avatar';
 import NextLink from 'next/link';
 import { MdCameraAlt } from 'react-icons/md';
 import AddLinkButton from './AddLinkButton';
-import ShowMaterialsButton from './ShowMaterialsButton';
 
 export const getCellContent = (product: Product, columnKey: Key) => {
     const keyValue = getKeyValue(product, columnKey);
