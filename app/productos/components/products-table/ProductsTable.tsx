@@ -22,6 +22,10 @@ const productsTableColumns = [
         allowSorting: true,
     },
     {
+        key: 'materialsUsed',
+        label: 'Insumos involucrados',
+    },
+    {
         key: 'link',
         label: 'Link',
     },
