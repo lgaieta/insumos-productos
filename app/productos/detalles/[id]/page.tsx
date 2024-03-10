@@ -1,7 +1,7 @@
 import { productAdapter } from '@productos/adapters/productAdapter';
-import ProductDetails from '@productos-detalles/components/ProductDetails';
+import ProductDetails from '@productos/detalles/[id]/components/product-details/ProductDetails';
 import { getSingleProductFromDatabase } from '@productos-detalles/services/getSingleProductFromDatabase';
-import ProductNotFoundErrorPage from './components/ProductNotFoundErrorPage';
+import ProductNotFoundErrorPage from './components/product-details/ProductNotFoundErrorPage';
 
 async function ProductPage({ params }: { params: { id: string } }) {
     const dbResult = await getSingleProductFromDatabase(+params.id);
