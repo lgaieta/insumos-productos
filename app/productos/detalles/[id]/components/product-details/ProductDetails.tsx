@@ -43,7 +43,7 @@ function ProductDetails(props: ProductDetailsProps) {
     return (
         <form
             id='productForm'
-            className='grid grid-cols-1 md:grid-cols-3 grid-rows-none auto-rows-auto md:grid-rows-1 gap-6 mb-10'
+            className='grid grid-cols-1 md:grid-cols-3 grid-rows-none auto-rows-auto md:grid-rows-1 gap-6'
         >
             <ConfirmDeleteModal
                 isOpen={isOpen}
