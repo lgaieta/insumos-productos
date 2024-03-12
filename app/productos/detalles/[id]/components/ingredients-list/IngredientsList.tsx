@@ -1,10 +1,16 @@
-'use client';
-import { Card, CardHeader, CardBody, CardFooter } from '@nextui-org/card';
+import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
-import { Button } from '@nextui-org/button';
-import { Listbox, ListboxItem } from '@nextui-org/listbox';
+import IngredientsListbox from './IngredientsListbox';
+import Product from '@common/entities/Product';
+import { getIngredientsFromDatabaseById } from '../../services/getIngredientsFromDatabaseById';
 
-function IngredientsList() {
+type IngredientsListProps = {
+    productId: Product['id'];
+};
+
+async function IngredientsList(props: IngredientsListProps) {
+    console.log(await getIngredientsFromDatabaseById(props.productId));
+
     return (
         <Card classNames={{ header: 'justify-between p-5', body: 'p-5' }}>
             <CardHeader>
@@ -12,46 +18,7 @@ function IngredientsList() {
             </CardHeader>
             <Divider />
             <CardBody>
-                <Listbox
-                    aria-label='Lista de Ingredientes'
-                    onAction={key => alert(key)}
-                    classNames={{ base: 'p-0' }}
-                    itemClasses={{
-                        base: 'px-4 py-3',
-                        title: 'text-base',
-                    }}
-                >
-                    <ListboxItem
-                        key='new'
-                        description='Insumo'
-                    >
-                        Ejemplo 1 de insumo
-                    </ListboxItem>
-                    <ListboxItem
-                        key='new'
-                        description='Insumo'
-                    >
-                        Ejemplo 2 de insumo
-                    </ListboxItem>
-                    <ListboxItem
-                        key='new'
-                        description='Insumo'
-                    >
-                        Ejemplo 3 de insumo
-                    </ListboxItem>
-                    <ListboxItem
-                        key='new'
-                        description='Producto'
-                    >
-                        Ejemplo 1 de producto
-                    </ListboxItem>
-                    <ListboxItem
-                        key='new'
-                        description='Producto'
-                    >
-                        Ejemplo 2 de producto
-                    </ListboxItem>
-                </Listbox>
+                <IngredientsListbox />
             </CardBody>
         </Card>
     );

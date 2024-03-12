@@ -14,7 +14,7 @@ async function ProductPage({ params }: { params: { id: string } }) {
     return (
         <main className='flex flex-col gap-10 max-w-5xl w-full mt-10 pb-10 mx-auto px-4 min-[400px]:px-8'>
             <ProductDetails product={product} />
-            <IngredientsList />
+            <IngredientsList productId={product.id} />
         </main>
     );
 }
