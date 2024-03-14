@@ -16,7 +16,7 @@ function IngredientsListErrorBoundary({ children }: { children: ReactNode }) {
                     </CardHeader>
                     <Divider />
                     <CardBody>
-                        <div className='text-center flex flex-col items-center pt-4 gap-6'>
+                        <div className='text-center flex flex-col items-center py-4 gap-6'>
                             <MdError
                                 color='#f31260'
                                 size={64}
