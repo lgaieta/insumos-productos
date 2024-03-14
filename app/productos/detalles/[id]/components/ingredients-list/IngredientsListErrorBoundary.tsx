@@ -22,7 +22,7 @@ function IngredientsListErrorBoundary({ children }: { children: ReactNode }) {
                                 size={64}
                             />
                             <p>
-                                Ocurrió un error al cargar los productos, intente recargando la
+                                Ocurrió un error al cargar los ingredientes, intente recargando la
                                 página.
                             </p>
                         </div>
