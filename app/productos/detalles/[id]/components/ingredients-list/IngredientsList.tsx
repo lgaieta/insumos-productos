@@ -21,7 +21,11 @@ async function IngredientsList(props: IngredientsListProps) {
             </CardHeader>
             <Divider />
             <CardBody>
-                <IngredientsListbox ingredients={ingredients} />
+                {ingredients.length > 0 ? (
+                    <IngredientsListbox ingredients={ingredients} />
+                ) : (
+                    <p className='text-foreground-500'>No se encontraron ingredientes.</p>
+                )}
             </CardBody>
         </Card>
     );
