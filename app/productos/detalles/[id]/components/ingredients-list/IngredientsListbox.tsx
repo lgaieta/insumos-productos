@@ -1,47 +1,39 @@
 'use client';
+import Ingredient from '@common/entities/Ingredient';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
+import { useRouter } from 'next/navigation';
 
-function IngredientsListbox() {
+type IngredientsListboxProps = {
+    ingredients: Ingredient[];
+};
+
+function IngredientsListbox(props: IngredientsListboxProps) {
+    const router = useRouter();
+
     return (
         <Listbox
             aria-label='Lista de Ingredientes'
-            onAction={key => alert(key)}
             classNames={{ base: 'p-0' }}
             itemClasses={{
                 base: 'px-4 py-3',
                 title: 'text-base',
             }}
         >
-            <ListboxItem
-                key='new'
-                description='Insumo'
-            >
-                Ejemplo 1 de insumo
-            </ListboxItem>
-            <ListboxItem
-                key='new'
-                description='Insumo'
-            >
-                Ejemplo 2 de insumo
-            </ListboxItem>
-            <ListboxItem
-                key='new'
-                description='Insumo'
-            >
-                Ejemplo 3 de insumo
-            </ListboxItem>
-            <ListboxItem
-                key='new'
-                description='Producto'
-            >
-                Ejemplo 1 de producto
-            </ListboxItem>
-            <ListboxItem
-                key='new'
-                description='Producto'
-            >
-                Ejemplo 2 de producto
-            </ListboxItem>
+            {props.ingredients.map(ingredient => (
+                <ListboxItem
+                    onPress={() =>
+                        router.push(
+                            `/${
+                                ingredient.type === 'material' ? 'insumos' : 'productos'
+                            }/detalles/${ingredient.componentId}`,
+                        )
+                    }
+                    key={ingredient.id}
+                    description={ingredient.type === 'material' ? 'Insumo' : 'Producto'}
+                >
+                    {ingredient.componentName}
+                </ListboxItem>
+            ))}
         </Listbox>
     );
 }

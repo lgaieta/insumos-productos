@@ -3,13 +3,16 @@ import { Divider } from '@nextui-org/divider';
 import IngredientsListbox from './IngredientsListbox';
 import Product from '@common/entities/Product';
 import { getIngredientsFromDatabaseById } from '../../services/getIngredientsFromDatabaseById';
+import { ingredientsListAdapter } from '../../adapters/ingredientAdapter';
 
 type IngredientsListProps = {
     productId: Product['id'];
 };
 
 async function IngredientsList(props: IngredientsListProps) {
-    console.log(await getIngredientsFromDatabaseById(props.productId));
+    const ingredients = ingredientsListAdapter(
+        await getIngredientsFromDatabaseById(props.productId),
+    );
 
     return (
         <Card classNames={{ header: 'justify-between p-5', body: 'p-5' }}>
@@ -18,7 +21,7 @@ async function IngredientsList(props: IngredientsListProps) {
             </CardHeader>
             <Divider />
             <CardBody>
-                <IngredientsListbox />
+                <IngredientsListbox ingredients={ingredients} />
             </CardBody>
         </Card>
     );
