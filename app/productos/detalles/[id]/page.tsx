@@ -5,6 +5,7 @@ import ProductNotFoundErrorPage from './components/product-details/ProductNotFou
 import IngredientsList from './components/ingredients-list/IngredientsList';
 import { Suspense } from 'react';
 import IngredientsListSkeleton from './components/ingredients-list/IngredientsListSkeleton';
+import IngredientsListErrorBoundary from './components/ingredients-list/IngredientsListErrorBoundary';
 
 async function ProductPage({ params }: { params: { id: string } }) {
     const dbResult = await getSingleProductFromDatabase(+params.id);
@@ -16,9 +17,11 @@ async function ProductPage({ params }: { params: { id: string } }) {
     return (
         <main className='flex flex-col gap-10 max-w-5xl w-full mt-10 pb-10 mx-auto px-4 min-[400px]:px-8'>
             <ProductDetails product={product} />
-            <Suspense fallback={<IngredientsListSkeleton />}>
-                <IngredientsList productId={product.id} />
-            </Suspense>
+            <IngredientsListErrorBoundary>
+                <Suspense fallback={<IngredientsListSkeleton />}>
+                    <IngredientsList productId={product.id} />
+                </Suspense>
+            </IngredientsListErrorBoundary>
         </main>
     );
 }
