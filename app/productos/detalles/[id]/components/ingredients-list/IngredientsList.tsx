@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
+import { Button } from '@nextui-org/button';
 import IngredientsListbox from './IngredientsListbox';
 import Product from '@common/entities/Product';
 import { getIngredientsFromDatabaseById } from '../../services/getIngredientsFromDatabaseById';
@@ -18,6 +19,7 @@ async function IngredientsList(props: IngredientsListProps) {
         <Card classNames={{ header: 'justify-between p-5', body: 'p-5' }}>
             <CardHeader>
                 <h2 className='text-xl font-bold'>Ingredientes</h2>
+                <Button variant='flat'>Añadir ingrediente</Button>
             </CardHeader>
             <Divider />
             <CardBody>
