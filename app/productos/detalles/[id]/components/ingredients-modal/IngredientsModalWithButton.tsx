@@ -9,6 +9,7 @@ import {
 } from '@nextui-org/modal';
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
+import { Tabs, Tab } from '@nextui-org/tabs';
 
 function IngredientsModalWithButton() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -24,15 +25,32 @@ function IngredientsModalWithButton() {
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
+                classNames={{
+                    header: 'flex items-center justify-between p-4',
+                    body: 'p-4',
+                }}
             >
                 <ModalContent>
                     {onClose => (
                         <>
-                            <ModalHeader className='flex items-center justify-between p-4 pr-8'>
-                                Añadir ingredientes
-                            </ModalHeader>
+                            <ModalHeader>Añadir ingredientes</ModalHeader>
                             <Divider />
-                            <ModalBody>Ingredients list</ModalBody>
+                            <ModalBody>
+                                <Tabs aria-label='Options'>
+                                    <Tab
+                                        key='material'
+                                        title='Insumos'
+                                    >
+                                        Insumos
+                                    </Tab>
+                                    <Tab
+                                        key='product'
+                                        title='Productos'
+                                    >
+                                        Productos
+                                    </Tab>
+                                </Tabs>
+                            </ModalBody>
                             <Divider />
                             <ModalFooter className='p-2'>
                                 <Button
