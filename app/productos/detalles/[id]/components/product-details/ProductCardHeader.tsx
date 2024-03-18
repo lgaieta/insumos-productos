@@ -1,5 +1,5 @@
 import { CardHeader } from '@nextui-org/card';
-import ProductImageAvatar from './ProductImageAvatar';
+import ProductImageAvatar from '@productos/detalles/[id]/components/product-details/ProductImageAvatar';
 
 type ProductCardHeaderProps = {
     isEditable: boolean;

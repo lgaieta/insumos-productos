@@ -3,9 +3,9 @@ import { fetchProducts } from '@productos/services/fetchProducts';
 import { fetchProductsImages } from '@productos/services/fetchProductsImages';
 import { useState, useEffect, useRef } from 'react';
 import { useAsyncList } from 'react-stately';
-import { usePageNumber } from './usePageNumber';
 import { mergeProductsWithImages } from '@productos/adapters/mergeProductsWithImages';
 import { sortItems } from '@common/utils/sortItems';
+import { usePageNumber } from '@productos/hooks/usePageNumber';
 
 const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
     ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)

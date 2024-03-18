@@ -1,17 +1,17 @@
 'use client';
 
 import Product from '@common/entities/Product';
-import { useEditProduct } from '@productos-detalles/hooks/useEditProduct';
-import { useDeleteProduct } from '@productos-detalles/hooks/useDeleteProduct';
+import { useEditProduct } from '@productos/hooks/useEditProduct';
+import { useDeleteProduct } from '@productos/hooks/useDeleteProduct';
 import { useDisclosure } from '@nextui-org/modal';
-import ProductCard from './ProductCard';
-import ProductCardHeader from './ProductCardHeader';
-import ProductCardBody from './ProductCardBody';
-import ProductCardEditableBody from './ProductCardEditableBody';
-import ProductCardFooter from './ProductCardFooter';
 import { Divider } from '@nextui-org/divider';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
-import ProductImage from './ProductImage';
+import ConfirmDeleteModal from '@productos/detalles/[id]/components/product-details/ConfirmDeleteModal';
+import ProductCard from '@productos/detalles/[id]/components/product-details/ProductCard';
+import ProductCardBody from '@productos/detalles/[id]/components/product-details/ProductCardBody';
+import ProductCardEditableBody from '@productos/detalles/[id]/components/product-details/ProductCardEditableBody';
+import ProductCardFooter from '@productos/detalles/[id]/components/product-details/ProductCardFooter';
+import ProductCardHeader from '@productos/detalles/[id]/components/product-details/ProductCardHeader';
+import ProductImage from '@productos/detalles/[id]/components/product-details/ProductImage';
 
 export type ProductDetailsFormErrors = {
     name?: string;

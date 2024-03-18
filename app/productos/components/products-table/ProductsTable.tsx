@@ -2,12 +2,12 @@
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
-import { getCellContent } from './getCellContent';
 import { useRouter } from 'next/navigation';
-import SearchInput from './SearchInput';
-import NewProductButton from './NewProductButton';
-import ProductsTableSkeleton from './ProductsTableSkeleton';
 import { useProductList } from '@productos/hooks/useProductList';
+import SearchInput from '@productos/components/products-table/SearchInput';
+import { getCellContent } from '@productos/components/products-table/getCellContent';
+import NewProductButton from '@productos/components/products-table/NewProductButton';
+import ProductsTableSkeleton from '@productos/components/products-table/ProductsTableSkeleton';
 
 const productsTableColumns = [
     { key: 'image', label: 'Imagen' },

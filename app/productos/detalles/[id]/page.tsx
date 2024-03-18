@@ -1,11 +1,11 @@
 import { productAdapter } from '@productos/adapters/productAdapter';
+import IngredientsList from '@productos/detalles/[id]/components/ingredients-list/IngredientsList';
+import IngredientsListErrorBoundary from '@productos/detalles/[id]/components/ingredients-list/IngredientsListErrorBoundary';
+import IngredientsListSkeleton from '@productos/detalles/[id]/components/ingredients-list/IngredientsListSkeleton';
 import ProductDetails from '@productos/detalles/[id]/components/product-details/ProductDetails';
-import { getSingleProductFromDatabase } from '@productos-detalles/services/getSingleProductFromDatabase';
-import ProductNotFoundErrorPage from './components/product-details/ProductNotFoundErrorPage';
-import IngredientsList from './components/ingredients-list/IngredientsList';
+import ProductNotFoundErrorPage from '@productos/detalles/[id]/components/product-details/ProductNotFoundErrorPage';
+import { getSingleProductFromDatabase } from '@productos/services/getSingleProductFromDatabase';
 import { Suspense } from 'react';
-import IngredientsListSkeleton from './components/ingredients-list/IngredientsListSkeleton';
-import IngredientsListErrorBoundary from './components/ingredients-list/IngredientsListErrorBoundary';
 
 async function ProductPage({ params }: { params: { id: string } }) {
     const dbResult = await getSingleProductFromDatabase(+params.id);

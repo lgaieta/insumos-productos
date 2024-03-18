@@ -1,8 +1,8 @@
+import { getRowsCount } from '@productos/api/services/getRowsCount';
+import { validatePageParam } from '@productos/api/utils/validatePageParam';
 import { productsImageListAdapter } from '@productos/adapters/productImageAdapter';
+import { getProductsImagesFromDatabase } from '@productos/api/services/getProductsImagesFromDatabase';
 import { type NextRequest } from 'next/server';
-import { getProductsImagesFromDatabase } from '../services/getProductsImagesFromDatabase';
-import { getRowsCount } from '../services/getRowsCount';
-import { validatePageParam } from '../utils/validatePageParam';
 
 export async function GET(request: NextRequest) {
     try {

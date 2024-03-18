@@ -1,13 +1,10 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
-import { Button } from '@nextui-org/button';
-import IngredientsListbox from './IngredientsListbox';
 import Product from '@common/entities/Product';
-import NextLink from 'next/link';
-import { getIngredientsFromDatabaseById } from '../../services/getIngredientsFromDatabaseById';
-import { ingredientsListAdapter } from '../../adapters/ingredientAdapter';
-import IngredientsModal from '../ingredients-modal/IngredientsModal';
-import IngredientsModalWithButton from '../ingredients-modal/IngredientsModalWithButton';
+import { ingredientsListAdapter } from '@productos/adapters/ingredientAdapter';
+import IngredientsListbox from '@productos/detalles/[id]/components/ingredients-list/IngredientsListbox';
+import IngredientsModalWithButton from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalWithButton';
+import { getIngredientsFromDatabaseById } from '@productos/services/getIngredientsFromDatabaseById';
 
 type IngredientsListProps = {
     productId: Product['id'];

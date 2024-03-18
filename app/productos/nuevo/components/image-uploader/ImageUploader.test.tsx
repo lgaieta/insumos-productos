@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ImageUploader from './ImageUploader';
+import ImageUploader from '@productos/nuevo/components/image-uploader/ImageUploader';
 
 describe('ImageUploader', () => {
     test('renders', () => {
@@ -11,8 +11,6 @@ describe('ImageUploader', () => {
             />,
         );
 
-        expect(
-            component.getByTestId('ImageUploaderContainer'),
-        ).toBeInTheDocument();
+        expect(component.getByTestId('ImageUploaderContainer')).toBeInTheDocument();
     });
 });

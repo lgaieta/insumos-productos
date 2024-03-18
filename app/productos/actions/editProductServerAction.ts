@@ -3,10 +3,10 @@
 import Product from '@common/entities/Product';
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
 import { ProductValidationSchema } from '@productos-nuevo/schemas/ProductValidationSchema';
-import { updateProductAdapter } from '@productos/detalles/[id]/adapters/updateProductAdapter';
+import { updateProductAdapter } from '@productos/adapters/updateProductAdapter';
 import { ProductDetailsFormErrors } from '@productos/detalles/[id]/components/product-details/ProductDetails';
-import { updateProductFromDatabase } from '@productos-detalles/services/updateProductFromDatabase';
-import { getEditedProductFromFormData } from '@productos-detalles/utils/getEditedProductFromFormData';
+import { updateProductFromDatabase } from '@productos/services/updateProductFromDatabase';
+import { getEditedProductFromFormData } from '@productos/utils/getEditedProductFromFormData';
 import { revalidatePath } from 'next/cache';
 
 export async function editProductServerAction(

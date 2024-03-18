@@ -1,5 +1,5 @@
 import Ingredient, { IngredientType } from '@common/entities/Ingredient';
-import { DBIngredient } from '../services/getIngredientsFromDatabaseById';
+import { DBIngredient } from '@productos/services/getIngredientsFromDatabaseById';
 
 export const ingredientAdapter = (incomingIngredient: DBIngredient): Ingredient<IngredientType> => {
     return {

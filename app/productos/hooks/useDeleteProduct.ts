@@ -1,5 +1,5 @@
 import Product from '@common/entities/Product';
-import { deleteProductServerAction } from '@productos-detalles/actions/deleteProductServerAction';
+import { deleteProductServerAction } from '@productos/actions/deleteProductServerAction';
 import { ProductDetailsFormErrors } from '@productos/detalles/[id]/components/product-details/ProductDetails';
 import { useFormState } from 'react-dom';
 

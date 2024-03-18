@@ -1,6 +1,6 @@
 import { pool } from '@common/services/pool';
+import { DBProduct } from '@productos/api/services/getProductsListFromDatabase';
 import { RowDataPacket } from 'mysql2';
-import { DBProduct } from './getProductsListFromDatabase';
 
 export type DBProductImage = Pick<DBProduct, 'PRODUCTO_ID' | 'IMAGEN'> & RowDataPacket;
 

@@ -1,7 +1,7 @@
 import { Spinner } from '@nextui-org/spinner';
-import ProductsTable from './components/products-table/ProductsTable';
+import ProductsTable from '@productos/components/products-table/ProductsTable';
+import ProductsTableErrorBoundary from '@productos/components/products-table/ProductsTableErrorBoundary';
 import { Suspense } from 'react';
-import ProductsTableErrorBoundary from './components/products-table/ProductsTableErrorBoundary';
 
 export const dynamic = 'force-dynamic';
 

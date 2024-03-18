@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { ProductValidationSchema } from '@productos-nuevo/schemas/ProductValidationSchema';
 import { pool } from '@common/services/pool';
 import { saveProductInDatabase } from '@productos-nuevo/services/saveProductInDatabase';
-import { CreateProductFormErrors } from '../components/create-product-form/CreateProductForm';
+import { CreateProductFormErrors } from '@productos/nuevo/components/create-product-form/CreateProductForm';
 
 export const createProductServerAction = async (_: any, formData: FormData) => {
     try {
