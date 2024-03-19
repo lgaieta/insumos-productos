@@ -2,7 +2,7 @@
 
 import Product from '@common/entities/Product';
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
-import { ProductValidationSchema } from '@productos-nuevo/schemas/ProductValidationSchema';
+import { ProductValidationSchema } from '@productos/schemas/ProductValidationSchema';
 import { updateProductAdapter } from '@productos/adapters/updateProductAdapter';
 import { ProductDetailsFormErrors } from '@productos/detalles/[id]/components/product-details/ProductDetails';
 import { updateProductFromDatabase } from '@productos/services/updateProductFromDatabase';
