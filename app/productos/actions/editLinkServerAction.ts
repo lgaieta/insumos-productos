@@ -1,7 +1,7 @@
 'use server';
 
 import Product from '@common/entities/Product';
-import { updateProductFromDatabase } from '@productos/detalles/[id]/services/updateProductFromDatabase';
+import { updateProductFromDatabase } from '@productos/services/updateProductFromDatabase';
 import { revalidatePath } from 'next/cache';
 import { ZodError, z } from 'zod';
 

@@ -2,7 +2,7 @@
 
 import Product from '@common/entities/Product';
 import { deleteProductAdapter } from '@productos/adapters/deleteProductAdapter';
-import { deleteProductFromDatabase } from '@productos-detalles/services/deleteProductFromDatabase';
+import { deleteProductFromDatabase } from '@productos/services/deleteProductFromDatabase';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
