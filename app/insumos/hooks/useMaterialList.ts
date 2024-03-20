@@ -6,6 +6,8 @@ import { useAsyncList } from 'react-stately';
 import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
 import { sortItems } from '@common/utils/sortItems';
 import { usePageNumber } from '@insumos/hooks/usePageNumber';
+import { materialListAdapter } from '@insumos/adapters/materialAdapter';
+import { materialImageListAdapter } from '@insumos/adapters/materialImageAdapter';
 
 const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
     ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
@@ -19,7 +21,9 @@ export const useMaterialList = () => {
     const previousFilterTextRef = useRef<string>('');
     const [currentPage, setCurrentPage] = usePageNumber();
     const [totalPages, setTotalPages] = useState(10);
-    const [materialsImages, setMaterialsImages] = useState({});
+    const [materialsImages, setMaterialsImages] = useState<
+        ReturnType<typeof materialImageListAdapter>
+    >({});
 
     const loadImages = async ({
         page,
@@ -37,19 +41,19 @@ export const useMaterialList = () => {
             cache: 'no-store',
         });
 
-        if (!signal.aborted) setMaterialsImages(imagesResponse);
+        if (!signal.aborted) setMaterialsImages(materialImageListAdapter(imagesResponse));
     };
 
     const list = useAsyncList<Material>({
         async load({ signal, filterText, sortDescriptor }) {
             const isNewFilterText = filterText !== previousFilterTextRef.current;
 
-            const materialsResponse = (await fetchMaterials({
+            const materialsResponse = await fetchMaterials({
                 signal,
                 filterText,
                 page: isNewFilterText ? 1 : currentPage,
                 cache: 'no-store',
-            })) as { total: number; data: Material[] };
+            });
 
             const newTotal = calcTotalPages(materialsResponse.total);
 
@@ -66,8 +70,10 @@ export const useMaterialList = () => {
 
             setTotalPages(newTotal);
 
+            const adaptedData = materialListAdapter(materialsResponse.data);
+
             return {
-                items: materialsResponse.data.sort((a, b) =>
+                items: adaptedData.sort((a, b) =>
                     sortItems(a, b, sortDescriptor || { column: 'name', direction: 'ascending' }),
                 ),
             };

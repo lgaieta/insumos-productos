@@ -1,8 +1,15 @@
-import { materialListAdapter } from '@insumos/adapters/materialAdapter';
-import { getMaterialsListFromDatabase } from '@insumos/services/getMaterialsListFromDatabase';
+import {
+    DBMaterial,
+    getMaterialsListFromDatabase,
+} from '@insumos/services/getMaterialsListFromDatabase';
 import { getRowsCount } from '@insumos/services/getRowsCount';
 import { validatePageParam } from '@insumos/utils/validatePageParam';
 import { type NextRequest } from 'next/server';
+
+export type MaterialListApiResponse = {
+    data: DBMaterial[];
+    total: number;
+};
 
 export async function GET(request: NextRequest) {
     try {
@@ -21,7 +28,12 @@ export async function GET(request: NextRequest) {
 
         const data = await getMaterialsListFromDatabase({ filterText, page, rowsPerPage });
 
-        return Response.json({ data: materialListAdapter(data), total: totalCount });
+        const response: MaterialListApiResponse = {
+            data,
+            total: totalCount,
+        };
+
+        return Response.json(response);
     } catch (e) {
         console.error(e);
         return Response.json({}, { status: 500 });

@@ -1,8 +1,12 @@
-import { materialImageListAdapter } from '@insumos/adapters/materialImageAdapter';
-import { getMaterialsImagesFromDatabase } from '@insumos/services/getMaterialsImagesFromDatabase';
+import {
+    DBMaterialImage,
+    getMaterialsImagesFromDatabase,
+} from '@insumos/services/getMaterialsImagesFromDatabase';
 import { getRowsCount } from '@insumos/services/getRowsCount';
 import { validatePageParam } from '@insumos/utils/validatePageParam';
 import { type NextRequest } from 'next/server';
+
+export type MaterialImageListApiResponse = DBMaterialImage[];
 
 export async function GET(request: NextRequest) {
     try {
@@ -21,9 +25,11 @@ export async function GET(request: NextRequest) {
 
         const data = await getMaterialsImagesFromDatabase({ filterText, page, rowsPerPage });
 
-        const dataWithNullsFiltered = data.filter(row => row.IMAGEN !== null);
+        const dataWithNullsFiltered: MaterialImageListApiResponse = data.filter(
+            row => row.IMAGEN !== null,
+        );
 
-        return Response.json(materialImageListAdapter(dataWithNullsFiltered));
+        return Response.json(dataWithNullsFiltered);
     } catch (e) {
         console.error(e);
         return Response.json({}, { status: 500 });

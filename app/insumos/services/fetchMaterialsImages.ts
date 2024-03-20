@@ -1,3 +1,5 @@
+import { MaterialImageListApiResponse } from '@insumos/api/imagenes/route';
+
 export const fetchMaterialsImages = async (
     options?: RequestInit & { filterText?: string; page?: number },
 ) => {
@@ -9,7 +11,7 @@ export const fetchMaterialsImages = async (
     if (options?.page) searchParams.append('page', String(options.page));
 
     const res = await fetch(url + searchParams.toString(), options);
-    const json = await res.json();
+    const json: MaterialImageListApiResponse = await res.json();
 
     return json;
 };
