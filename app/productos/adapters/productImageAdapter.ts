@@ -1,4 +1,4 @@
-import { DBProductImage } from '@productos/api/services/getProductsImagesFromDatabase';
+import { DBProductImage } from '@productos/services/getProductsImagesFromDatabase';
 
 export const productImageAdapter = (imageBuffer: DBProductImage['IMAGEN']) =>
     imageBuffer !== null && imageBuffer !== undefined

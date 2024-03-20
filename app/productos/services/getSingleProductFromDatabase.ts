@@ -1,5 +1,5 @@
 import { pool } from '@common/services/pool';
-import { DBProduct } from '@productos/api/services/getProductsListFromDatabase';
+import { DBProduct } from '@productos/services/getProductsListFromDatabase';
 import type { RowDataPacket } from 'mysql2';
 
 export const getSingleProductFromDatabase = async (id: number) => {

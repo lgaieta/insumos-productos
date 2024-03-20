@@ -1,5 +1,5 @@
 import { productImageAdapter } from '@productos/adapters/productImageAdapter';
-import { DBProduct } from '@productos/api/services/getProductsListFromDatabase';
+import { DBProduct } from '@productos/services/getProductsListFromDatabase';
 
 export const productAdapter = (incomingProduct: DBProduct) => {
     return {

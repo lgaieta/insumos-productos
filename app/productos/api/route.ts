@@ -1,7 +1,7 @@
-import { getRowsCount } from '@productos/api/services/getRowsCount';
-import { validatePageParam } from '@productos/api/utils/validatePageParam';
+import { getRowsCount } from '@productos/services/getRowsCount';
+import { validatePageParam } from '@productos/utils/validatePageParam';
 import { productsListAdapter } from '@productos/adapters/productAdapter';
-import { getProductsListFromDatabase } from '@productos/api/services/getProductsListFromDatabase';
+import { getProductsListFromDatabase } from '@productos/services/getProductsListFromDatabase';
 import { type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
