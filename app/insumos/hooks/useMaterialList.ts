@@ -3,9 +3,9 @@ import { fetchMaterials } from '@insumos/services/fetchMaterials';
 import { fetchMaterialsImages } from '@insumos/services/fetchMaterialsImages';
 import { useState, useEffect, useRef } from 'react';
 import { useAsyncList } from 'react-stately';
-import { usePageNumber } from './usePageNumber';
 import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
 import { sortItems } from '@common/utils/sortItems';
+import { usePageNumber } from '@insumos/hooks/usePageNumber';
 
 const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
     ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)

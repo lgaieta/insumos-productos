@@ -1,5 +1,5 @@
-import { materialImageAdapter } from './materialImageAdapter';
-import { DBMaterial } from '@insumos/api/services/getMaterialsListFromDatabase';
+import { materialImageAdapter } from '@insumos/adapters/materialImageAdapter';
+import { DBMaterial } from '@insumos/services/getMaterialsListFromDatabase';
 
 export const materialAdapter = (incomingMaterial: DBMaterial) => {
     return {

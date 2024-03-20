@@ -1,6 +1,6 @@
+import DeleteButton from '@insumos/detalles/[id]/components/DeleteButton';
+import EditButton from '@insumos/detalles/[id]/components/EditButton';
 import { CardFooter } from '@nextui-org/card';
-import DeleteButton from './DeleteButton';
-import EditButton from './EditButton';
 import { ButtonHTMLAttributes } from 'react';
 
 type MaterialCardFooterProps = {

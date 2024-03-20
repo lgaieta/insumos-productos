@@ -1,5 +1,5 @@
+import MaterialImageAvatar from '@insumos/detalles/[id]/components/MaterialImageAvatar';
 import { CardHeader } from '@nextui-org/card';
-import MaterialImageAvatar from './MaterialImageAvatar';
 
 type MaterialCardHeaderProps = {
     isEditable: boolean;

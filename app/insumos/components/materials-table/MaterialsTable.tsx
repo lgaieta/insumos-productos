@@ -2,12 +2,12 @@
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@nextui-org/table';
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
-import { getCellContent } from './getCellContent';
 import { useRouter } from 'next/navigation';
-import SearchInput from './SearchInput';
-import NewMaterialButton from './NewMaterialButton';
-import MaterialsTableSkeleton from './MaterialsTableSkeleton';
 import { useMaterialList } from '@insumos/hooks/useMaterialList';
+import MaterialsTableSkeleton from '@insumos/components/materials-table/MaterialsTableSkeleton';
+import NewMaterialButton from '@insumos/components/materials-table/NewMaterialButton';
+import SearchInput from '@insumos/components/materials-table/SearchInput';
+import { getCellContent } from '@insumos/components/materials-table/getCellContent';
 
 const materialsTableColumns = [
     { key: 'image', label: 'Imagen' },

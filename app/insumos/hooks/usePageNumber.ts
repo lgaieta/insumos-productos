@@ -1,4 +1,4 @@
-import { useStateWithSearchParams } from './useStateWithSearchParams';
+import { useStateWithSearchParams } from '@insumos/hooks/useStateWithSearchParams';
 
 const PAGE_PARAM_NAME = 'pagina';
 

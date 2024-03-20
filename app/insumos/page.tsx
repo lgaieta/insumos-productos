@@ -1,7 +1,7 @@
+import MaterialsTable from '@insumos/components/materials-table/MaterialsTable';
+import MaterialsTableErrorBoundary from '@insumos/components/materials-table/MaterialsTableErrorBoundary';
 import { Spinner } from '@nextui-org/spinner';
-import MaterialsTable from './components/materials-table/MaterialsTable';
 import { Suspense } from 'react';
-import MaterialsTableErrorBoundary from './components/materials-table/MaterialsTableErrorBoundary';
 
 export const dynamic = 'force-dynamic';
 

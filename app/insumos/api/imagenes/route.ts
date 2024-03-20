@@ -1,8 +1,8 @@
 import { materialImageListAdapter } from '@insumos/adapters/materialImageAdapter';
+import { getMaterialsImagesFromDatabase } from '@insumos/services/getMaterialsImagesFromDatabase';
+import { getRowsCount } from '@insumos/services/getRowsCount';
+import { validatePageParam } from '@insumos/utils/validatePageParam';
 import { type NextRequest } from 'next/server';
-import { getMaterialsImagesFromDatabase } from '../services/getMaterialsImagesFromDatabase';
-import { getRowsCount } from '../services/getRowsCount';
-import { validatePageParam } from '../utils/validatePageParam';
 
 export async function GET(request: NextRequest) {
     try {

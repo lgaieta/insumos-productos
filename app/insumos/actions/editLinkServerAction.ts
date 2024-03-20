@@ -1,7 +1,7 @@
 'use server';
 
 import Material from '@common/entities/Material';
-import { updateMaterialFromDatabase } from '@insumos/detalles/[id]/services/updateMaterialFromDatabase';
+import { updateMaterialFromDatabase } from '@insumos/services/updateMaterialFromDatabase';
 import { revalidatePath } from 'next/cache';
 import { ZodError, z } from 'zod';
 
