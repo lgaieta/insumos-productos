@@ -77,7 +77,18 @@ function IngredientsModalWithButton() {
                                         key='product'
                                         title='Productos'
                                     >
-                                        Productos
+                                        {productsQuery.data && (
+                                            <Listbox className='p-0'>
+                                                {productsQuery.data.map(product => (
+                                                    <ListboxItem key={product.id}>
+                                                        <div className='w-full flex justify-between'>
+                                                            <p>{product.name}</p>
+                                                            <p>${product.price}</p>
+                                                        </div>
+                                                    </ListboxItem>
+                                                ))}
+                                            </Listbox>
+                                        )}
                                     </Tab>
                                 </Tabs>
                             </ModalBody>
