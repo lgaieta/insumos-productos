@@ -18,8 +18,9 @@ function IngredientsListbox(props: IngredientsListboxProps) {
                 base: 'px-4 py-3',
                 title: 'text-base',
             }}
+            items={props.ingredients}
         >
-            {props.ingredients.map(ingredient => (
+            {ingredient => (
                 <ListboxItem
                     onPress={() =>
                         router.push(
@@ -33,7 +34,7 @@ function IngredientsListbox(props: IngredientsListboxProps) {
                 >
                     {ingredient.componentName}
                 </ListboxItem>
-            ))}
+            )}
         </Listbox>
     );
 }
