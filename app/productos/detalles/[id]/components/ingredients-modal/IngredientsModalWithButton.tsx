@@ -7,6 +7,8 @@ import {
     ModalFooter,
     useDisclosure,
 } from '@nextui-org/modal';
+import { useInfiniteScroll } from '@nextui-org/use-infinite-scroll';
+import { Spinner } from '@nextui-org/spinner';
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { Tabs, Tab } from '@nextui-org/tabs';
@@ -17,21 +19,34 @@ import Product from '@common/entities/Product';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { materialListAdapter } from '@insumos/adapters/materialAdapter';
 import { getFlattenInfiniteData } from '@productos/utils/getFlattenInfiniteData';
+import { useEffect } from 'react';
 
 function IngredientsModalWithButton() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     const materialsQuery = useInfiniteQuery({
         queryKey: ['materials'],
-        queryFn: async () => materialListAdapter((await fetchMaterials()).data),
+        queryFn: async ({ pageParam }) =>
+            materialListAdapter((await fetchMaterials({ page: pageParam })).data),
         initialPageParam: 1,
-        getNextPageParam: (lastPage, _, lastPageParam) => {
+        getNextPageParam: (lastPage, allPages, lastPageParam) => {
+            console.log(lastPage.length);
+            console.log(allPages);
             if (lastPage.length === 0) {
                 return undefined;
             }
             return lastPageParam + 1;
         },
     });
+
+    // const [loaderRef, scrollerRef] = useInfiniteScroll({
+    //     hasMore: materialsQuery.hasNextPage,
+    //     onLoadMore: () => {
+    //         console.log('loaded more');
+    //         materialsQuery.fetchNextPage();
+    //     },
+    //     distance: 50,
+    // });
 
     const productsQuery = useQuery<Product[]>({
         queryKey: ['products'],
@@ -53,14 +68,13 @@ function IngredientsModalWithButton() {
                     header: 'flex items-center justify-between p-4',
                     body: 'p-4',
                 }}
-                scrollBehavior='inside'
             >
                 <ModalContent>
                     {onClose => (
                         <>
                             <ModalHeader>Añadir ingredientes</ModalHeader>
                             <Divider />
-                            <ModalBody className='max-h-[400px] overflow-y-scroll'>
+                            <ModalBody>
                                 <Tabs
                                     aria-label='Options'
                                     fullWidth
@@ -71,11 +85,36 @@ function IngredientsModalWithButton() {
                                     >
                                         {materialsQuery.data && (
                                             <Listbox
-                                                className='p-0'
+                                                // ref={scrollerRef}
+                                                // bottomContent={
+                                                //     materialsQuery.hasNextPage ? (
+                                                //         <div className='flex w-full justify-center h-32 bg-red'>
+                                                //             <Spinner ref={loaderRef} />
+                                                //         </div>
+                                                //     ) : null
+                                                // }
+                                                bottomContent={
+                                                    <Button
+                                                        className='overflow-visible'
+                                                        onPress={() => {
+                                                            if (materialsQuery.hasNextPage)
+                                                                materialsQuery.fetchNextPage();
+                                                        }}
+                                                    >
+                                                        Cargar más
+                                                    </Button>
+                                                }
+                                                classNames={{
+                                                    base: 'flex flex-col p-0 max-h-[200px] overflow-y-scroll',
+                                                }}
                                                 items={getFlattenInfiniteData(materialsQuery.data)}
+                                                aria-label='Lista de insumos'
                                             >
                                                 {material => (
-                                                    <ListboxItem key={material.id}>
+                                                    <ListboxItem
+                                                        key={material.id}
+                                                        aria-label={material.name}
+                                                    >
                                                         <div className='w-full flex justify-between'>
                                                             <p>{material.name}</p>
                                                             <p>${material.price}</p>
@@ -94,9 +133,13 @@ function IngredientsModalWithButton() {
                                                 <Listbox
                                                     className='p-0'
                                                     items={productsQuery.data}
+                                                    aria-label='Lista de productos'
                                                 >
                                                     {product => (
-                                                        <ListboxItem key={product.id}>
+                                                        <ListboxItem
+                                                            key={product.id}
+                                                            title={product.name}
+                                                        >
                                                             <div className='w-full flex justify-between'>
                                                                 <p>{product.name}</p>
                                                                 <p>${product.price}</p>
