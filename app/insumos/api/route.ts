@@ -1,7 +1,7 @@
 import {
     DBMaterial,
-    getMaterialsListFromDatabase,
-} from '@insumos/services/getMaterialsListFromDatabase';
+    getMaterialListFromDatabase,
+} from '@insumos/services/getMaterialListFromDatabase';
 import { getRowsCount } from '@insumos/services/getRowsCount';
 import { validatePageParam } from '@insumos/utils/validatePageParam';
 import { type NextRequest } from 'next/server';
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
         const page = validatePageParam(pageParam, totalPages);
 
-        const data = await getMaterialsListFromDatabase({ filterText, page, rowsPerPage });
+        const data = await getMaterialListFromDatabase({ filterText, page, rowsPerPage });
 
         const response: MaterialListApiResponse = {
             data,

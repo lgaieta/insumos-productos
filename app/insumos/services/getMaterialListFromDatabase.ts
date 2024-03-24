@@ -15,7 +15,7 @@ type Options = {
     rowsPerPage: number;
 };
 
-export const getMaterialsListFromDatabase = async ({ filterText, page, rowsPerPage }: Options) =>
+export const getMaterialListFromDatabase = async ({ filterText, page, rowsPerPage }: Options) =>
     (
         await pool.query<DBMaterial[]>(
             'SELECT INSUMO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ?, ?',

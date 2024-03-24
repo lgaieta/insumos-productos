@@ -1,5 +1,5 @@
 import { pool } from '@common/services/pool';
-import { DBMaterial } from '@insumos/services/getMaterialsListFromDatabase';
+import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
 import { RowDataPacket } from 'mysql2';
 
 export type DBMaterialImage = Pick<DBMaterial, 'INSUMO_ID' | 'IMAGEN'> & RowDataPacket;

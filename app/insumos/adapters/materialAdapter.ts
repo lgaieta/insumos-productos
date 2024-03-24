@@ -1,5 +1,5 @@
 import { materialImageAdapter } from '@insumos/adapters/materialImageAdapter';
-import { DBMaterial } from '@insumos/services/getMaterialsListFromDatabase';
+import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
 
 export const materialAdapter = (incomingMaterial: DBMaterial) => {
     return {
@@ -11,5 +11,5 @@ export const materialAdapter = (incomingMaterial: DBMaterial) => {
     };
 };
 
-export const materialListAdapter = (materialsList: DBMaterial[]) =>
-    materialsList.map(materialAdapter);
+export const materialListAdapter = (materialList: DBMaterial[]) =>
+    materialList.map(materialAdapter);

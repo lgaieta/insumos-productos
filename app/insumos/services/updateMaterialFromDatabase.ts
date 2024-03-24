@@ -1,5 +1,5 @@
 import { pool } from '@common/services/pool';
-import { DBMaterial } from '@insumos/services/getMaterialsListFromDatabase';
+import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
 
 export const updateMaterialFromDatabase = async (
     material: Partial<Omit<DBMaterial, 'constructor'>>,

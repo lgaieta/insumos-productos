@@ -1,7 +1,7 @@
 import {
     DBMaterialImage,
     getMaterialsImagesFromDatabase,
-} from '@insumos/services/getMaterialsImagesFromDatabase';
+} from '@insumos/services/getMaterialImagesFromDatabase';
 import { getRowsCount } from '@insumos/services/getRowsCount';
 import { validatePageParam } from '@insumos/utils/validatePageParam';
 import { type NextRequest } from 'next/server';

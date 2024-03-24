@@ -1,5 +1,5 @@
 import Material from '@common/entities/Material';
-import { DBMaterial } from '@insumos/services/getMaterialsListFromDatabase';
+import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
 
 type Input = Omit<Material, 'image'> & { image: Blob | null };
 

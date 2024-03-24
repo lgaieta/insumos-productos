@@ -1,4 +1,4 @@
-import { DBMaterialImage } from '@insumos/services/getMaterialsImagesFromDatabase';
+import { DBMaterialImage } from '@insumos/services/getMaterialImagesFromDatabase';
 
 export const materialImageAdapter = (imageBuffer: DBMaterialImage['IMAGEN']) =>
     imageBuffer !== null && imageBuffer !== undefined

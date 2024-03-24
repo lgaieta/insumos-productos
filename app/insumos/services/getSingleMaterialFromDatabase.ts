@@ -1,5 +1,5 @@
 import { pool } from '@common/services/pool';
-import { DBMaterial } from '@insumos/services/getMaterialsListFromDatabase';
+import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
 import type { RowDataPacket } from 'mysql2';
 
 export const getSingleMaterialFromDatabase = async (id: number) => {
