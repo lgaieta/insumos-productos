@@ -1,41 +1,51 @@
+import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
+import { getCommonParams } from '@common/utils/getCommonParams';
+import { getNextPageCursor } from '@common/utils/getNextPageCursor';
 import {
     DBMaterial,
     getMaterialListFromDatabase,
 } from '@insumos/services/getMaterialListFromDatabase';
-import { getRowsCount } from '@insumos/services/getRowsCount';
-import { validatePageParam } from '@insumos/utils/validatePageParam';
+import { getMaterialRowsCount } from '@insumos/services/getMaterialRowsCount';
 import { type NextRequest } from 'next/server';
 
 export type MaterialListApiResponse = {
     data: DBMaterial[];
     total: number;
+    nextCursor: number;
 };
 
 export async function GET(request: NextRequest) {
+    const params = request.nextUrl.searchParams;
+    const { filterText, cursor, rowLimit } = getCommonParams(params);
+
     try {
-        const searchParams = request.nextUrl.searchParams;
-        const filterText = searchParams.get('filterText') || '';
-        const pageParam = searchParams.get('page');
+        const getDataPromise = getMaterialListFromDatabase({
+            filterText,
+            cursor: +cursor,
+            rowLimit: +rowLimit,
+        });
 
-        const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
-            ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
-            : 5;
+        const getTotalPromise = getMaterialRowsCount(filterText);
 
-        const totalCount = await getRowsCount(filterText);
-        const totalPages = Math.ceil(totalCount / rowsPerPage);
+        const [dataPromiseSettled, totalPromiseSettled] = await Promise.allSettled([
+            getDataPromise,
+            getTotalPromise,
+        ]);
 
-        const page = validatePageParam(pageParam, totalPages);
+        if (dataPromiseSettled.status === 'rejected') return GenericErrorResponse();
+        if (totalPromiseSettled.status === 'rejected') return GenericErrorResponse();
 
-        const data = await getMaterialListFromDatabase({ filterText, page, rowsPerPage });
+        const { value: total } = totalPromiseSettled;
 
         const response: MaterialListApiResponse = {
-            data,
-            total: totalCount,
+            data: dataPromiseSettled.value,
+            total,
+            nextCursor: getNextPageCursor({ cursor: +cursor, rowLimit: +rowLimit, total }),
         };
 
         return Response.json(response);
     } catch (e) {
         console.error(e);
-        return Response.json({}, { status: 500 });
+        return GenericErrorResponse();
     }
 }

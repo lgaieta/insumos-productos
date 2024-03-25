@@ -11,14 +11,14 @@ export interface DBMaterial extends RowDataPacket {
 
 type Options = {
     filterText: string;
-    page: number;
-    rowsPerPage: number;
+    cursor: number;
+    rowLimit: number;
 };
 
-export const getMaterialListFromDatabase = async ({ filterText, page, rowsPerPage }: Options) =>
+export const getMaterialListFromDatabase = async ({ filterText, cursor, rowLimit }: Options) =>
     (
         await pool.query<DBMaterial[]>(
             'SELECT INSUMO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ?, ?',
-            [`%${filterText}%`, (page - 1) * rowsPerPage, rowsPerPage],
+            [`%${filterText}%`, cursor, rowLimit],
         )
     )[0];

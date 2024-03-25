@@ -6,14 +6,14 @@ export type DBMaterialImage = Pick<DBMaterial, 'INSUMO_ID' | 'IMAGEN'> & RowData
 
 type Options = {
     filterText: string;
-    page: number;
-    rowsPerPage: number;
+    cursor: number;
+    rowLimit: number;
 };
 
-export const getMaterialsImagesFromDatabase = async ({ filterText, page, rowsPerPage }: Options) =>
+export const getMaterialsImagesFromDatabase = async ({ filterText, cursor, rowLimit }: Options) =>
     (
         await pool.query<DBMaterialImage[]>(
             'SELECT INSUMO_ID, IMAGEN FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ?, ?',
-            [`%${filterText}%`, (page - 1) * rowsPerPage, rowsPerPage],
+            [`%${filterText}%`, cursor, rowLimit],
         )
     )[0];
