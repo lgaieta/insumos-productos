@@ -9,5 +9,5 @@ type Params = {
 
 export const getNextPageCursor = ({ rowLimit, cursor, total }: Params) => {
     const nextCursor = +cursor + +rowLimit;
-    return nextCursor < total ? nextCursor : total;
+    return nextCursor < total ? nextCursor : null;
 };

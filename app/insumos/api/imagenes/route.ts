@@ -11,7 +11,7 @@ import { type NextRequest } from 'next/server';
 export type MaterialImageListApiResponse = {
     data: DBMaterialImage[];
     total: number;
-    nextCursor: number;
+    nextCursor: ReturnType<typeof getNextPageCursor>;
 };
 
 export async function GET(request: NextRequest) {

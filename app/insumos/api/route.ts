@@ -11,7 +11,7 @@ import { type NextRequest } from 'next/server';
 export type MaterialListApiResponse = {
     data: DBMaterial[];
     total: number;
-    nextCursor: number;
+    nextCursor: ReturnType<typeof getNextPageCursor>;
 };
 
 export async function GET(request: NextRequest) {
