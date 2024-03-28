@@ -1,4 +1,5 @@
 import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
+import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiGET';
 import { getCommonParams } from '@common/utils/getCommonParams';
 import { getNextPageCursor } from '@common/utils/getNextPageCursor';
 import {
@@ -18,36 +19,22 @@ type StringifiedDBImage = {
     IMAGEN: JsonStringifiedBuffer | null;
 };
 
-export type MaterialImageListApiResponse = {
-    data: StringifiedDBImage[];
-    total: number;
-    nextCursor: ReturnType<typeof getNextPageCursor>;
-};
+export type MaterialImageListApiResponse = GenericApiGETResponse<StringifiedDBImage[]>;
 
 export async function GET(request: NextRequest) {
-    const params = request.nextUrl.searchParams;
-    const { filterText, cursor, rowLimit } = getCommonParams(params);
-
     try {
-        const getDataPromise = getMaterialsImagesFromDatabase({
-            filterText,
-            cursor: +cursor,
-            rowLimit: +rowLimit,
+        const { data, total, nextCursor } = await handleApiGET({
+            searchParams: request.nextUrl.searchParams,
+            getData: async params =>
+                await getMaterialsImagesFromDatabase({
+                    filterText: params.filterText,
+                    cursor: +params.cursor,
+                    rowLimit: +params.rowLimit,
+                }),
+            getRowsCount: async params => await getMaterialRowsCount(params.filterText),
         });
 
-        const getTotalPromise = getMaterialRowsCount(filterText);
-
-        const [dataPromiseSettled, totalPromiseSettled] = await Promise.allSettled([
-            getDataPromise,
-            getTotalPromise,
-        ]);
-
-        if (dataPromiseSettled.status === 'rejected') return GenericErrorResponse();
-        if (totalPromiseSettled.status === 'rejected') return GenericErrorResponse();
-
-        const { value: total } = totalPromiseSettled;
-
-        const dataWithNullsFiltered = dataPromiseSettled.value.filter(row => row.IMAGEN !== null);
+        const dataWithNullsFiltered = data.filter(row => row.IMAGEN !== null);
 
         const adaptedData = dataWithNullsFiltered.map(item => ({
             INSUMO_ID: item.INSUMO_ID,
@@ -57,7 +44,7 @@ export async function GET(request: NextRequest) {
         const response: MaterialImageListApiResponse = {
             data: adaptedData,
             total,
-            nextCursor: getNextPageCursor({ cursor: +cursor, rowLimit: +rowLimit, total }),
+            nextCursor,
         };
 
         return Response.json(response);
