@@ -1,7 +1,7 @@
 import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
 import { handleApiGET } from '@common/services/handleApiGET';
-import { getCommonParams } from '@common/utils/getCommonParams';
-import { getNextPageCursor } from '@common/utils/getNextPageCursor';
+import { getCommonParams } from '@common/services/getCommonParams';
+import { getNextPageCursor } from '@common/services/getNextPageCursor';
 import {
     DBMaterial,
     getMaterialListFromDatabase,
