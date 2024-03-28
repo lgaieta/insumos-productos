@@ -1,17 +1,12 @@
+import { addParamsToURL } from '@common/utils/addParamsToURL';
 import { MaterialImageListApiResponse } from '@insumos/api/imagenes/route';
 
 export const fetchMaterialsImages = async (
-    options?: RequestInit & { filterText?: string; page?: number },
+    options?: RequestInit & { params: Record<string, string> },
 ) => {
-    let url = '/insumos/api/imagenes?';
-    let searchParams = new URLSearchParams();
-
-    if (options?.filterText) searchParams.append('filterText', options.filterText);
-
-    if (options?.page) searchParams.append('page', String(options.page));
-
-    const res = await fetch(url + searchParams.toString(), options);
-    const json: MaterialImageListApiResponse = await res.json();
+    const url = addParamsToURL('/insumos/api/imagenes', options?.params || {});
+    const res = await fetch(url, options);
+    const json = await res.json();
 
     return json;
 };

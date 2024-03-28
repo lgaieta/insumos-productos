@@ -18,7 +18,7 @@ type Options = {
 export const getMaterialListFromDatabase = async ({ filterText, cursor, rowLimit }: Options) =>
     (
         await pool.query<DBMaterial[]>(
-            'SELECT INSUMO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ?, ?',
-            [`%${filterText}%`, cursor, rowLimit],
+            'SELECT INSUMO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ? OFFSET ?',
+            [`%${filterText}%`, rowLimit, cursor],
         )
     )[0];

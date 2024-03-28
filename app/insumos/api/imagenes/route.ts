@@ -8,8 +8,18 @@ import {
 import { getMaterialRowsCount } from '@insumos/services/getMaterialRowsCount';
 import { type NextRequest } from 'next/server';
 
+type JsonStringifiedBuffer = {
+    data: number[];
+    type: 'Buffer';
+};
+
+type StringifiedDBImage = {
+    INSUMO_ID: DBMaterialImage['INSUMO_ID'];
+    IMAGEN: JsonStringifiedBuffer | null;
+};
+
 export type MaterialImageListApiResponse = {
-    data: DBMaterialImage[];
+    data: StringifiedDBImage[];
     total: number;
     nextCursor: ReturnType<typeof getNextPageCursor>;
 };
@@ -39,8 +49,13 @@ export async function GET(request: NextRequest) {
 
         const dataWithNullsFiltered = dataPromiseSettled.value.filter(row => row.IMAGEN !== null);
 
+        const adaptedData = dataWithNullsFiltered.map(item => ({
+            INSUMO_ID: item.INSUMO_ID,
+            IMAGEN: item.IMAGEN?.toJSON() || null,
+        }));
+
         const response: MaterialImageListApiResponse = {
-            data: dataWithNullsFiltered,
+            data: adaptedData,
             total,
             nextCursor: getNextPageCursor({ cursor: +cursor, rowLimit: +rowLimit, total }),
         };

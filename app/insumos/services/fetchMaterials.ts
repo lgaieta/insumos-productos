@@ -1,16 +1,12 @@
+import { addParamsToURL } from '@common/utils/addParamsToURL';
 import { MaterialListApiResponse } from '@insumos/api/route';
 
 export const fetchMaterials = async (
-    options?: RequestInit & { filterText?: string; page?: number },
+    options?: RequestInit & { params: Record<string, string> },
 ) => {
-    let url = '/insumos/api?';
-    let searchParams = new URLSearchParams();
+    const url = addParamsToURL('/insumos/api', options?.params || {});
 
-    if (options?.filterText) searchParams.append('filterText', options.filterText);
-
-    if (options?.page) searchParams.append('page', String(options.page));
-
-    const res = await fetch(url + searchParams.toString(), options);
+    const res = await fetch(url, options);
     const json: MaterialListApiResponse = await res.json();
 
     return json;
