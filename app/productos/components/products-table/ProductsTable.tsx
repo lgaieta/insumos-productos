@@ -3,7 +3,7 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from 
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { useRouter } from 'next/navigation';
-import { useProductList } from '@productos/hooks/useProductList';
+import { useProductTable } from '@productos/hooks/useProductTable';
 import SearchInput from '@productos/components/products-table/SearchInput';
 import { getCellContent } from '@productos/components/products-table/getCellContent';
 import NewProductButton from '@productos/components/products-table/NewProductButton';
@@ -29,17 +29,12 @@ const productsTableColumns = [
 
 function ProductsTable() {
     const {
-        items,
-        filterText,
-        setFilterText,
+        list: { filterText, setFilterText, items, isLoading, sort, sortDescriptor },
         isSkeleton,
         currentPage,
         setCurrentPage,
         totalPages,
-        isLoading,
-        sort,
-        sortDescriptor,
-    } = useProductList();
+    } = useProductTable();
 
     const router = useRouter();
 

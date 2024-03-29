@@ -1,5 +1,5 @@
 import { productImageAdapter } from '@productos/adapters/productImageAdapter';
-import { DBProduct } from '@productos/services/getProductsListFromDatabase';
+import { DBProduct } from '@productos/services/getProductListFromDatabase';
 
 export const productAdapter = (incomingProduct: DBProduct) => {
     return {
@@ -11,4 +11,4 @@ export const productAdapter = (incomingProduct: DBProduct) => {
     };
 };
 
-export const productsListAdapter = (productsList: DBProduct[]) => productsList.map(productAdapter);
+export const productListAdapter = (productsList: DBProduct[]) => productsList.map(productAdapter);

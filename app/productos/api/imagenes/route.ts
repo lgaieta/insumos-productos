@@ -1,31 +1,53 @@
-import { getRowsCount } from '@productos/services/getRowsCount';
-import { validatePageParam } from '@productos/utils/validatePageParam';
-import { productsImageListAdapter } from '@productos/adapters/productImageAdapter';
-import { getProductsImagesFromDatabase } from '@productos/services/getProductsImagesFromDatabase';
+import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
+import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiGET';
+import {
+    DBProductImage,
+    getProductImageListFromDatabase,
+} from '@productos/services/getProductImageListFromDatabase';
+import { getProductRowsCount } from '@productos/services/getProductRowsCount';
 import { type NextRequest } from 'next/server';
+
+type JsonStringifiedBuffer = {
+    data: number[];
+    type: 'Buffer';
+};
+
+type StringifiedDBProductImage = {
+    PRODUCTO_ID: DBProductImage['PRODUCTO_ID'];
+    IMAGEN: JsonStringifiedBuffer | null;
+};
+
+export type ProductImageListApiResponse = GenericApiGETResponse<StringifiedDBProductImage[]>;
 
 export async function GET(request: NextRequest) {
     try {
-        const searchParams = request.nextUrl.searchParams;
-        const filterText = searchParams.get('filterText') || '';
-        const pageParam = searchParams.get('page');
-
-        const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
-            ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
-            : 5;
-
-        const totalCount = await getRowsCount(filterText);
-        const totalPages = Math.ceil(totalCount / rowsPerPage);
-
-        const page = validatePageParam(pageParam, totalPages);
-
-        const data = await getProductsImagesFromDatabase({ filterText, page, rowsPerPage });
+        const { data, total, nextCursor } = await handleApiGET({
+            searchParams: request.nextUrl.searchParams,
+            getData: async params =>
+                await getProductImageListFromDatabase({
+                    filterText: params.filterText,
+                    cursor: +params.cursor,
+                    rowLimit: +params.rowLimit,
+                }),
+            getRowsCount: async params => await getProductRowsCount(params.filterText),
+        });
 
         const dataWithNullsFiltered = data.filter(row => row.IMAGEN !== null);
 
-        return Response.json(productsImageListAdapter(dataWithNullsFiltered));
+        const adaptedData = dataWithNullsFiltered.map(item => ({
+            PRODUCTO_ID: item.PRODUCTO_ID,
+            IMAGEN: item.IMAGEN?.toJSON() || null,
+        }));
+
+        const response: ProductImageListApiResponse = {
+            data: adaptedData,
+            total,
+            nextCursor,
+        };
+
+        return Response.json(response);
     } catch (e) {
         console.error(e);
-        return Response.json({}, { status: 500 });
+        return GenericErrorResponse();
     }
 }

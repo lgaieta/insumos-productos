@@ -5,7 +5,7 @@ interface Result extends RowDataPacket {
     total: number;
 }
 
-export const getRowsCount = async (filterText: string) => {
+export const getProductRowsCount = async (filterText: string) => {
     const rowCountQuery = (
         await pool.query<Result[]>('SELECT COUNT(*) AS total FROM PRODUCTO WHERE NOMBRE LIKE ?', [
             `%${filterText}%`,

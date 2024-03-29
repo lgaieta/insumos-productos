@@ -13,8 +13,8 @@ import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { Tabs, Tab } from '@nextui-org/tabs';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { fetchMaterials } from '@insumos/services/fetchMaterials';
-import { fetchProducts } from '@productos/services/fetchProducts';
+import { fetchMaterialList } from '@insumos/services/fetchMaterialList';
+import { fetchProductList } from '@productos/services/fetchProductList';
 import Product from '@common/entities/Product';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { materialListAdapter } from '@insumos/adapters/materialAdapter';
@@ -27,11 +27,9 @@ function IngredientsModalWithButton() {
     const materialsQuery = useInfiniteQuery({
         queryKey: ['materials'],
         queryFn: async ({ pageParam }) =>
-            materialListAdapter((await fetchMaterials({ page: pageParam })).data),
+            materialListAdapter((await fetchMaterialList({ page: pageParam })).data),
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            console.log(lastPage.length);
-            console.log(allPages);
             if (lastPage.length === 0) {
                 return undefined;
             }
@@ -50,7 +48,7 @@ function IngredientsModalWithButton() {
 
     const productsQuery = useQuery<Product[]>({
         queryKey: ['products'],
-        queryFn: async () => (await fetchProducts()).data,
+        queryFn: async () => (await fetchProductList()).data,
     });
 
     return (

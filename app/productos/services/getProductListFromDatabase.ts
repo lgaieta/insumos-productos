@@ -11,14 +11,14 @@ export interface DBProduct extends RowDataPacket {
 
 type Options = {
     filterText: string;
-    page: number;
-    rowsPerPage: number;
+    cursor: number;
+    rowLimit: number;
 };
 
-export const getProductsListFromDatabase = async ({ filterText, page, rowsPerPage }: Options) =>
+export const getProductListFromDatabase = async ({ filterText, cursor, rowLimit }: Options) =>
     (
         await pool.query<DBProduct[]>(
-            'SELECT PRODUCTO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM PRODUCTO WHERE NOMBRE LIKE ? LIMIT ?, ?',
-            [`%${filterText}%`, (page - 1) * rowsPerPage, rowsPerPage],
+            'SELECT PRODUCTO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM PRODUCTO WHERE NOMBRE LIKE ? LIMIT ? OFFSET ?',
+            [`%${filterText}%`, rowLimit, cursor],
         )
     )[0];

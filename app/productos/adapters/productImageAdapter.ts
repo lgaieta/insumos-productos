@@ -1,17 +1,16 @@
-import { DBProductImage } from '@productos/services/getProductsImagesFromDatabase';
+import { bytesToBase64 } from '@common/utils/bytesToBase64';
+import { ProductImageListApiResponse } from '@productos/api/imagenes/route';
 
-export const productImageAdapter = (imageBuffer: DBProductImage['IMAGEN']) =>
-    imageBuffer !== null && imageBuffer !== undefined
-        ? `data:image/png;base64,${imageBuffer.toString('base64')}`
-        : null;
+export const productImageAdapter = (item: ProductImageListApiResponse['data'][number]): string =>
+    `data:image/png;base64,${bytesToBase64(item.IMAGEN!.data)}`;
 
-export const productsImageListAdapter = (
-    productImageList: DBProductImage[],
+export const productImageListAdapter = (
+    productImageList: ProductImageListApiResponse['data'],
 ): {} | { [id: number]: string } =>
     productImageList.reduce(
-        (acc, incomingImage) => ({
+        (acc, item) => ({
             ...acc,
-            [incomingImage.PRODUCTO_ID]: productImageAdapter(incomingImage.IMAGEN),
+            [item.PRODUCTO_ID]: productImageAdapter(item),
         }),
         {},
     );

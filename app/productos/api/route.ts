@@ -1,29 +1,30 @@
-import { getRowsCount } from '@productos/services/getRowsCount';
-import { validatePageParam } from '@productos/utils/validatePageParam';
-import { productsListAdapter } from '@productos/adapters/productAdapter';
-import { getProductsListFromDatabase } from '@productos/services/getProductsListFromDatabase';
+import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
+import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiGET';
+import {
+    DBProduct,
+    getProductListFromDatabase,
+} from '@productos/services/getProductListFromDatabase';
+import { getProductRowsCount } from '@productos/services/getProductRowsCount';
 import { type NextRequest } from 'next/server';
+
+export type ProductListApiResponse = GenericApiGETResponse<DBProduct[]>;
 
 export async function GET(request: NextRequest) {
     try {
-        const searchParams = request.nextUrl.searchParams;
-        const filterText = searchParams.get('filterText') || '';
-        const pageParam = searchParams.get('page');
+        const response: ProductListApiResponse = await handleApiGET({
+            searchParams: request.nextUrl.searchParams,
+            getData: async params =>
+                await getProductListFromDatabase({
+                    filterText: params.filterText,
+                    cursor: +params.cursor,
+                    rowLimit: +params.rowLimit,
+                }),
+            getRowsCount: async params => await getProductRowsCount(params.filterText),
+        });
 
-        const rowsPerPage = process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE
-            ? parseInt(process.env.NEXT_PUBLIC_MATERIAL_ROWS_PER_PAGE)
-            : 5;
-
-        const totalCount = await getRowsCount(filterText);
-        const totalPages = Math.ceil(totalCount / rowsPerPage);
-
-        const page = validatePageParam(pageParam, totalPages);
-
-        const data = await getProductsListFromDatabase({ filterText, page, rowsPerPage });
-
-        return Response.json({ data: productsListAdapter(data), total: totalCount });
+        return Response.json(response);
     } catch (e) {
         console.error(e);
-        return Response.json({}, { status: 500 });
+        return GenericErrorResponse();
     }
 }
