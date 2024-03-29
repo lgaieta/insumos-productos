@@ -1,7 +1,5 @@
 import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
-import { handleApiGET } from '@common/services/handleApiGET';
-import { getCommonParams } from '@common/services/getCommonParams';
-import { getNextPageCursor } from '@common/services/getNextPageCursor';
+import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiGET';
 import {
     DBMaterial,
     getMaterialListFromDatabase,
@@ -9,12 +7,7 @@ import {
 import { getMaterialRowsCount } from '@insumos/services/getMaterialRowsCount';
 import { type NextRequest } from 'next/server';
 
-export type MaterialListApiResponse = {
-    data: DBMaterial[];
-    total: number;
-    nextCursor: ReturnType<typeof getNextPageCursor>;
-};
-
+export type MaterialListApiResponse = GenericApiGETResponse<DBMaterial[]>;
 export async function GET(request: NextRequest) {
     try {
         const response: MaterialListApiResponse = await handleApiGET({

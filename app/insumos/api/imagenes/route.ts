@@ -1,7 +1,5 @@
 import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
 import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiGET';
-import { getCommonParams } from '@common/services/getCommonParams';
-import { getNextPageCursor } from '@common/services/getNextPageCursor';
 import {
     DBMaterialImage,
     getMaterialsImagesFromDatabase,
@@ -14,12 +12,12 @@ type JsonStringifiedBuffer = {
     type: 'Buffer';
 };
 
-type StringifiedDBImage = {
+type StringifiedDBMaterialImage = {
     INSUMO_ID: DBMaterialImage['INSUMO_ID'];
     IMAGEN: JsonStringifiedBuffer | null;
 };
 
-export type MaterialImageListApiResponse = GenericApiGETResponse<StringifiedDBImage[]>;
+export type MaterialImageListApiResponse = GenericApiGETResponse<StringifiedDBMaterialImage[]>;
 
 export async function GET(request: NextRequest) {
     try {

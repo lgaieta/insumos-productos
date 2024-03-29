@@ -1,9 +1,8 @@
+import { FetchParams } from '@common/services/FetchTypes';
 import { addParamsToURL } from '@common/utils/addParamsToURL';
 import { MaterialListApiResponse } from '@insumos/api/route';
 
-export const fetchMaterials = async (
-    options?: RequestInit & { params: Record<string, string> },
-) => {
+export const fetchMaterialList = async (options?: FetchParams) => {
     const url = addParamsToURL('/insumos/api', options?.params || {});
 
     const res = await fetch(url, options);

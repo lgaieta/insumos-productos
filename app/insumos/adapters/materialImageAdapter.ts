@@ -1,17 +1,16 @@
-import { DBMaterialImage } from '@insumos/services/getMaterialImagesFromDatabase';
+import { bytesToBase64 } from '@common/utils/bytesToBase64';
+import { MaterialImageListApiResponse } from '@insumos/api/imagenes/route';
 
-export const materialImageAdapter = (imageBuffer: DBMaterialImage['IMAGEN']) =>
-    imageBuffer !== null && imageBuffer !== undefined
-        ? `data:image/png;base64,${imageBuffer.toString('base64')}`
-        : null;
+export const materialImageAdapter = (item: MaterialImageListApiResponse['data'][number]): string =>
+    `data:image/png;base64,${bytesToBase64(item.IMAGEN!.data)}`;
 
 export const materialImageListAdapter = (
-    materialImageList: DBMaterialImage[],
+    materialImageList: MaterialImageListApiResponse['data'],
 ): {} | { [id: number]: string } =>
     materialImageList.reduce(
-        (acc, incomingImage) => ({
+        (acc, item) => ({
             ...acc,
-            [incomingImage.INSUMO_ID]: materialImageAdapter(incomingImage.IMAGEN),
+            [item.INSUMO_ID]: materialImageAdapter(item),
         }),
         {},
     );

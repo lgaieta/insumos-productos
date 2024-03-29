@@ -3,7 +3,7 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from 
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { useRouter } from 'next/navigation';
-import { useMaterialList } from '@insumos/hooks/useMaterialList';
+import { useMaterialTable } from '@insumos/hooks/useMaterialTable';
 import MaterialsTableSkeleton from '@insumos/components/materials-table/MaterialsTableSkeleton';
 import NewMaterialButton from '@insumos/components/materials-table/NewMaterialButton';
 import SearchInput from '@insumos/components/materials-table/SearchInput';
@@ -29,17 +29,12 @@ const materialsTableColumns = [
 
 function MaterialsTable() {
     const {
-        items,
-        filterText,
-        setFilterText,
+        list: { items, filterText, setFilterText, isLoading, sort, sortDescriptor },
         isSkeleton,
         currentPage,
         setCurrentPage,
         totalPages,
-        isLoading,
-        sort,
-        sortDescriptor,
-    } = useMaterialList();
+    } = useMaterialTable();
 
     const router = useRouter();
 
