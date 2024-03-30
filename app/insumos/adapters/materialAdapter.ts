@@ -1,13 +1,13 @@
 import { materialImageAdapter } from '@insumos/adapters/materialImageAdapter';
 import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
 
-export const materialAdapter = (incomingMaterial: DBMaterial) => {
+export const materialAdapter = (incomingMaterial: Omit<DBMaterial, 'IMAGEN'>) => {
     return {
         id: incomingMaterial.INSUMO_ID,
         name: incomingMaterial.NOMBRE,
         price: parseFloat(incomingMaterial.COSTO_UNITARIO),
         link: incomingMaterial.LINK,
-        image: incomingMaterial?.IMAGEN ? materialImageAdapter(incomingMaterial.IMAGEN) : null,
+        image: incomingMaterial?.IMAGEN || null,
     };
 };
 
