@@ -1,7 +1,9 @@
-import { materialImageAdapter } from '@insumos/adapters/materialImageAdapter';
+import Material from '@common/entities/Material';
 import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
 
-export const materialAdapter = (incomingMaterial: Omit<DBMaterial, 'IMAGEN'>) => {
+export const materialAdapter = (
+    incomingMaterial: Omit<DBMaterial, 'IMAGEN' | 'constructor'>,
+): Material => {
     return {
         id: incomingMaterial.INSUMO_ID,
         name: incomingMaterial.NOMBRE,
