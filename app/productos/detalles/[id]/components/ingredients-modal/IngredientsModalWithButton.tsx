@@ -15,6 +15,9 @@ import { fetchMaterialList } from '@insumos/services/fetchMaterialList';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
 import { materialListAdapter } from '@insumos/adapters/materialAdapter';
 import { adaptQueryDataForListbox } from '@productos/utils/adaptQueryDataForListbox';
+import { useInfiniteScroll } from '@nextui-org/use-infinite-scroll';
+import { RefObject } from 'react';
+import { Spinner } from '@nextui-org/react';
 
 function IngredientsModalWithButton() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -25,16 +28,21 @@ function IngredientsModalWithButton() {
             const response = await fetchMaterialList({ params: { cursor: String(pageParam) } });
             const adapted = materialListAdapter(response.data);
 
-            console.log(response);
-
             return { items: adapted, nextCursor: response.nextCursor };
         },
         initialPageParam: 0,
         getNextPageParam: lastPage => {
-            console.log(lastPage.nextCursor);
             return lastPage.nextCursor;
         },
     });
+
+    const [loaderRef, scrollerRef] = useInfiniteScroll({
+        onLoadMore: () => {
+            console.log('fetching more...');
+            materialsQuery.fetchNextPage();
+        },
+        hasMore: materialsQuery.hasNextPage,
+    }) as [RefObject<HTMLDivElement>, RefObject<HTMLDivElement>];
 
     return (
         <>
@@ -66,41 +74,37 @@ function IngredientsModalWithButton() {
                                         key='material'
                                         title='Insumos'
                                     >
-                                        {materialsQuery.data && (
-                                            <Listbox
-                                                bottomContent={
-                                                    <Button
-                                                        className='overflow-visible'
-                                                        onPress={() => {
-                                                            if (materialsQuery.hasNextPage)
-                                                                materialsQuery.fetchNextPage();
-                                                        }}
-                                                        isDisabled={!materialsQuery.hasNextPage}
-                                                    >
-                                                        Cargar más
-                                                    </Button>
-                                                }
-                                                classNames={{
-                                                    base: 'flex flex-col p-0 max-h-[200px] overflow-y-scroll',
-                                                }}
-                                                items={adaptQueryDataForListbox(
-                                                    materialsQuery.data,
-                                                )}
-                                                aria-label='Lista de insumos'
+                                        <div
+                                            className='flex flex-col p-0 max-h-[200px] overflow-y-scroll'
+                                            ref={scrollerRef}
+                                        >
+                                            {materialsQuery.data && (
+                                                <Listbox
+                                                    items={adaptQueryDataForListbox(
+                                                        materialsQuery.data,
+                                                    )}
+                                                    aria-label='Lista de insumos'
+                                                >
+                                                    {material => (
+                                                        <ListboxItem
+                                                            key={material.id}
+                                                            aria-label={material.name}
+                                                        >
+                                                            <div className='w-full flex justify-between'>
+                                                                <p>{material.name}</p>
+                                                                <p>${material.price}</p>
+                                                            </div>
+                                                        </ListboxItem>
+                                                    )}
+                                                </Listbox>
+                                            )}
+                                            <div
+                                                className='flex items-center justify-center p-4'
+                                                ref={loaderRef}
                                             >
-                                                {material => (
-                                                    <ListboxItem
-                                                        key={material.id}
-                                                        aria-label={material.name}
-                                                    >
-                                                        <div className='w-full flex justify-between'>
-                                                            <p>{material.name}</p>
-                                                            <p>${material.price}</p>
-                                                        </div>
-                                                    </ListboxItem>
-                                                )}
-                                            </Listbox>
-                                        )}
+                                                {materialsQuery.hasNextPage && <Spinner />}
+                                            </div>
+                                        </div>
                                     </Tab>
                                     {/*productsQuery.data && (
                                         <Tab
