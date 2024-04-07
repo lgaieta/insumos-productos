@@ -1,7 +1,7 @@
 import { materialListAdapter } from '@insumos/adapters/materialAdapter';
 import { fetchMaterialList } from '@insumos/services/fetchMaterialList';
 import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
-import IngredientsModalListboxWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalListboxWrapper';
+import IngredientsModalPaginationWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalPaginationWrapper';
 import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
 import { adaptQueryDataForListbox } from '@productos/utils/adaptQueryDataForListbox';
 import { Key } from 'react-stately';
@@ -13,7 +13,7 @@ type MaterialListboxProps = {
 
 function MaterialListbox(props: MaterialListboxProps) {
     return (
-        <IngredientsModalListboxWrapper
+        <IngredientsModalPaginationWrapper
             queryOptions={{
                 queryKey: ['materials'],
                 queryFn: async ({ pageParam }) => {
@@ -61,7 +61,7 @@ function MaterialListbox(props: MaterialListboxProps) {
                     )
                 )
             }
-        </IngredientsModalListboxWrapper>
+        </IngredientsModalPaginationWrapper>
     );
 }
 

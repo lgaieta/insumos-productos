@@ -3,12 +3,14 @@ import { useInfiniteScroll } from '@nextui-org/use-infinite-scroll';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ReactNode, RefObject } from 'react';
 
-type IngredientsModalListboxWrapperProps<Data> = {
+type IngredientsModalPaginationWrapperProps<Data> = {
     queryOptions: Parameters<typeof useInfiniteQuery<Data>>[0];
     children: (props: ReturnType<typeof useInfiniteQuery<Data>>) => ReactNode;
 };
 
-function IngredientsModalListboxWrapper<Data>(props: IngredientsModalListboxWrapperProps<Data>) {
+function IngredientsModalPaginationWrapper<Data>(
+    props: IngredientsModalPaginationWrapperProps<Data>,
+) {
     const query = useInfiniteQuery(props.queryOptions);
 
     const [loaderRef, scrollerRef] = useInfiniteScroll({
@@ -32,4 +34,4 @@ function IngredientsModalListboxWrapper<Data>(props: IngredientsModalListboxWrap
     );
 }
 
-export default IngredientsModalListboxWrapper;
+export default IngredientsModalPaginationWrapper;

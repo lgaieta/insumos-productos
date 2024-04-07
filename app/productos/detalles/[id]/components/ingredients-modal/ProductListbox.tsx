@@ -1,7 +1,7 @@
 import { productListAdapter } from '@productos/adapters/productAdapter';
 import { fetchProductList } from '@productos/services/fetchProductList';
 import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
-import IngredientsModalListboxWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalListboxWrapper';
+import IngredientsModalPaginationWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalPaginationWrapper';
 import { adaptQueryDataForListbox } from '@productos/utils/adaptQueryDataForListbox';
 import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
 import { Key } from 'react-stately';
@@ -13,7 +13,7 @@ type ProductListboxProps = {
 
 function ProductListbox(props: ProductListboxProps) {
     return (
-        <IngredientsModalListboxWrapper
+        <IngredientsModalPaginationWrapper
             queryOptions={{
                 queryKey: ['products'],
                 queryFn: async ({ pageParam }) => {
@@ -61,7 +61,7 @@ function ProductListbox(props: ProductListboxProps) {
                     )
                 )
             }
-        </IngredientsModalListboxWrapper>
+        </IngredientsModalPaginationWrapper>
     );
 }
 
