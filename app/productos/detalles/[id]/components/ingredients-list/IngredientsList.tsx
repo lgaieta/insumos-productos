@@ -3,8 +3,8 @@ import { Divider } from '@nextui-org/divider';
 import Product from '@common/entities/Product';
 import { ingredientsListAdapter } from '@productos/adapters/ingredientAdapter';
 import IngredientsListbox from '@productos/detalles/[id]/components/ingredients-list/IngredientsListbox';
-import IngredientsModalWithButton from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalWithButton';
 import { getIngredientsFromDatabaseById } from '@productos/services/getIngredientsFromDatabaseById';
+import IngredientsListOpenModalButton from '@productos/detalles/[id]/components/ingredients-list/IngredientsListOpenModalButton';
 
 type IngredientsListProps = {
     productId: Product['id'];
@@ -19,7 +19,7 @@ async function IngredientsList(props: IngredientsListProps) {
         <Card classNames={{ header: 'justify-between p-5', body: 'p-5' }}>
             <CardHeader>
                 <h2 className='text-xl font-bold'>Ingredientes</h2>
-                <IngredientsModalWithButton />
+                <IngredientsListOpenModalButton />
             </CardHeader>
             <Divider />
             <CardBody>

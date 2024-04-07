@@ -1,23 +1,15 @@
 'use client';
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    useDisclosure,
-} from '@nextui-org/modal';
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextui-org/modal';
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { Tabs, Tab } from '@nextui-org/tabs';
-import { Selection } from '@nextui-org/react';
 import MaterialListbox from '@productos/detalles/[id]/components/ingredients-modal/MaterialListbox';
 import ProductListbox from '@productos/detalles/[id]/components/ingredients-modal/ProductListbox';
 import { useState } from 'react';
 import { Key } from 'react-stately';
+import { ModalProps } from '@nextui-org/react';
 
-function IngredientsModalWithButton() {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+function IngredientsModal(props: Omit<ModalProps, 'children'>) {
     const [selectedMaterials, setSelectedMaterials] = useState<Set<Key>>(new Set());
     const [selectedProducts, setSelectedProducts] = useState<Set<Key>>(new Set());
 
@@ -25,19 +17,12 @@ function IngredientsModalWithButton() {
 
     return (
         <>
-            <Button
-                variant='flat'
-                onPress={onOpen}
-            >
-                Añadir ingrediente
-            </Button>
             <Modal
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}
                 classNames={{
                     header: 'flex items-center justify-between p-4',
                     body: 'p-4',
                 }}
+                {...props}
             >
                 <ModalContent>
                     {onClose => (
@@ -103,4 +88,4 @@ function IngredientsModalWithButton() {
     );
 }
 
-export default IngredientsModalWithButton;
+export default IngredientsModal;
