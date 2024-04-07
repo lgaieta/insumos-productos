@@ -8,6 +8,7 @@ import ProductListbox from '@productos/detalles/[id]/components/ingredients-moda
 import { useState } from 'react';
 import { Key } from 'react-stately';
 import { ModalProps } from '@nextui-org/react';
+import SaveIngredientsButton from '@productos/detalles/[id]/components/ingredients-modal/SaveIngredientsButton';
 
 function IngredientsModal(props: Omit<ModalProps, 'children'>) {
     const [selectedMaterials, setSelectedMaterials] = useState<Set<Key>>(new Set());
@@ -71,14 +72,12 @@ function IngredientsModal(props: Omit<ModalProps, 'children'>) {
                                 >
                                     Cerrar
                                 </Button>
-                                <Button
-                                    color='primary'
-                                    isDisabled={totalCount < 1}
-                                >
-                                    {totalCount > 0
-                                        ? `Añadir ${totalCount} ingredientes`
-                                        : 'Añadir ingredientes'}
-                                </Button>
+                                <SaveIngredientsButton
+                                    selectedIngredients={{
+                                        material: Array.from(selectedMaterials).map(Number),
+                                        product: Array.from(selectedProducts).map(Number),
+                                    }}
+                                />
                             </ModalFooter>
                         </>
                     )}
