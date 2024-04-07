@@ -2,7 +2,10 @@ import { Listbox, ListboxItem, Skeleton } from '@nextui-org/react';
 
 function ListboxSkeleton() {
     return (
-        <Listbox aria-label='Cargando...'>
+        <Listbox
+            aria-label='Cargando...'
+            selectionMode='multiple'
+        >
             {[...Array(10)].map((_, index) => (
                 <ListboxItem
                     key={index}
