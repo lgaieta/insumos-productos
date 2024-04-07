@@ -14,11 +14,14 @@ import { Selection } from '@nextui-org/react';
 import MaterialListbox from '@productos/detalles/[id]/components/ingredients-modal/MaterialListbox';
 import ProductListbox from '@productos/detalles/[id]/components/ingredients-modal/ProductListbox';
 import { useState } from 'react';
+import { Key } from 'react-stately';
 
 function IngredientsModalWithButton() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [selectedMaterials, setSelectedMaterials] = useState<Selection>(new Set(''));
-    const [selectedProducts, setSelectedProducts] = useState<Selection>(new Set(''));
+    const [selectedMaterials, setSelectedMaterials] = useState<Set<Key>>(new Set());
+    const [selectedProducts, setSelectedProducts] = useState<Set<Key>>(new Set());
+
+    const totalCount = selectedMaterials.size + selectedProducts.size;
 
     return (
         <>
@@ -52,7 +55,11 @@ function IngredientsModalWithButton() {
                                     >
                                         <MaterialListbox
                                             selectedKeys={selectedMaterials}
-                                            setSelectedKeys={setSelectedMaterials}
+                                            setSelectedKeys={keys =>
+                                                setSelectedMaterials(prev =>
+                                                    keys === 'all' ? prev : keys,
+                                                )
+                                            }
                                         />
                                     </Tab>
                                     <Tab
@@ -61,7 +68,11 @@ function IngredientsModalWithButton() {
                                     >
                                         <ProductListbox
                                             selectedKeys={selectedProducts}
-                                            setSelectedKeys={setSelectedProducts}
+                                            setSelectedKeys={keys =>
+                                                setSelectedProducts(prev =>
+                                                    keys === 'all' ? prev : keys,
+                                                )
+                                            }
                                         />
                                     </Tab>
                                 </Tabs>
@@ -75,7 +86,14 @@ function IngredientsModalWithButton() {
                                 >
                                     Cerrar
                                 </Button>
-                                <Button color='primary'>Añadir</Button>
+                                <Button
+                                    color='primary'
+                                    isDisabled={totalCount < 1}
+                                >
+                                    {totalCount > 0
+                                        ? `Añadir ${totalCount} ingredientes`
+                                        : 'Añadir ingredientes'}
+                                </Button>
                             </ModalFooter>
                         </>
                     )}
