@@ -4,11 +4,14 @@ import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
 import IngredientsModalListboxWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalListboxWrapper';
 import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
 import { adaptQueryDataForListbox } from '@productos/utils/adaptQueryDataForListbox';
-import { useState } from 'react';
+import { Key } from 'react-stately';
 
-function MaterialListbox() {
-    const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set(''));
+type MaterialListboxProps = {
+    selectedKeys: 'all' | Iterable<Key> | undefined;
+    setSelectedKeys: (keys: Selection) => any;
+};
 
+function MaterialListbox(props: MaterialListboxProps) {
     return (
         <IngredientsModalListboxWrapper
             queryOptions={{
@@ -39,8 +42,8 @@ function MaterialListbox() {
                             items={adaptQueryDataForListbox(query.data)}
                             aria-label='Lista de insumos'
                             selectionMode='multiple'
-                            selectedKeys={selectedKeys}
-                            onSelectionChange={setSelectedKeys}
+                            selectedKeys={props.selectedKeys}
+                            onSelectionChange={props.setSelectedKeys}
                         >
                             {material => (
                                 <ListboxItem

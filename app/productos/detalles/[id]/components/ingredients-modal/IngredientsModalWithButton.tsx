@@ -10,17 +10,15 @@ import {
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { Tabs, Tab } from '@nextui-org/tabs';
-import { fetchMaterialList } from '@insumos/services/fetchMaterialList';
-import { Listbox, ListboxItem } from '@nextui-org/listbox';
-import { materialListAdapter } from '@insumos/adapters/materialAdapter';
-import { adaptQueryDataForListbox } from '@productos/utils/adaptQueryDataForListbox';
-import IngredientsModalListboxWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalListboxWrapper';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { Selection } from '@nextui-org/react';
 import MaterialListbox from '@productos/detalles/[id]/components/ingredients-modal/MaterialListbox';
 import ProductListbox from '@productos/detalles/[id]/components/ingredients-modal/ProductListbox';
+import { useState } from 'react';
 
 function IngredientsModalWithButton() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [selectedMaterials, setSelectedMaterials] = useState<Selection>(new Set(''));
+    const [selectedProducts, setSelectedProducts] = useState<Selection>(new Set(''));
 
     return (
         <>
@@ -52,13 +50,19 @@ function IngredientsModalWithButton() {
                                         key='material'
                                         title='Insumos'
                                     >
-                                        <MaterialListbox />
+                                        <MaterialListbox
+                                            selectedKeys={selectedMaterials}
+                                            setSelectedKeys={setSelectedMaterials}
+                                        />
                                     </Tab>
                                     <Tab
                                         key='product'
                                         title='Productos'
                                     >
-                                        <ProductListbox />
+                                        <ProductListbox
+                                            selectedKeys={selectedProducts}
+                                            setSelectedKeys={setSelectedProducts}
+                                        />
                                     </Tab>
                                 </Tabs>
                             </ModalBody>
