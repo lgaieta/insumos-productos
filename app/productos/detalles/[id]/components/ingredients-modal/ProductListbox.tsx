@@ -1,11 +1,13 @@
 import { productListAdapter } from '@productos/adapters/productAdapter';
 import { fetchProductList } from '@productos/services/fetchProductList';
-import { Listbox, ListboxItem } from '@nextui-org/react';
+import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
 import IngredientsModalListboxWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalListboxWrapper';
 import { adaptQueryDataForListbox } from '@productos/utils/adaptQueryDataForListbox';
 import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
+import { useState } from 'react';
 
 function ProductListbox() {
+    const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set(''));
     return (
         <IngredientsModalListboxWrapper
             queryOptions={{
@@ -35,11 +37,15 @@ function ProductListbox() {
                         <Listbox
                             items={adaptQueryDataForListbox(query.data)}
                             aria-label='Lista de productos'
+                            selectionMode='multiple'
+                            selectedKeys={selectedKeys}
+                            onSelectionChange={setSelectedKeys}
                         >
                             {product => (
                                 <ListboxItem
                                     key={product.id}
                                     aria-label={product.name}
+                                    textValue={product.name}
                                 >
                                     <div className='w-full flex justify-between'>
                                         <p>{product.name}</p>
