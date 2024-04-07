@@ -46,6 +46,7 @@ function MaterialListbox() {
                                 <ListboxItem
                                     key={material.id}
                                     aria-label={material.name}
+                                    textValue={material.name}
                                 >
                                     <div className='w-full flex justify-between'>
                                         <p>{material.name}</p>
