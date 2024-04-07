@@ -1,6 +1,8 @@
 'use server';
 
 import Ingredient from '@common/entities/Ingredient';
+import { saveIngredientListAdapter } from '@productos/adapters/saveIngredientListAdapter';
+import { saveIngredientListInDatabase } from '@productos/services/saveIngredientListInDatabase';
 
 export type NewIngredientList = {
     productId: Ingredient['productId'];
@@ -9,5 +11,9 @@ export type NewIngredientList = {
 };
 
 export async function saveIngredientListServerAction(newIngredientList: NewIngredientList) {
-    console.log(newIngredientList);
+    const adaptedList = saveIngredientListAdapter(newIngredientList);
+
+    await saveIngredientListInDatabase(adaptedList);
+
+    console.log(`Saved ${adaptedList.length} ingredients successfully`);
 }
