@@ -6,6 +6,7 @@ import {
     saveIngredientListServerAction,
 } from '@productos/actions/saveIngredientListServerAction';
 import { usePathname } from 'next/navigation';
+import { useFormStatus } from 'react-dom';
 
 type SaveIngredientsButtonProps = {
     selectedIngredients: {
@@ -14,6 +15,25 @@ type SaveIngredientsButtonProps = {
     };
     afterSave?: () => void;
 };
+
+function SubmitButton({ totalCount }: { totalCount: number }) {
+    const { pending } = useFormStatus();
+
+    return (
+        <Button
+            color='primary'
+            isDisabled={totalCount < 1 || pending}
+            type='submit'
+            isLoading={pending}
+        >
+            {pending
+                ? 'Guardando...'
+                : totalCount > 0
+                ? `Añadir ${totalCount} ingredientes`
+                : 'Añadir ingredientes'}
+        </Button>
+    );
+}
 
 function SaveIngredientsButton(props: SaveIngredientsButtonProps) {
     const { material, product } = props.selectedIngredients;
@@ -35,13 +55,7 @@ function SaveIngredientsButton(props: SaveIngredientsButtonProps) {
 
     return (
         <form action={action}>
-            <Button
-                color='primary'
-                isDisabled={totalCount < 1}
-                type='submit'
-            >
-                {totalCount > 0 ? `Añadir ${totalCount} ingredientes` : 'Añadir ingredientes'}
-            </Button>
+            <SubmitButton totalCount={totalCount} />
         </form>
     );
 }
