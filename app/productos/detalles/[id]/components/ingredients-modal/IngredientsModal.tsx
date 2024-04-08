@@ -77,6 +77,7 @@ function IngredientsModal(props: Omit<ModalProps, 'children'>) {
                                         material: Array.from(selectedMaterials).map(Number),
                                         product: Array.from(selectedProducts).map(Number),
                                     }}
+                                    afterSave={onClose}
                                 />
                             </ModalFooter>
                         </>

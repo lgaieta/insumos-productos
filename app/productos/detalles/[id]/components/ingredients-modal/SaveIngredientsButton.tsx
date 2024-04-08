@@ -12,6 +12,7 @@ type SaveIngredientsButtonProps = {
         material: Material['id'][];
         product: Product['id'][];
     };
+    afterSave?: () => void;
 };
 
 function SaveIngredientsButton(props: SaveIngredientsButtonProps) {
@@ -26,7 +27,11 @@ function SaveIngredientsButton(props: SaveIngredientsButtonProps) {
         materialList: material,
         subproductList: product,
     };
-    const action = saveIngredientListServerAction.bind(null, newIngredientList);
+
+    const action = () => {
+        saveIngredientListServerAction(newIngredientList);
+        props.afterSave?.();
+    };
 
     return (
         <form action={action}>
