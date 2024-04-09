@@ -1,15 +1,19 @@
 import Ingredient from '@common/entities/Ingredient';
 import { Button } from '@nextui-org/button';
+import { deleteIngredientServerAction } from '@productos/actions/deleteIngredientServerAction';
 import { IoMdClose } from 'react-icons/io';
 
 function DeleteIngredientButton(props: { ingredientId: Ingredient['id'] }) {
+    const action = deleteIngredientServerAction.bind(null, props.ingredientId);
+
     return (
-        <form>
+        <form action={action}>
             <Button
                 variant='light'
-                className='data-[hover=true]:bg-foreground-300'
+                className='data-[hover=true]:bg-default-300'
                 radius='full'
                 isIconOnly
+                type='submit'
             >
                 <IoMdClose
                     size={24}
