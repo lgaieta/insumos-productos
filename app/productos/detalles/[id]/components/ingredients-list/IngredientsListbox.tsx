@@ -1,6 +1,8 @@
 'use client';
 import Ingredient from '@common/entities/Ingredient';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
+import { Button } from '@nextui-org/react';
+import DeleteIngredientButton from '@productos/detalles/[id]/components/ingredients-list/DeleteIngredientButton';
 import { useRouter } from 'next/navigation';
 
 type IngredientsListboxProps = {
@@ -19,6 +21,7 @@ function IngredientsListbox(props: IngredientsListboxProps) {
                 title: 'text-base',
             }}
             items={props.ingredients}
+            variant='flat'
         >
             {ingredient => (
                 <ListboxItem
@@ -31,6 +34,7 @@ function IngredientsListbox(props: IngredientsListboxProps) {
                     }
                     key={ingredient.id}
                     description={ingredient.type === 'material' ? 'Insumo' : 'Producto'}
+                    endContent={<DeleteIngredientButton ingredientId={ingredient.id} />}
                 >
                     {ingredient.componentName}
                 </ListboxItem>
