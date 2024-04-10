@@ -2,14 +2,14 @@ import { NewIngredientList } from '@productos/actions/saveIngredientListServerAc
 import { NewDBIngredient } from '@productos/services/saveIngredientListInDatabase';
 
 export const saveIngredientListAdapter = (list: NewIngredientList): NewDBIngredient[] => {
-    const materialIngredients: [number, number, null][] = list.materialList.map(materialId => [
+    const materialIngredients: [number, number, string][] = list.materialList.map(materialId => [
         list.productId,
         materialId,
-        null,
+        'insumo',
     ]);
 
-    const subproductIngredients: [number, null, number][] = list.subproductList.map(
-        subproductId => [list.productId, null, subproductId],
+    const subproductIngredients: [number, number, string][] = list.subproductList.map(
+        subproductId => [list.productId, subproductId, 'producto'],
     );
 
     return [...materialIngredients, ...subproductIngredients];
