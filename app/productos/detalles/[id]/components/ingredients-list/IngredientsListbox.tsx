@@ -1,8 +1,8 @@
 'use client';
 import Ingredient from '@common/entities/Ingredient';
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
-import { Button } from '@nextui-org/react';
 import DeleteIngredientButton from '@productos/detalles/[id]/components/ingredients-list/DeleteIngredientButton';
+import IngredientAmount from '@productos/detalles/[id]/components/ingredients-list/IngredientAmount';
 import { useRouter } from 'next/navigation';
 
 type IngredientsListboxProps = {
@@ -25,16 +25,25 @@ function IngredientsListbox(props: IngredientsListboxProps) {
         >
             {ingredient => (
                 <ListboxItem
-                    onPress={() =>
+                    onClick={e => {
+                        e.stopPropagation();
                         router.push(
                             `/${
                                 ingredient.type === 'material' ? 'insumos' : 'productos'
                             }/detalles/${ingredient.componentId}`,
-                        )
-                    }
+                        );
+                    }}
                     key={ingredient.id}
                     description={ingredient.type === 'material' ? 'Insumo' : 'Producto'}
-                    endContent={<DeleteIngredientButton ingredientId={ingredient.id} />}
+                    endContent={
+                        <div
+                            className='flex gap-6'
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <IngredientAmount />
+                            <DeleteIngredientButton ingredientId={ingredient.id} />
+                        </div>
+                    }
                 >
                     {ingredient.componentName}
                 </ListboxItem>
