@@ -40,7 +40,10 @@ function IngredientsListbox(props: IngredientsListboxProps) {
                             className='flex gap-6'
                             onClick={e => e.stopPropagation()}
                         >
-                            <IngredientAmount defaultValue={ingredient.amount} />
+                            <IngredientAmount
+                                defaultValue={ingredient.amount}
+                                ingredientId={ingredient.id}
+                            />
                             <DeleteIngredientButton ingredientId={ingredient.id} />
                         </div>
                     }
