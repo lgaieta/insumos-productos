@@ -14,12 +14,15 @@ type Params = {
 
 export async function editIngredientAmountServerAction(params: Params) {
     const { newAmount, ingredientId, productId } = params;
+    console.log(newAmount);
+    try {
+        const adaptedAmount = editIngredientAmountAdapter(newAmount);
 
-    const adaptedAmount = editIngredientAmountAdapter(newAmount);
+        await updateIngredientAmountInDatabase(adaptedAmount, ingredientId);
 
-    await updateIngredientAmountInDatabase(adaptedAmount, ingredientId);
-
-    console.log(`Updated ingredient ${ingredientId} successfully`);
-
+        console.log(`Updated ingredient ${ingredientId} successfully`);
+    } catch (e) {
+        return { error: 'true' };
+    }
     revalidatePath(`/productos/detalles/${productId}`);
 }

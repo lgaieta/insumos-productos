@@ -22,18 +22,32 @@ function IngredientAmount(props: IngredientAmountProps) {
     const productId: Product['id'] = parseInt(pathname.split('/').slice(-1)[0]);
 
     const handleInputChange = (value: string) => {
-        if (isNumeric(value)) setValue(Number(value));
+        if (isNumeric(value) || value === '') setValue(Number(value));
     };
-
-    const handleRemoveButton = () => setValue(value - 1 > 1 ? value - 1 : 1);
-
-    const handleAddButton = () => setValue(value + 1);
 
     const action = editIngredientAmountServerAction.bind(null, {
         newAmount: value,
         ingredientId: props.ingredientId,
         productId,
     });
+
+    const handleRemoveButtonPress = async () => {
+        await editIngredientAmountServerAction({
+            newAmount: value - 1 > 1 ? value - 1 : 1,
+            ingredientId: props.ingredientId,
+            productId,
+        });
+        setValue(value - 1 > 1 ? value - 1 : 1);
+    };
+
+    const handleAddButtonPress = async () => {
+        await editIngredientAmountServerAction({
+            newAmount: value + 1,
+            ingredientId: props.ingredientId,
+            productId,
+        });
+        setValue(value + 1);
+    };
 
     return (
         <form
@@ -43,30 +57,26 @@ function IngredientAmount(props: IngredientAmountProps) {
             <Button
                 isIconOnly
                 size='sm'
-                onPress={handleRemoveButton}
-                type='submit'
+                onPress={handleRemoveButtonPress}
             >
                 <AiOutlineMinus size={20} />
             </Button>
             <Input
+                name='amount'
                 variant='bordered'
                 size='sm'
-                classNames={{
-                    inputWrapper: 'max-h-6 bg-background',
-                    base: 'w-12',
-                    label: 'hidden',
-                    input: 'text-center',
-                }}
-                label='Cantidad'
+                aria-label='Cantidad de ingredientes'
                 value={String(value)}
+                labelPlacement='outside'
+                classNames={{
+                    base: 'w-12',
+                }}
                 onValueChange={handleInputChange}
-                min={1}
             />
             <Button
                 isIconOnly
                 size='sm'
-                onPress={handleAddButton}
-                type='submit'
+                onPress={handleAddButtonPress}
             >
                 <AiOutlinePlus size={20} />
             </Button>

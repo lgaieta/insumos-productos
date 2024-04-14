@@ -2,10 +2,9 @@ import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
 import Product from '@common/entities/Product';
 import { ingredientsListAdapter } from '@productos/adapters/ingredientAdapter';
-import IngredientsListbox from '@productos/detalles/[id]/components/ingredients-list/IngredientsListbox';
+import IngredientsGridList from '@productos/detalles/[id]/components/ingredients-list/IngredientsGridList';
 import { getIngredientsFromDatabaseById } from '@productos/services/getIngredientsFromDatabaseById';
 import IngredientsListOpenModalButton from '@productos/detalles/[id]/components/ingredients-list/IngredientsListOpenModalButton';
-
 type IngredientsListProps = {
     productId: Product['id'];
 };
@@ -24,7 +23,7 @@ async function IngredientsList(props: IngredientsListProps) {
             <Divider />
             <CardBody>
                 {ingredients.length > 0 ? (
-                    <IngredientsListbox ingredients={ingredients} />
+                    <IngredientsGridList ingredients={ingredients} />
                 ) : (
                     <p className='text-foreground-500'>No se encontraron ingredientes.</p>
                 )}
