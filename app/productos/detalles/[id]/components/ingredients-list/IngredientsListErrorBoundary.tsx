@@ -16,10 +16,10 @@ function IngredientsListErrorBoundary({ children }: { children: ReactNode }) {
                     </CardHeader>
                     <Divider />
                     <CardBody>
-                        <div className='text-center flex flex-col items-center py-4 gap-6'>
+                        <div className='flex items-center gap-2'>
                             <MdError
                                 color='#f31260'
-                                size={64}
+                                size={32}
                             />
                             <p>
                                 Ocurrió un error al cargar los ingredientes, intente recargando la
