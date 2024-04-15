@@ -75,6 +75,7 @@ function IngredientAmount(props: IngredientAmountProps) {
                 labelPlacement='outside'
                 classNames={{
                     base: 'w-12',
+                    input: 'text-center',
                 }}
                 onValueChange={handleInputChange}
             />
