@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { AiOutlineMinus } from 'react-icons/ai';
+import { useDebouncedCallback } from 'use-debounce';
 
 type IngredientAmountProps = {
     defaultValue: number;
@@ -25,28 +26,32 @@ function IngredientAmount(props: IngredientAmountProps) {
         if (isNumeric(value) || value === '') setValue(Number(value));
     };
 
-    const action = editIngredientAmountServerAction.bind(null, {
-        newAmount: value,
-        ingredientId: props.ingredientId,
-        productId,
-    });
+    const debouncedAction = useDebouncedCallback(editIngredientAmountServerAction, 400);
 
-    const handleRemoveButtonPress = async () => {
-        await editIngredientAmountServerAction({
+    const action = () => {
+        debouncedAction({
+            newAmount: value,
+            ingredientId: props.ingredientId,
+            productId,
+        });
+    };
+
+    const handleRemoveButtonPress = () => {
+        setValue(value - 1 > 1 ? value - 1 : 1);
+        debouncedAction({
             newAmount: value - 1 > 1 ? value - 1 : 1,
             ingredientId: props.ingredientId,
             productId,
         });
-        setValue(value - 1 > 1 ? value - 1 : 1);
     };
 
-    const handleAddButtonPress = async () => {
-        await editIngredientAmountServerAction({
+    const handleAddButtonPress = () => {
+        setValue(value + 1);
+        debouncedAction({
             newAmount: value + 1,
             ingredientId: props.ingredientId,
             productId,
         });
-        setValue(value + 1);
     };
 
     return (

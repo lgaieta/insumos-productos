@@ -14,7 +14,7 @@ type Params = {
 
 export async function editIngredientAmountServerAction(params: Params) {
     const { newAmount, ingredientId, productId } = params;
-    console.log(newAmount);
+
     try {
         const adaptedAmount = editIngredientAmountAdapter(newAmount);
 
