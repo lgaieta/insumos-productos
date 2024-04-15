@@ -23,7 +23,7 @@ const renderCell = (ingredient: Ingredient, columnKey: Key) => {
                 href={`${ingredient.type === 'material' ? 'insumos' : 'productos'}/detalles/${
                     ingredient.componentId
                 }`}
-                className='flex flex-col justify-center items-start'
+                className='flex flex-col justify-center items-start min-w-[200px]'
             >
                 <p className='text-small'>{ingredient.componentName}</p>
                 <p className='text-tiny text-foreground-400'>
