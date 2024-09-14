@@ -3,8 +3,8 @@ import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiG
 import {
     DBProduct,
     getProductListFromDatabase,
-} from '@productos/services/getProductListFromDatabase';
-import { getProductRowsCount } from '@productos/services/getProductRowsCount';
+} from '@productos/(lib)/services/getProductListFromDatabase';
+import { getProductRowsCount } from '@productos/(lib)/services/getProductRowsCount';
 import { type NextRequest } from 'next/server';
 
 export type ProductListApiResponse = GenericApiGETResponse<DBProduct[]>;

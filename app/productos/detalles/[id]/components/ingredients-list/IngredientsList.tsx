@@ -1,9 +1,9 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
 import Product from '@common/entities/Product';
-import { ingredientsListAdapter } from '@productos/adapters/ingredientAdapter';
+import { ingredientsListAdapter } from '@productos/(lib)/adapters/ingredientAdapter';
 import IngredientsGridList from '@productos/detalles/[id]/components/ingredients-list/IngredientsGridList';
-import { getIngredientsFromDatabaseById } from '@productos/services/getIngredientsFromDatabaseById';
+import { getIngredientsFromDatabaseById } from '@productos/(lib)/services/getIngredientsFromDatabaseById';
 import IngredientsListOpenModalButton from '@productos/detalles/[id]/components/ingredients-list/IngredientsListOpenModalButton';
 type IngredientsListProps = {
     productId: Product['id'];

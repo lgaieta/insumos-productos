@@ -4,10 +4,10 @@ import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { useRouter } from 'next/navigation';
 import { useMaterialTable } from '@insumos/(lib)/hooks/useMaterialTable';
-import MaterialsTableSkeleton from '@insumos/(lib)/materials-table/MaterialsTableSkeleton';
-import NewMaterialButton from '@insumos/(lib)/materials-table/NewMaterialButton';
-import SearchInput from '@insumos/(lib)/materials-table/SearchInput';
-import { getCellContent } from '@insumos/(lib)/materials-table/getCellContent';
+import MaterialsTableSkeleton from '@insumos/(lib)/components/materials-table/MaterialsTableSkeleton';
+import NewMaterialButton from '@insumos/(lib)/components/materials-table/NewMaterialButton';
+import SearchInput from '@insumos/(lib)/components/materials-table/SearchInput';
+import { getCellContent } from '@insumos/(lib)/components/materials-table/getCellContent';
 
 const materialsTableColumns = [
     { key: 'image', label: 'Imagen' },

@@ -3,8 +3,8 @@ import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiG
 import {
     DBProductImage,
     getProductImageListFromDatabase,
-} from '@productos/services/getProductImageListFromDatabase';
-import { getProductRowsCount } from '@productos/services/getProductRowsCount';
+} from '@productos/(lib)/services/getProductImageListFromDatabase';
+import { getProductRowsCount } from '@productos/(lib)/services/getProductRowsCount';
 import { type NextRequest } from 'next/server';
 
 type JsonStringifiedBuffer = {

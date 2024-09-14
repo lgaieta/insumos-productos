@@ -1,5 +1,5 @@
 import { pool } from '@common/services/pool';
-import { DBProduct } from '@productos/services/getProductListFromDatabase';
+import { DBProduct } from '@productos/(lib)/services/getProductListFromDatabase';
 import { RowDataPacket } from 'mysql2';
 
 export interface DBIngredient extends RowDataPacket {

@@ -2,11 +2,11 @@
 
 import Product from '@common/entities/Product';
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
-import { ProductValidationSchema } from '@productos/schemas/ProductValidationSchema';
-import { updateProductAdapter } from '@productos/adapters/updateProductAdapter';
+import { ProductValidationSchema } from '@productos/(lib)/schemas/ProductValidationSchema';
+import { updateProductAdapter } from '@productos/(lib)/adapters/updateProductAdapter';
 import { ProductDetailsFormErrors } from '@productos/detalles/[id]/components/product-details/ProductDetails';
-import { updateProductFromDatabase } from '@productos/services/updateProductFromDatabase';
-import { getEditedProductFromFormData } from '@productos/utils/getEditedProductFromFormData';
+import { updateProductFromDatabase } from '@productos/(lib)/services/updateProductFromDatabase';
+import { getEditedProductFromFormData } from '@productos/(lib)/utils/getEditedProductFromFormData';
 import { revalidatePath } from 'next/cache';
 
 export async function editProductServerAction(

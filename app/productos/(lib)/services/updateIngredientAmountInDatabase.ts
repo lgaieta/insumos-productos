@@ -1,5 +1,5 @@
 import { pool } from '@common/services/pool';
-import { DBIngredient } from '@productos/services/getIngredientsFromDatabaseById';
+import { DBIngredient } from '@productos/(lib)/services/getIngredientsFromDatabaseById';
 
 export const updateIngredientAmountInDatabase = async (
     amount: number,

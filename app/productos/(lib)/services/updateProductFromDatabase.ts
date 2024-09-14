@@ -1,5 +1,5 @@
 import { pool } from '@common/services/pool';
-import { DBProduct } from '@productos/services/getProductListFromDatabase';
+import { DBProduct } from '@productos/(lib)/services/getProductListFromDatabase';
 
 export const updateProductFromDatabase = async (
     product: Partial<Omit<DBProduct, 'constructor'>>,

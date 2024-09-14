@@ -1,5 +1,5 @@
-import { NewIngredientList } from '@productos/actions/saveIngredientListServerAction';
-import { NewDBIngredient } from '@productos/services/saveIngredientListInDatabase';
+import { NewIngredientList } from '@productos/(lib)/actions/saveIngredientListServerAction';
+import { NewDBIngredient } from '@productos/(lib)/services/saveIngredientListInDatabase';
 
 export const saveIngredientListAdapter = (list: NewIngredientList): NewDBIngredient[] => {
     const materialIngredients: [number, number, string][] = list.materialList.map(materialId => [

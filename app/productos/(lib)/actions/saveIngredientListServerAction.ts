@@ -1,8 +1,8 @@
 'use server';
 
 import Ingredient from '@common/entities/Ingredient';
-import { saveIngredientListAdapter } from '@productos/adapters/saveIngredientListAdapter';
-import { saveIngredientListInDatabase } from '@productos/services/saveIngredientListInDatabase';
+import { saveIngredientListAdapter } from '@productos/(lib)/adapters/saveIngredientListAdapter';
+import { saveIngredientListInDatabase } from '@productos/(lib)/services/saveIngredientListInDatabase';
 import { revalidatePath } from 'next/cache';
 
 export type NewIngredientList = {

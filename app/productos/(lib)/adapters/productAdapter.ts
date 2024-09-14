@@ -1,5 +1,4 @@
-import { productImageAdapter } from '@productos/adapters/productImageAdapter';
-import { DBProduct } from '@productos/services/getProductListFromDatabase';
+import { DBProduct } from '@productos/(lib)/services/getProductListFromDatabase';
 
 export const productAdapter = (incomingProduct: Omit<DBProduct, 'IMAGEN'>) => {
     return {

@@ -1,6 +1,6 @@
 import { Spinner } from '@nextui-org/spinner';
-import ProductsTable from '@productos/components/products-table/ProductsTable';
-import ProductsTableErrorBoundary from '@productos/components/products-table/ProductsTableErrorBoundary';
+import ProductsTable from '@productos/(lib)/components/products-table/ProductsTable';
+import ProductsTableErrorBoundary from '@productos/(lib)/components/products-table/ProductsTableErrorBoundary';
 import { Suspense } from 'react';
 
 export const dynamic = 'force-dynamic';

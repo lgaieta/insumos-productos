@@ -1,5 +1,5 @@
 import Ingredient, { IngredientType } from '@common/entities/Ingredient';
-import { DBIngredient } from '@productos/services/getIngredientsFromDatabaseById';
+import { DBIngredient } from '@productos/(lib)/services/getIngredientsFromDatabaseById';
 
 export const ingredientAdapter = (incomingIngredient: DBIngredient): Ingredient => {
     const isMaterialIngredient = incomingIngredient.TIPO_INGREDIENTE === 'insumo';

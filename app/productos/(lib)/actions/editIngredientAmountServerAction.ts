@@ -2,8 +2,8 @@
 
 import Ingredient from '@common/entities/Ingredient';
 import Product from '@common/entities/Product';
-import { editIngredientAmountAdapter } from '@productos/adapters/editIngredientAmountAdapter';
-import { updateIngredientAmountInDatabase } from '@productos/services/updateIngredientAmountInDatabase';
+import { editIngredientAmountAdapter } from '@productos/(lib)/adapters/editIngredientAmountAdapter';
+import { updateIngredientAmountInDatabase } from '@productos/(lib)/services/updateIngredientAmountInDatabase';
 import { revalidatePath } from 'next/cache';
 
 type Params = {

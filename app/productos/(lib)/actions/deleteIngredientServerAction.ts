@@ -2,7 +2,7 @@
 
 import Ingredient from '@common/entities/Ingredient';
 import Product from '@common/entities/Product';
-import { deleteIngredientFromDatabase } from '@productos/services/deleteIngredientFromDatabase';
+import { deleteIngredientFromDatabase } from '@productos/(lib)/services/deleteIngredientFromDatabase';
 import { revalidatePath } from 'next/cache';
 
 export async function deleteIngredientServerAction(

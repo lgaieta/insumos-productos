@@ -1,8 +1,8 @@
 'use server';
 
 import Product from '@common/entities/Product';
-import { deleteProductAdapter } from '@productos/adapters/deleteProductAdapter';
-import { deleteProductFromDatabase } from '@productos/services/deleteProductFromDatabase';
+import { deleteProductAdapter } from '@productos/(lib)/adapters/deleteProductAdapter';
+import { deleteProductFromDatabase } from '@productos/(lib)/services/deleteProductFromDatabase';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 

@@ -2,7 +2,7 @@ import Ingredient from '@common/entities/Ingredient';
 import Product from '@common/entities/Product';
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/react';
-import { editIngredientAmountServerAction } from '@productos/actions/editIngredientAmountServerAction';
+import { editIngredientAmountServerAction } from '@productos/(lib)/actions/editIngredientAmountServerAction';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';

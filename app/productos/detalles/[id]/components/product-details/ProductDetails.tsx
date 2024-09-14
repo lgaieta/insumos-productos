@@ -1,8 +1,8 @@
 'use client';
 
 import Product from '@common/entities/Product';
-import { useEditProduct } from '@productos/hooks/useEditProduct';
-import { useDeleteProduct } from '@productos/hooks/useDeleteProduct';
+import { useEditProduct } from '@productos/(lib)/hooks/useEditProduct';
+import { useDeleteProduct } from '@productos/(lib)/hooks/useDeleteProduct';
 import { useDisclosure } from '@nextui-org/modal';
 import { Divider } from '@nextui-org/divider';
 import ConfirmDeleteModal from '@productos/detalles/[id]/components/product-details/ConfirmDeleteModal';

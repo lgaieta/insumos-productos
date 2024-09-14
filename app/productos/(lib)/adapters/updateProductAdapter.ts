@@ -1,5 +1,5 @@
 import Product from '@common/entities/Product';
-import { DBProduct } from '@productos/services/getProductListFromDatabase';
+import { DBProduct } from '@productos/(lib)/services/getProductListFromDatabase';
 
 type Input = Omit<Product, 'image'> & { image: Blob | null };
 

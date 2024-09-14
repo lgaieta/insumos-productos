@@ -3,11 +3,11 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from 
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { useRouter } from 'next/navigation';
-import { useProductTable } from '@productos/hooks/useProductTable';
-import SearchInput from '@productos/components/products-table/SearchInput';
-import { getCellContent } from '@productos/components/products-table/getCellContent';
-import NewProductButton from '@productos/components/products-table/NewProductButton';
-import ProductsTableSkeleton from '@productos/components/products-table/ProductsTableSkeleton';
+import { useProductTable } from '@productos/(lib)/hooks/useProductTable';
+import SearchInput from '@productos/(lib)/components/products-table/SearchInput';
+import { getCellContent } from '@productos/(lib)/components/products-table/getCellContent';
+import NewProductButton from '@productos/(lib)/components/products-table/NewProductButton';
+import ProductsTableSkeleton from '@productos/(lib)/components/products-table/ProductsTableSkeleton';
 
 const productsTableColumns = [
     { key: 'image', label: 'Imagen' },

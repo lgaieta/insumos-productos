@@ -4,7 +4,7 @@ import { Button } from '@nextui-org/react';
 import {
     NewIngredientList,
     saveIngredientListServerAction,
-} from '@productos/actions/saveIngredientListServerAction';
+} from '@productos/(lib)/actions/saveIngredientListServerAction';
 import { usePathname } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 
@@ -29,8 +29,8 @@ function SubmitButton({ totalCount }: { totalCount: number }) {
             {pending
                 ? 'Guardando...'
                 : totalCount > 0
-                ? `Añadir ${totalCount} ingredientes`
-                : 'Añadir ingredientes'}
+                  ? `Añadir ${totalCount} ingredientes`
+                  : 'Añadir ingredientes'}
         </Button>
     );
 }
