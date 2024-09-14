@@ -2,7 +2,6 @@
 
 import { NavbarItem } from '@nextui-org/navbar';
 import { Link } from '@nextui-org/link';
-import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 
 type HeaderLinkProps = {
@@ -19,7 +18,6 @@ function HeaderLink(props: HeaderLinkProps) {
             <Link
                 color={isActive ? 'primary' : 'foreground'}
                 href={props.href}
-                as={NextLink}
                 isBlock
             >
                 {props.children}
