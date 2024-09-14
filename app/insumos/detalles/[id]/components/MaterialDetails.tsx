@@ -23,7 +23,7 @@ export type MaterialDetailsFormErrors = {
 };
 
 type MaterialDetailsProps = {
-    material: Material & { image: string | null };
+    material: Material;
 };
 
 function MaterialDetails(props: MaterialDetailsProps) {
@@ -53,14 +53,14 @@ function MaterialDetails(props: MaterialDetailsProps) {
             />
             <MaterialImage
                 isEditable={isEditable}
-                imageSrc={material.image}
+                imageSrc={material.image instanceof Blob ? null : material.image}
                 imageAlt={material.name}
             />
             <MaterialCard className='sm:col-span-2'>
                 <MaterialCardHeader
                     title={material.name}
                     isEditable={isEditable}
-                    imageSrc={material.image}
+                    imageSrc={material.image instanceof Blob ? null : material.image}
                     classNames={{ imageContainer: 'md:hidden' }}
                 />
                 <Divider />

@@ -1,9 +1,8 @@
 import NavigationCard from '@/(home)/components/NavigationCard';
 import Link from 'next/link';
-import { TbBoxSeam } from 'react-icons/tb';
-import { TbShirt } from 'react-icons/tb';
 import { MdOutlineAddShoppingCart } from 'react-icons/md';
-import { TbPigMoney } from 'react-icons/tb';
+import { BsBoxSeam } from 'react-icons/bs';
+import { TbPigMoney, TbShirt } from 'react-icons/tb';
 
 export default function Home() {
     return (
@@ -15,7 +14,7 @@ export default function Home() {
                         title='Insumos'
                         subtitle='Costos de materiales'
                         bodyContent={
-                            <TbBoxSeam
+                            <BsBoxSeam
                                 size='100%'
                                 color='#212121'
                             />
