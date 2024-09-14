@@ -1,8 +1,8 @@
 'use client';
 
 import Material from '@common/entities/Material';
-import { useEditMaterial } from '@insumos/hooks/useEditMaterial';
-import { useDeleteMaterial } from '@insumos/hooks/useDeleteMaterial';
+import { useEditMaterial } from '@insumos/(lib)/hooks/useEditMaterial';
+import { useDeleteMaterial } from '@insumos/(lib)/hooks/useDeleteMaterial';
 import { useDisclosure } from '@nextui-org/modal';
 import ConfirmDeleteModal from '@insumos/detalles/[id]/components/ConfirmDeleteModal';
 import MaterialCard from '@insumos/detalles/[id]/components/MaterialCard';

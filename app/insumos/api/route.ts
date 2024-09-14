@@ -3,8 +3,8 @@ import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiG
 import {
     DBMaterial,
     getMaterialListFromDatabase,
-} from '@insumos/services/getMaterialListFromDatabase';
-import { getMaterialRowsCount } from '@insumos/services/getMaterialRowsCount';
+} from '@insumos/(lib)/services/getMaterialListFromDatabase';
+import { getMaterialRowsCount } from '@insumos/(lib)/services/getMaterialRowsCount';
 import { type NextRequest } from 'next/server';
 
 export type MaterialListApiResponse = GenericApiGETResponse<DBMaterial[]>;

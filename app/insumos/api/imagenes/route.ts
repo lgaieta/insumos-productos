@@ -3,8 +3,8 @@ import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiG
 import {
     DBMaterialImage,
     getMaterialsImagesFromDatabase,
-} from '@insumos/services/getMaterialImagesFromDatabase';
-import { getMaterialRowsCount } from '@insumos/services/getMaterialRowsCount';
+} from '@insumos/(lib)/services/getMaterialImagesFromDatabase';
+import { getMaterialRowsCount } from '@insumos/(lib)/services/getMaterialRowsCount';
 import { type NextRequest } from 'next/server';
 
 type JsonStringifiedBuffer = {

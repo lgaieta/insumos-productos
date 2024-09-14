@@ -1,5 +1,5 @@
 import Material from '@common/entities/Material';
-import { editMaterialServerAction } from '@insumos/actions/editMaterialServerAction';
+import { editMaterialServerAction } from '@insumos/(lib)/actions/editMaterialServerAction';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 

@@ -4,7 +4,7 @@ import { Input } from '@nextui-org/input';
 import ImageUploader from '@insumos-nuevo/components/image-uploader/ImageUploader';
 import SubmitButton from '@insumos-nuevo/components/submit-button/SubmitButton';
 import { useFormState } from 'react-dom';
-import { createMaterialServerAction } from '@insumos/actions/createMaterialServerAction';
+import { createMaterialServerAction } from '@insumos/(lib)/actions/createMaterialServerAction';
 
 export type CreateMaterialFormErrors = {
     name: string;

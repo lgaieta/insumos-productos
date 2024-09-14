@@ -1,5 +1,5 @@
 import Material from '@common/entities/Material';
-import { DBMaterial } from '@insumos/services/getMaterialListFromDatabase';
+import { DBMaterial } from '@insumos/(lib)/services/getMaterialListFromDatabase';
 
 export const materialAdapter = (
     incomingMaterial: Omit<DBMaterial, 'IMAGEN' | 'constructor'>,

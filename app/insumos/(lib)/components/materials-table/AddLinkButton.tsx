@@ -1,5 +1,5 @@
 import Material from '@common/entities/Material';
-import { editLinkServerAction } from '@insumos/actions/editLinkServerAction';
+import { editLinkServerAction } from '@insumos/(lib)/actions/editLinkServerAction';
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import { MouseEventHandler, useState } from 'react';

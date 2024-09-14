@@ -1,5 +1,5 @@
-import { materialListAdapter } from '@insumos/adapters/materialAdapter';
-import { fetchMaterialList } from '@insumos/services/fetchMaterialList';
+import { materialListAdapter } from '@insumos/(lib)/adapters/materialAdapter';
+import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
 import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
 import IngredientsModalPaginationWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalPaginationWrapper';
 import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';

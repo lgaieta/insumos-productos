@@ -2,11 +2,11 @@ import { ROWS_PER_PAGE } from '@common/constants';
 import Material from '@common/entities/Material';
 import { LoadFunctionParams, useEntityTable } from '@common/hooks/useEntityTable';
 import { sortItems } from '@common/utils/sortItems';
-import { materialListAdapter } from '@insumos/adapters/materialAdapter';
-import { materialImageListAdapter } from '@insumos/adapters/materialImageAdapter';
-import { mergeMaterialsWithImages } from '@insumos/adapters/mergeMaterialsWithImages';
-import { fetchMaterialList } from '@insumos/services/fetchMaterialList';
-import { fetchMaterialImageList } from '@insumos/services/fetchMaterialImageList';
+import { materialListAdapter } from '@insumos/(lib)/adapters/materialAdapter';
+import { materialImageListAdapter } from '@insumos/(lib)/adapters/materialImageAdapter';
+import { mergeMaterialsWithImages } from '@insumos/(lib)/adapters/mergeMaterialsWithImages';
+import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
+import { fetchMaterialImageList } from '@insumos/(lib)/services/fetchMaterialImageList';
 import { useState } from 'react';
 
 export const useMaterialTable = () => {

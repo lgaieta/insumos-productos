@@ -1,5 +1,5 @@
-import MaterialsTable from '@insumos/components/materials-table/MaterialsTable';
-import MaterialsTableErrorBoundary from '@insumos/components/materials-table/MaterialsTableErrorBoundary';
+import MaterialsTable from '@insumos/(lib)/materials-table/MaterialsTable';
+import MaterialsTableErrorBoundary from '@insumos/(lib)/materials-table/MaterialsTableErrorBoundary';
 import { Spinner } from '@nextui-org/spinner';
 import { Suspense } from 'react';
 

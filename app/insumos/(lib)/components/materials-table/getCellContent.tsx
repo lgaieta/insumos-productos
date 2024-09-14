@@ -5,7 +5,7 @@ import { Button } from '@nextui-org/button';
 import { Avatar } from '@nextui-org/avatar';
 import NextLink from 'next/link';
 import { MdCameraAlt } from 'react-icons/md';
-import AddLinkButton from '@insumos/components/materials-table/AddLinkButton';
+import AddLinkButton from '@insumos/(lib)/materials-table/AddLinkButton';
 
 export const getCellContent = (material: Material, columnKey: Key) => {
     const keyValue = getKeyValue(material, columnKey);
