@@ -1,7 +1,6 @@
+import type IngredientType from '@common/entities/IngredientType';
 import Material from './Material';
 import Product from './Product';
-
-export type IngredientType = 'material' | 'product';
 
 type Ingredient<Type extends IngredientType = IngredientType> = {
     id: number;

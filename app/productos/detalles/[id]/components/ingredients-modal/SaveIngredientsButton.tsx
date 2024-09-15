@@ -4,7 +4,7 @@ import { Button } from '@nextui-org/react';
 import {
     NewIngredientList,
     saveIngredientListServerAction,
-} from '@productos/(lib)/actions/saveIngredientListServerAction';
+} from '@productos/(lib)/ui/actions/saveIngredientListServerAction';
 import { usePathname } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 

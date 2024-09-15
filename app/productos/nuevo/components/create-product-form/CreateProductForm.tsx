@@ -4,7 +4,7 @@ import { Input } from '@nextui-org/input';
 import ImageUploader from '@productos-nuevo/components/image-uploader/ImageUploader';
 import SubmitButton from '@productos-nuevo/components/submit-button/SubmitButton';
 import { useFormState } from 'react-dom';
-import { createProductServerAction } from '@productos/(lib)/actions/createProductServerAction';
+import { createProductServerAction } from '@productos/(lib)/ui/actions/createProductServerAction';
 
 export type CreateProductFormErrors = {
     name: string;

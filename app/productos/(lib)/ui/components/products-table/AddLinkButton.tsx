@@ -1,5 +1,5 @@
 import Product from '@common/entities/Product';
-import { editLinkServerAction } from '@productos/(lib)/actions/editLinkServerAction';
+import { editLinkServerAction } from '@productos/(lib)/ui/actions/editLinkServerAction';
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
 import { MouseEventHandler, useState } from 'react';

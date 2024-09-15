@@ -5,7 +5,7 @@ import Product from '@common/entities/Product';
 import { editIngredientAmountAdapter } from '@productos/(lib)/adapters/editIngredientAmountAdapter';
 import { updateIngredientAmountInDatabase } from '@productos/(lib)/services/updateIngredientAmountInDatabase';
 import { revalidatePath } from 'next/cache';
-import { updateProductPriceFromDatabase } from '../services/updateProductPriceFromDatabase';
+import { updateProductPriceFromDatabase } from '../../services/updateProductPriceFromDatabase';
 
 type Params = {
     newAmount: Ingredient['amount'];

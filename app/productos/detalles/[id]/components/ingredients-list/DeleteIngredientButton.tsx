@@ -3,7 +3,7 @@ import Product from '@common/entities/Product';
 import { Button } from '@nextui-org/button';
 import { Spinner } from '@nextui-org/spinner';
 import { Tooltip } from '@nextui-org/tooltip';
-import { deleteIngredientServerAction } from '@productos/(lib)/actions/deleteIngredientServerAction';
+import { deleteIngredientServerAction } from '@productos/(lib)/ui/actions/deleteIngredientServerAction';
 import { usePathname } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 import { FaTrashAlt } from 'react-icons/fa';

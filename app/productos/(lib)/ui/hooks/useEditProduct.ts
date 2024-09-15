@@ -1,5 +1,5 @@
 import Product from '@common/entities/Product';
-import { editProductServerAction } from '@productos/(lib)/actions/editProductServerAction';
+import { editProductServerAction } from '@productos/(lib)/ui/actions/editProductServerAction';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 

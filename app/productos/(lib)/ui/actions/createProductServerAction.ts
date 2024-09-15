@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { ProductValidationSchema } from '@productos/(lib)/schemas/ProductValidationSchema';
+import { ProductValidationSchema } from '@productos/(lib)/services/schemas/ProductValidationSchema';
 import { pool } from '@common/services/pool';
 import { saveProductInDatabase } from '@productos/(lib)/services/saveProductInDatabase';
 import { CreateProductFormErrors } from '@productos/nuevo/components/create-product-form/CreateProductForm';
