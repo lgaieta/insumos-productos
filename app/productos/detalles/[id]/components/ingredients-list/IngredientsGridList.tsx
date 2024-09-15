@@ -20,7 +20,7 @@ const renderCell = (ingredient: Ingredient, columnKey: Key) => {
     if (columnKey === 'name')
         return (
             <Link
-                href={`${ingredient.type === 'material' ? 'insumos' : 'productos'}/detalles/${
+                href={`/${ingredient.type === 'material' ? 'insumos' : 'productos'}/detalles/${
                     ingredient.componentId
                 }`}
                 className='flex flex-col justify-center items-start min-w-[200px]'
