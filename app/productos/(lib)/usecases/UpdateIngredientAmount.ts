@@ -1,27 +1,30 @@
+import type { IngredientId } from '@common/entities/Ingredient';
 import type IngredientRepository from '@common/entities/IngredientRepository';
-import type NewIngredientsList from '@common/entities/NewIngredientsList';
+import type { ProductId } from '@common/entities/Product';
 import type ProductRepository from '@common/entities/ProductRepository';
 
-class SaveIngredientsList {
+class UpdateIngredientAmount {
     static async execute({
-        newIngredientsList,
+        newAmount,
+        ingredientId,
+        productId,
         ingredientRepository,
         productRepository,
     }: {
-        newIngredientsList: NewIngredientsList;
+        newAmount: number;
+        ingredientId: IngredientId;
+        productId: ProductId;
         ingredientRepository: IngredientRepository;
         productRepository: ProductRepository;
     }) {
         try {
-            await ingredientRepository.saveList(newIngredientsList);
-            await productRepository.updatePriceRecursively(newIngredientsList.productId);
-
+            await ingredientRepository.updateAmount(ingredientId, newAmount);
+            await productRepository.updatePriceRecursively(productId);
             return {
                 success: true,
             };
         } catch (e) {
             console.error(e);
-
             return {
                 success: false,
             };
@@ -29,4 +32,4 @@ class SaveIngredientsList {
     }
 }
 
-export default SaveIngredientsList;
+export default UpdateIngredientAmount;

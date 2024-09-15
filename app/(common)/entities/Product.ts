@@ -1,5 +1,7 @@
+export type ProductId = number;
+
 type Product = {
-    id: number;
+    id: ProductId;
     name: string;
     image: Blob | string | null;
     price: number;

@@ -12,7 +12,9 @@ export const ingredientAdapter = (incomingIngredient: DBIngredient): Ingredient 
             ? incomingIngredient.INSUMO_NOMBRE!
             : incomingIngredient.SUBPRODUCTO_NOMBRE!,
         type: isMaterialIngredient ? 'material' : 'product',
-        unit_price: isMaterialIngredient ? incomingIngredient.INSUMO_COSTO : incomingIngredient.SUBPRODUCTO_COSTO,
+        unitPrice: isMaterialIngredient
+            ? incomingIngredient.INSUMO_COSTO
+            : incomingIngredient.SUBPRODUCTO_COSTO,
         amount: parseFloat(incomingIngredient.CANTIDAD),
     };
 };
