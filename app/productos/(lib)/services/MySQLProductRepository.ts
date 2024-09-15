@@ -18,10 +18,8 @@ class MySQLProductRepository implements ProductRepository {
             [productId],
         );
 
-        for (const superProduct of superProducts) {
-            console.log(superProduct);
+        for (const superProduct of superProducts)
             await this.updatePriceRecursively(superProduct['PRODUCTO_ID']);
-        }
     }
 
     async updatePrice(productId: ProductId): Promise<void> {
