@@ -37,7 +37,7 @@ function CreateProductForm() {
                 classNames={{ label: 'font-bold' }}
                 size='lg'
                 isClearable
-                validationState={errors?.name ? 'invalid' : 'valid'}
+                isInvalid={!!errors?.name}
                 errorMessage={errors?.name || null}
                 autoFocus
             />
@@ -59,7 +59,7 @@ function CreateProductForm() {
                 }
                 classNames={{ label: 'font-bold' }}
                 size='lg'
-                validationState={errors?.price ? 'invalid' : 'valid'}
+                isInvalid={!!errors?.price}
                 errorMessage={errors?.price || null}
             />
             <Input
@@ -71,7 +71,7 @@ function CreateProductForm() {
                 labelPlacement='outside'
                 classNames={{ label: 'font-bold' }}
                 size='lg'
-                validationState={errors?.link ? 'invalid' : 'valid'}
+                isInvalid={!!errors?.link}
                 errorMessage={errors?.link || null}
             />
             <SubmitButton />
