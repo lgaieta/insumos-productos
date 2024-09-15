@@ -5,6 +5,7 @@ import Product from '@common/entities/Product';
 import { editIngredientAmountAdapter } from '@productos/(lib)/adapters/editIngredientAmountAdapter';
 import { updateIngredientAmountInDatabase } from '@productos/(lib)/services/updateIngredientAmountInDatabase';
 import { revalidatePath } from 'next/cache';
+import { updateProductPriceFromDatabase } from '../services/updateProductPriceFromDatabase';
 
 type Params = {
     newAmount: Ingredient['amount'];
@@ -19,6 +20,8 @@ export async function editIngredientAmountServerAction(params: Params) {
         const adaptedAmount = editIngredientAmountAdapter(newAmount);
 
         await updateIngredientAmountInDatabase(adaptedAmount, ingredientId);
+
+        await updateProductPriceFromDatabase(productId);
 
         console.log(`Updated ingredient ${ingredientId} successfully`);
     } catch (e) {

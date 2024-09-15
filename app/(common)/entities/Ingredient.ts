@@ -9,6 +9,7 @@ type Ingredient<Type extends IngredientType = IngredientType> = {
     componentId: Type extends 'material' ? Material['id'] : Product['id'];
     componentName: Type extends 'material' ? Material['name'] : Product['name'];
     type: Type;
+    unit_price: number;
     amount: number;
 };
 

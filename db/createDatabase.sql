@@ -17,6 +17,7 @@ create table if not exists `PRODUCTO` (
   `COSTO_UNITARIO` decimal(18,2) default NULL,
   `LINK` varchar(500) default NULL,
   `IMAGEN` mediumblob default NULL,
+  `GANANCIA` decimal(5,4) default NULL,
    primary key(`PRODUCTO_ID`)
 ) engine=InnoDB default charset=utf8 collate=utf8_general_ci;
 

@@ -1,4 +1,4 @@
-import Ingredient, { IngredientType } from '@common/entities/Ingredient';
+import Ingredient from '@common/entities/Ingredient';
 import { DBIngredient } from '@productos/(lib)/services/getIngredientsFromDatabaseById';
 
 export const ingredientAdapter = (incomingIngredient: DBIngredient): Ingredient => {
@@ -12,6 +12,7 @@ export const ingredientAdapter = (incomingIngredient: DBIngredient): Ingredient 
             ? incomingIngredient.INSUMO_NOMBRE!
             : incomingIngredient.SUBPRODUCTO_NOMBRE!,
         type: isMaterialIngredient ? 'material' : 'product',
+        unit_price: isMaterialIngredient ? incomingIngredient.INSUMO_COSTO : incomingIngredient.SUBPRODUCTO_COSTO,
         amount: parseFloat(incomingIngredient.CANTIDAD),
     };
 };
