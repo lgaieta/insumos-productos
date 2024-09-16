@@ -10,6 +10,7 @@ interface ProductRepository {
     ): Promise<void>;
     recalculatePrice(productId: Product['id']): Promise<void>;
     recalculatePriceRecursively(productId: Product['id']): Promise<void>;
+    deleteById(productId: ProductId): Promise<void>;
 }
 
 export default ProductRepository;

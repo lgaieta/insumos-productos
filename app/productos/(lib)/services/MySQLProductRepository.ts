@@ -15,6 +15,9 @@ export interface DBProduct extends RowDataPacket {
 }
 
 class MySQLProductRepository implements ProductRepository {
+    async deleteById(productId: ProductId): Promise<void> {
+        await pool.query('DELETE FROM PRODUCTO WHERE PRODUCTO_ID = ?', [productId]);
+    }
     /**
      * Updates a product with the given data, but does not update the price.
      * @param newProduct The product data to update the product with.

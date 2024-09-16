@@ -58,8 +58,11 @@ class MySQLIngredientRepository implements IngredientRepository {
         await pool.query('DELETE FROM FORMULA_DETALLE WHERE PRODUCTO_ID = ?', [productId]);
     }
 
-    async deleteByComponentId(componentId: number): Promise<void> {
-        await pool.query('DELETE FROM FORMULA_DETALLE WHERE INGREDIENTE_ID = ?', [componentId]);
+    async deleteByComponentId(componentId: number, componentType: IngredientType): Promise<void> {
+        await pool.query(
+            'DELETE FROM FORMULA_DETALLE WHERE INGREDIENTE_ID = ? AND TIPO_INGREDIENTE = ?',
+            [componentId, componentType === IngredientType.Material ? 'insumo' : 'producto'],
+        );
     }
 
     async deleteById(ingredientId: IngredientId): Promise<void> {
