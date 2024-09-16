@@ -19,7 +19,7 @@ class UpdateIngredientAmount {
     }) {
         try {
             await ingredientRepository.updateAmount(ingredientId, newAmount);
-            await productRepository.updatePriceRecursively(productId);
+            await productRepository.recalculatePriceRecursively(productId);
             return {
                 success: true,
             };

@@ -14,7 +14,7 @@ class SaveIngredientsList {
     }) {
         try {
             await ingredientRepository.saveList(newIngredientsList);
-            await productRepository.updatePriceRecursively(newIngredientsList.productId);
+            await productRepository.recalculatePriceRecursively(newIngredientsList.productId);
 
             return {
                 success: true,

@@ -5,6 +5,7 @@ type Product = {
     name: string;
     image: Blob | string | null;
     price: number;
+    profit: number;
     link: string | null;
 };
 

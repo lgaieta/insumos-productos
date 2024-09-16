@@ -18,7 +18,7 @@ class DeleteIngredient {
     }) {
         try {
             await ingredientRepository.deleteById(ingredientId);
-            await productRepository.updatePriceRecursively(productId);
+            await productRepository.recalculatePriceRecursively(productId);
 
             return {
                 success: true,

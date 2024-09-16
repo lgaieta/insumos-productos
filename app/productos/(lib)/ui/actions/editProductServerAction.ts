@@ -8,9 +8,12 @@ import { ProductDetailsFormErrors } from '@productos/detalles/[id]/components/pr
 import { updateProductFromDatabase } from '@productos/(lib)/services/updateProductFromDatabase';
 import { getEditedProductFromFormData } from '@productos/(lib)/utils/getEditedProductFromFormData';
 import { revalidatePath } from 'next/cache';
+import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
+import type ProductRepository from '@common/entities/ProductRepository';
+import UpdateProduct from '@productos/(lib)/usecases/UpdateProduct';
 
 export async function editProductServerAction(
-    productId: Product['id'],
+    currentProduct: Product,
     _: { errors: ProductDetailsFormErrors },
     formData: FormData,
 ) {
@@ -23,13 +26,24 @@ export async function editProductServerAction(
             return accumulateFormErrors(parsedResult);
         }
 
-        await updateProductFromDatabase(
-            await updateProductAdapter({ ...parsedResult.data, id: productId }),
-        );
+        const productRepository: ProductRepository = new MySQLProductRepository();
 
-        revalidatePath(`/producto/detalles/${productId}`);
+        const { success } = await UpdateProduct.execute({
+            newProduct: { id: currentProduct.id, ...parsedResult.data },
+            currentProduct: currentProduct,
+            productRepository,
+        });
 
-        console.log('Updated product with id ' + productId + ' successfully');
+        if (!success)
+            return {
+                errors: {
+                    server: 'Ha ocurrido un error al editar los datos, por favor inténtelo nuevamente.',
+                },
+            };
+
+        revalidatePath(`/producto/detalles/${currentProduct.id}`);
+
+        console.log('Updated product with id ' + currentProduct.id + ' successfully');
 
         return { errors: {} };
     } catch (e) {

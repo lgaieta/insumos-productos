@@ -5,7 +5,7 @@ import { useFormState } from 'react-dom';
 
 export const useEditProduct = (product: Product) => {
     const [isEditable, setIsEditable] = useState<boolean>(false);
-    const editProductServerActionWithId = editProductServerAction.bind(null, product.id);
+    const editProductServerActionWithId = editProductServerAction.bind(null, product);
 
     const [state, editFormActionRaw] = useFormState(editProductServerActionWithId, {
         errors: {},
