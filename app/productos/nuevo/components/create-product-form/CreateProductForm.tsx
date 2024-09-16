@@ -65,14 +65,14 @@ function CreateProductForm() {
             {/* TODO finish field with percentage */}
             <Input
                 type='number'
-                label='Costo'
-                name='price'
+                label='Ganancia'
+                name='profit'
                 variant='bordered'
                 placeholder='Ingrese la ganancia del producto'
                 labelPlacement='outside'
                 endContent={
                     <div className='pointer-events-none flex items-center'>
-                        <span className='text-foreground-400 text-base'>$</span>
+                        <span className='text-foreground-400 text-base'>%</span>
                     </div>
                 }
                 classNames={{ label: 'font-bold' }}

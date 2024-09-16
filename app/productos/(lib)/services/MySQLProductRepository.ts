@@ -3,9 +3,9 @@ import type { ProductId } from '@common/entities/Product';
 import type ProductRepository from '@common/entities/ProductRepository';
 import { pool } from '@common/services/pool';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
-import { RowDataPacket } from 'mysql2';
+import { RowDataPacket, type ResultSetHeader } from 'mysql2';
 
-export interface DBProduct extends RowDataPacket {
+export interface DBProductResult extends RowDataPacket {
     PRODUCTO_ID: number;
     NOMBRE: string;
     COSTO_UNITARIO: string;
@@ -14,7 +14,24 @@ export interface DBProduct extends RowDataPacket {
     IMAGEN?: null | Buffer;
 }
 
+interface DBProduct {
+    PRODUCTO_ID: number;
+    NOMBRE: string;
+    COSTO_UNITARIO: number;
+    LINK: null | string;
+    GANANCIA: number;
+    IMAGEN?: null | Buffer;
+}
+
 class MySQLProductRepository implements ProductRepository {
+    async create(newProduct: Product): Promise<ProductId> {
+        const { PRODUCTO_ID, ...data } = await this.updateProductAdapter(newProduct);
+        const [{ insertId }] = await pool.query<ResultSetHeader>('INSERT INTO PRODUCTO SET ?', [
+            data,
+        ]);
+        return insertId;
+    }
+
     async deleteById(productId: ProductId): Promise<void> {
         await pool.query('DELETE FROM PRODUCTO WHERE PRODUCTO_ID = ?', [productId]);
     }
@@ -66,7 +83,7 @@ class MySQLProductRepository implements ProductRepository {
         ]);
     }
 
-    private async updateProductAdapter(product: Product): Promise<Omit<DBProduct, 'constructor'>> {
+    private async updateProductAdapter(product: Product): Promise<DBProduct> {
         return {
             PRODUCTO_ID: product.id,
             NOMBRE: product.name,
@@ -76,7 +93,8 @@ class MySQLProductRepository implements ProductRepository {
                     : product.image instanceof Blob
                     ? Buffer.from(await product.image.arrayBuffer())
                     : null,
-            COSTO_UNITARIO: String(product.price),
+            COSTO_UNITARIO: product.price,
+            GANANCIA: product.profit,
             LINK: product.link,
         };
     }

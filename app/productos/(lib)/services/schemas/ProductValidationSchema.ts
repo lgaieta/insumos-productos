@@ -23,5 +23,10 @@ export const ProductValidationSchema = object({
         invalid_type_error: 'El precio no es válido',
     }).nonnegative({ message: 'El precio no puede ser un número negativo' }),
 
+    profit: number({
+        required_error: 'La ganancia es requerida',
+        invalid_type_error: 'La ganancia no es válida',
+    }).nonnegative({ message: 'La ganancia no puede ser un número negativo' }),
+
     link: string().url({ message: 'El link no es válido' }).nullable(),
 });

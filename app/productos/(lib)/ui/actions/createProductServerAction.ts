@@ -2,15 +2,16 @@
 
 import { redirect } from 'next/navigation';
 import { ProductValidationSchema } from '@productos/(lib)/services/schemas/ProductValidationSchema';
-import { pool } from '@common/services/pool';
-import { saveProductInDatabase } from '@productos/(lib)/services/saveProductInDatabase';
-import { CreateProductFormErrors } from '@productos/nuevo/components/create-product-form/CreateProductForm';
+import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
+import CreateProduct from '@productos/(lib)/usecases/CreateProduct';
+import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 
 export const createProductServerAction = async (_: any, formData: FormData) => {
     try {
         const name = formData.get('name') as string;
         const file = formData.get('image') as Blob;
         const price = parseFloat(formData.get('price') as string);
+        const profit = parseFloat(formData.get('profit') as string);
         const link = (formData.get('link') as string) || null;
 
         const parsedResult = ProductValidationSchema.safeParse({
@@ -18,21 +19,17 @@ export const createProductServerAction = async (_: any, formData: FormData) => {
             image: file.size === 0 ? null : file,
             price,
             link,
+            profit,
         });
 
         if (parsedResult.success === false) {
-            const errors: Partial<CreateProductFormErrors> = parsedResult.error.issues.reduce(
-                (errorsAccumulator, issue) => ({
-                    ...errorsAccumulator,
-                    [issue.path[0]]: issue.message,
-                }),
-                {},
-            );
-
-            return { errors };
+            return accumulateFormErrors(parsedResult);
         }
 
-        await saveProductInDatabase(pool, parsedResult.data);
+        await CreateProduct.execute({
+            newProduct: { id: 1, ...parsedResult.data },
+            productRepository: new MySQLProductRepository(),
+        });
 
         console.log(`Saved product with name ${name} and price ${price} successfully`);
     } catch (e) {
