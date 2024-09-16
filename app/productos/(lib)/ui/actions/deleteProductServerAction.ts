@@ -1,8 +1,9 @@
 'use server';
 
 import Product from '@common/entities/Product';
-import { deleteProductAdapter } from '@productos/(lib)/adapters/deleteProductAdapter';
-import { deleteProductFromDatabase } from '@productos/(lib)/services/deleteProductFromDatabase';
+import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
+import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
+import DeleteProduct from '@productos/(lib)/usecases/DeleteProduct';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
@@ -11,9 +12,20 @@ export async function deleteProductServerAction(
     _: any,
     _formData: FormData,
 ) {
-    'use server';
     try {
-        await deleteProductFromDatabase(deleteProductAdapter(productId));
+        const { success } = await DeleteProduct.execute({
+            productId,
+            productRepository: new MySQLProductRepository(),
+            ingredientRepository: new MySQLIngredientRepository(),
+        });
+
+        if (!success) {
+            return {
+                errors: {
+                    server: 'Ha ocurrido un error al borrar los datos, por favor reintente nuevamente.',
+                },
+            };
+        }
 
         revalidatePath(`/productos`);
 
@@ -21,7 +33,7 @@ export async function deleteProductServerAction(
     } catch (e) {
         return {
             errors: {
-                server: 'Ha ocurrido un error al editar los datos, por favor inténtelo nuevamente.',
+                server: 'Ha ocurrido un error al borrar los datos, por favor inténtelo nuevamente.',
             },
         };
     }

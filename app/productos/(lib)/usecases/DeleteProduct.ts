@@ -23,3 +23,5 @@ class DeleteProduct {
         }
     }
 }
+
+export default DeleteProduct;
