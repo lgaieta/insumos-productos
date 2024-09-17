@@ -2,7 +2,9 @@ import type Product from '@common/entities/Product';
 import type { ProductId } from '@common/entities/Product';
 import type ProductRepository from '@common/entities/ProductRepository';
 import { pool } from '@common/services/pool';
+import { bytesToBase64 } from '@common/utils/bytesToBase64';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
+import type { ProductImageListApiResponse } from '@productos/api/imagenes/route';
 import { RowDataPacket, type ResultSetHeader } from 'mysql2';
 
 export interface DBProductResult extends RowDataPacket {
@@ -24,6 +26,15 @@ interface DBProduct {
 }
 
 class MySQLProductRepository implements ProductRepository {
+    async getById(productId: ProductId): Promise<Product | null> {
+        const [[result]] = await pool.query<DBProductResult[]>(
+            'SELECT * FROM PRODUCTO WHERE PRODUCTO_ID = ?',
+            [productId],
+        );
+
+        if (!result) return null;
+        return this.productAdapter(result);
+    }
     async create(newProduct: Product): Promise<ProductId> {
         const { PRODUCTO_ID, ...data } = await this.updateProductAdapter(newProduct);
         const [{ insertId }] = await pool.query<ResultSetHeader>('INSERT INTO PRODUCTO SET ?', [
@@ -82,6 +93,20 @@ class MySQLProductRepository implements ProductRepository {
             productId,
         ]);
     }
+
+    private productAdapter = (incomingProduct: DBProductResult): Product => {
+        return {
+            id: incomingProduct.PRODUCTO_ID,
+            name: incomingProduct.NOMBRE,
+            price: parseFloat(incomingProduct.COSTO_UNITARIO),
+            profit: parseFloat(incomingProduct.GANANCIA),
+            link: incomingProduct.LINK,
+            image: null,
+        };
+    };
+
+    private productListAdapter = (productsList: DBProductResult[]) =>
+        productsList.map(this.productAdapter);
 
     private async updateProductAdapter(product: Product): Promise<DBProduct> {
         return {

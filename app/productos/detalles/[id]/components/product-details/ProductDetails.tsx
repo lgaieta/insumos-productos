@@ -23,7 +23,7 @@ export type ProductDetailsFormErrors = {
 };
 
 type ProductDetailsProps = {
-    product: Product & { image: string | null };
+    product: Product;
 };
 
 function ProductDetails(props: ProductDetailsProps) {
@@ -53,14 +53,14 @@ function ProductDetails(props: ProductDetailsProps) {
             />
             <ProductImage
                 isEditable={isEditable}
-                imageSrc={product.image}
+                imageSrc={null}
                 imageAlt={product.name}
             />
             <ProductCard className='sm:col-span-2'>
                 <ProductCardHeader
                     title={product.name}
                     isEditable={isEditable}
-                    imageSrc={product.image}
+                    imageSrc={null}
                     classNames={{ imageContainer: 'md:hidden' }}
                 />
                 <Divider />

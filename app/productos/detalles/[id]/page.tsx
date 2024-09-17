@@ -6,20 +6,20 @@ import ProductDetails from '@productos/detalles/[id]/components/product-details/
 import ProductNotFoundErrorPage from '@productos/detalles/[id]/components/product-details/ProductNotFoundErrorPage';
 import { getSingleProductFromDatabase } from '@productos/(lib)/services/getSingleProductFromDatabase';
 import { Suspense } from 'react';
+import GetProduct from '@productos/(lib)/usecases/GetProduct';
+import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 
 async function ProductPage({ params }: { params: { id: string } }) {
-    const dbResult = await getSingleProductFromDatabase(+params.id);
+    const storageResult = await GetProduct.execute({productId: Number(params.id), productRepository: new MySQLProductRepository()});
 
-    if (dbResult === undefined) return <ProductNotFoundErrorPage />;
-
-    const product = productAdapter(dbResult);
+    if (storageResult.success === false) return <ProductNotFoundErrorPage />;
 
     return (
         <main className='flex flex-col gap-10 max-w-5xl w-full mt-10 pb-10 mx-auto px-4 min-[400px]:px-8'>
-            <ProductDetails product={product} />
+            <ProductDetails product={storageResult.product} />
             <IngredientsListErrorBoundary>
                 <Suspense fallback={<IngredientsListSkeleton />}>
-                    <IngredientsList productId={product.id} />
+                    <IngredientsList productId={storageResult.product.id} />
                 </Suspense>
             </IngredientsListErrorBoundary>
         </main>
