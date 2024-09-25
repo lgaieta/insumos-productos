@@ -1,10 +1,9 @@
 import type Product from '@common/entities/Product';
 import type { ProductId } from '@common/entities/Product';
+import ProductPriceType from '@common/entities/ProductPriceType';
 import type ProductRepository from '@common/entities/ProductRepository';
 import { pool } from '@common/services/pool';
-import { bytesToBase64 } from '@common/utils/bytesToBase64';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
-import type { ProductImageListApiResponse } from '@productos/api/imagenes/route';
 import { RowDataPacket, type ResultSetHeader } from 'mysql2';
 
 export interface DBProductResult extends RowDataPacket {
@@ -14,6 +13,7 @@ export interface DBProductResult extends RowDataPacket {
     LINK: null | string;
     GANANCIA: string;
     IMAGEN?: null | Buffer;
+    TIPO_PRECIO: 'fijo' | 'dinamico';
 }
 
 interface DBProduct {
@@ -22,6 +22,7 @@ interface DBProduct {
     COSTO_UNITARIO: number;
     LINK: null | string;
     GANANCIA: number;
+    TIPO_PRECIO: 'fijo' | 'dinamico';
     IMAGEN?: null | Buffer;
 }
 
@@ -35,6 +36,7 @@ class MySQLProductRepository implements ProductRepository {
         if (!result) return null;
         return this.productAdapter(result);
     }
+
     async create(newProduct: Product): Promise<ProductId> {
         const { PRODUCTO_ID, ...data } = await this.updateProductAdapter(newProduct);
         const [{ insertId }] = await pool.query<ResultSetHeader>('INSERT INTO PRODUCTO SET ?', [
@@ -46,22 +48,9 @@ class MySQLProductRepository implements ProductRepository {
     async deleteById(productId: ProductId): Promise<void> {
         await pool.query('DELETE FROM PRODUCTO WHERE PRODUCTO_ID = ?', [productId]);
     }
-    /**
-     * Updates a product with the given data, but does not update the price.
-     * @param newProduct The product data to update the product with.
-     */
-    async updateWithoutPrice(newProduct: Product): Promise<void> {
-        const { COSTO_UNITARIO, ...data } = await this.updateProductAdapter(newProduct);
+    async update(newProduct: Product): Promise<void> {
+        const data = await this.updateProductAdapter(newProduct);
         await pool.query('UPDATE PRODUCTO SET ? WHERE PRODUCTO_ID = ?', [data, newProduct.id]);
-    }
-
-    async updatePrice(productId: ProductId, newPrice: Product['price']): Promise<void> {
-        console.log(
-            await pool.query('UPDATE PRODUCTO SET COSTO_UNITARIO = ? WHERE PRODUCTO_ID = ?', [
-                String(newPrice),
-                productId,
-            ]),
-        );
     }
 
     /**
@@ -88,10 +77,7 @@ class MySQLProductRepository implements ProductRepository {
             0,
         );
 
-        await pool.query('UPDATE PRODUCTO SET COSTO_UNITARIO = ? WHERE PRODUCTO_ID = ?', [
-            totalPrice,
-            productId,
-        ]);
+        await this.updatePrice(productId, totalPrice);
     }
 
     private productAdapter = (incomingProduct: DBProductResult): Product => {
@@ -100,6 +86,10 @@ class MySQLProductRepository implements ProductRepository {
             name: incomingProduct.NOMBRE,
             price: parseFloat(incomingProduct.COSTO_UNITARIO),
             profit: parseFloat(incomingProduct.GANANCIA),
+            price_type:
+                incomingProduct.TIPO_PRECIO === 'fijo'
+                    ? ProductPriceType.Fixed
+                    : ProductPriceType.Dynamic,
             link: incomingProduct.LINK,
             image: null,
         };
@@ -120,6 +110,7 @@ class MySQLProductRepository implements ProductRepository {
                     : null,
             COSTO_UNITARIO: product.price,
             GANANCIA: product.profit,
+            TIPO_PRECIO: product.price_type === ProductPriceType.Fixed ? 'fijo' : 'dinamico',
             LINK: product.link,
         };
     }

@@ -21,7 +21,7 @@ function ProductCardBody(props: ProductCardBodyProps) {
             </div>
             <div className='flex flex-col w-full px-3 py-[10px]'>
                 <p className='font-bold h-[20px] leading-none'>Precio inicial</p>
-                <p>${(product.price / (1 + product.profit)).toString()}</p>
+                <p>${(product.price / (1 + product.profit / 100)).toString()}</p>
             </div>
             <div className='flex flex-col w-full px-3 py-[10px]'>
                 <p className='font-bold h-[20px] leading-none'>Ganancia</p>

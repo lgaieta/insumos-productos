@@ -11,6 +11,8 @@ import { revalidatePath } from 'next/cache';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 import type ProductRepository from '@common/entities/ProductRepository';
 import UpdateProduct from '@productos/(lib)/usecases/UpdateProduct';
+import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
+import ProductPriceType from '@common/entities/ProductPriceType';
 
 export async function editProductServerAction(
     currentProduct: Product,
@@ -26,12 +28,14 @@ export async function editProductServerAction(
             return accumulateFormErrors(parsedResult);
         }
 
-        const productRepository: ProductRepository = new MySQLProductRepository();
-
-        const { success } = await UpdateProduct.execute({
-            newProduct: { id: currentProduct.id, ...parsedResult.data },
-            currentProduct: currentProduct,
-            productRepository,
+        const { success } = await new UpdateProduct().execute({
+            newProduct: {
+                id: currentProduct.id,
+                ...parsedResult.data,
+                price_type: ProductPriceType.Fixed,
+            },
+            productRepository: new MySQLProductRepository(),
+            ingredientRepository: new MySQLIngredientRepository(),
         });
 
         if (!success)

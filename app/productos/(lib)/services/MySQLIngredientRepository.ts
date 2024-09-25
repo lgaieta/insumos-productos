@@ -25,15 +25,13 @@ export interface DBIngredient extends RowDataPacket {
 }
 
 class MySQLIngredientRepository implements IngredientRepository {
-    async getByComponentId(componentId: number): Promise<Ingredient | null> {
+    async getByComponentId(componentId: number): Promise<Ingredient[]> {
         const [result] = await pool.query<DBIngredient[]>(
             'SELECT * FROM FORMULA_DETALLE WHERE INGREDIENTE_ID = ?',
             [componentId],
         );
 
-        if (result.length < 1) return null;
-
-        return this.ingredientAdapter(result[0]);
+        return this.ingredientsListAdapter(result);
     }
 
     async getById(ingredientId: IngredientId): Promise<Ingredient | null> {
@@ -45,6 +43,21 @@ class MySQLIngredientRepository implements IngredientRepository {
         if (result.length < 1) return null;
 
         return this.ingredientAdapter(result[0]);
+    }
+
+    async getByProductId(productId: number): Promise<Ingredient[]> {
+        const [result] = await pool.query<DBIngredient[]>(
+            `
+            SELECT F.* , I.NOMBRE AS 'INSUMO_NOMBRE', I.COSTO_UNITARIO AS 'INSUMO_COSTO', SP.COSTO_UNITARIO AS 'SUBPRODUCTO_COSTO', SP.NOMBRE AS 'SUBPRODUCTO_NOMBRE'
+            FROM FORMULA_DETALLE F
+            LEFT JOIN INSUMO I ON F.INGREDIENTE_ID = I.INSUMO_ID AND F.TIPO_INGREDIENTE = 'insumo'
+            LEFT JOIN PRODUCTO SP ON F.INGREDIENTE_ID = SP.PRODUCTO_ID AND F.TIPO_INGREDIENTE = 'producto'
+            WHERE F.PRODUCTO_ID = ?
+            `,
+            [productId],
+        );
+
+        return this.ingredientsListAdapter(result);
     }
 
     async updateAmount(ingredientId: number, amount: number): Promise<void> {
@@ -78,21 +91,6 @@ class MySQLIngredientRepository implements IngredientRepository {
             'INSERT IGNORE INTO FORMULA_DETALLE (PRODUCTO_ID, INGREDIENTE_ID, TIPO_INGREDIENTE) VALUES ?',
             [ingredientsToSave],
         );
-    }
-
-    async getByProductId(productId: number): Promise<Ingredient[]> {
-        const [result] = await pool.query<DBIngredient[]>(
-            `
-            SELECT F.* , I.NOMBRE AS 'INSUMO_NOMBRE', I.COSTO_UNITARIO AS 'INSUMO_COSTO', SP.COSTO_UNITARIO AS 'SUBPRODUCTO_COSTO', SP.NOMBRE AS 'SUBPRODUCTO_NOMBRE'
-            FROM FORMULA_DETALLE F
-            LEFT JOIN INSUMO I ON F.INGREDIENTE_ID = I.INSUMO_ID AND F.TIPO_INGREDIENTE = 'insumo'
-            LEFT JOIN PRODUCTO SP ON F.INGREDIENTE_ID = SP.PRODUCTO_ID AND F.TIPO_INGREDIENTE = 'producto'
-            WHERE F.PRODUCTO_ID = ?
-            `,
-            [productId],
-        );
-
-        return this.ingredientsListAdapter(result);
     }
 
     /**

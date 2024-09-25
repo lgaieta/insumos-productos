@@ -6,7 +6,7 @@ import type NewIngredientsList from '@common/entities/NewIngredientsList';
 interface IngredientRepository {
     saveList(newList: NewIngredientsList): Promise<void>;
     getByProductId(productId: number): Promise<Ingredient[]>;
-    getByComponentId(componentId: number): Promise<Ingredient | null>;
+    getByComponentId(componentId: number): Promise<Ingredient[]>;
     getById(ingredientId: IngredientId): Promise<Ingredient | null>;
     updateAmount(ingredientId: number, amount: number): Promise<void>;
     deleteByProductId(productId: number): Promise<void>;

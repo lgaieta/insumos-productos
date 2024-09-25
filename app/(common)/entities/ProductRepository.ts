@@ -4,14 +4,7 @@ import type Product from '@common/entities/Product';
 interface ProductRepository {
     getById(productId: ProductId): Promise<Product | null>;
     create(newProduct: Product): Promise<ProductId>;
-    updateWithoutPrice(newProduct: Product): Promise<void>;
-    updatePrice(
-        productId: ProductId,
-        newPrice: Product['price'],
-        newProfit: Product['profit'],
-    ): Promise<void>;
-    recalculatePrice(productId: Product['id']): Promise<void>;
-    recalculatePriceRecursively(productId: Product['id']): Promise<void>;
+    update(newProduct: Product): Promise<void>;
     deleteById(productId: ProductId): Promise<void>;
 }
 

@@ -62,7 +62,6 @@ function CreateProductForm() {
                 isInvalid={!!errors?.price}
                 errorMessage={errors?.price || null}
             />
-            {/* TODO finish field with percentage */}
             <Input
                 type='number'
                 label='Ganancia'
