@@ -5,6 +5,8 @@ import ImageUploader from '@productos-nuevo/components/image-uploader/ImageUploa
 import SubmitButton from '@productos-nuevo/components/submit-button/SubmitButton';
 import { useFormState } from 'react-dom';
 import { createProductServerAction } from '@productos/(lib)/ui/actions/createProductServerAction';
+import PriceTypeSelector from '@productos/nuevo/components/price-type-selector/PriceTypeSelector';
+import { useState } from 'react';
 
 export type CreateProductFormErrors = {
     name: string;
@@ -18,6 +20,8 @@ export type CreateProductFormErrors = {
 type FormState = { errors: Partial<CreateProductFormErrors> };
 
 function CreateProductForm() {
+    const [isDynamicPrice, setIsDynamicPrice] = useState(false);
+
     const [{ errors }, formAction] = useFormState<FormState, FormData>(createProductServerAction, {
         errors: {},
     });
@@ -45,40 +49,67 @@ function CreateProductForm() {
                 isError={errors?.image !== undefined}
                 errorMessage={errors?.image || null}
             />
-            <Input
-                type='number'
-                label='Costo'
-                name='price'
-                variant='bordered'
-                placeholder='Ingrese el costo del producto'
-                labelPlacement='outside'
-                endContent={
-                    <div className='pointer-events-none flex items-center'>
-                        <span className='text-foreground-400 text-base'>$</span>
-                    </div>
-                }
-                classNames={{ label: 'font-bold' }}
-                size='lg'
-                isInvalid={!!errors?.price}
-                errorMessage={errors?.price || null}
+            <PriceTypeSelector
+                isDynamic={isDynamicPrice}
+                onToggle={setIsDynamicPrice}
             />
-            <Input
-                type='number'
-                label='Ganancia'
-                name='profit'
-                variant='bordered'
-                placeholder='Ingrese la ganancia del producto'
-                labelPlacement='outside'
-                endContent={
-                    <div className='pointer-events-none flex items-center'>
-                        <span className='text-foreground-400 text-base'>%</span>
-                    </div>
-                }
-                classNames={{ label: 'font-bold' }}
-                size='lg'
-                isInvalid={!!errors?.price}
-                errorMessage={errors?.price || null}
-            />
+            {!isDynamicPrice && (
+                <Input
+                    type='number'
+                    label='Costo'
+                    name='price'
+                    variant='bordered'
+                    placeholder='Ingrese el costo del producto'
+                    labelPlacement='outside'
+                    endContent={
+                        <div className='pointer-events-none flex items-center'>
+                            <span className='text-foreground-400 text-base'>$</span>
+                        </div>
+                    }
+                    classNames={{ label: 'font-bold' }}
+                    size='lg'
+                    isInvalid={!!errors?.price}
+                    errorMessage={errors?.price || null}
+                />
+            )}
+            {isDynamicPrice && (
+                <>
+                    <Input
+                        type='number'
+                        label='Ganancia'
+                        name='profit'
+                        variant='bordered'
+                        placeholder='Ingrese la ganancia del producto'
+                        labelPlacement='outside'
+                        endContent={
+                            <div className='pointer-events-none flex items-center'>
+                                <span className='text-foreground-400 text-base'>%</span>
+                            </div>
+                        }
+                        classNames={{ label: 'font-bold' }}
+                        size='lg'
+                        isInvalid={!!errors?.price}
+                        errorMessage={errors?.price || null}
+                    />
+                    <Input
+                        type='number'
+                        label='Costo'
+                        name='price'
+                        variant='bordered'
+                        placeholder='Ingrese el costo del producto'
+                        labelPlacement='outside'
+                        endContent={
+                            <div className='pointer-events-none flex items-center'>
+                                <span className='text-foreground-400 text-base'>$</span>
+                            </div>
+                        }
+                        classNames={{ label: 'font-bold' }}
+                        size='lg'
+                        isInvalid={!!errors?.price}
+                        errorMessage={errors?.price || null}
+                    />
+                </>
+            )}
             <Input
                 type='text'
                 label='Link'
