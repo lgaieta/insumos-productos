@@ -8,6 +8,7 @@ import Link from 'next/link';
 
 type IngredientsGridListProps = {
     ingredients: Ingredient[];
+    renderCell?: (ingredient: Ingredient, columnKey: Key) => JSX.Element;
 };
 
 const columns = [
@@ -54,7 +55,13 @@ function IngredientsGridList(props: IngredientsGridListProps) {
             <TableBody items={props.ingredients}>
                 {ingredient => (
                     <TableRow key={ingredient.id}>
-                        {columnKey => <TableCell>{renderCell(ingredient, columnKey)}</TableCell>}
+                        {columnKey => (
+                            <TableCell>
+                                {props.renderCell
+                                    ? props.renderCell(ingredient, columnKey)
+                                    : renderCell(ingredient, columnKey)}
+                            </TableCell>
+                        )}
                     </TableRow>
                 )}
             </TableBody>

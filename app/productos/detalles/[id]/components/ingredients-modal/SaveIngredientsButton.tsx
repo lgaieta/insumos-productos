@@ -1,10 +1,8 @@
 import Material from '@common/entities/Material';
 import Product from '@common/entities/Product';
+import type NewIngredientsList from '@common/entities/NewIngredientsList';
 import { Button } from '@nextui-org/react';
-import {
-    NewIngredientList,
-    saveIngredientListServerAction,
-} from '@productos/(lib)/ui/actions/saveIngredientListServerAction';
+import { saveIngredientListServerAction } from '@productos/(lib)/ui/actions/saveIngredientListServerAction';
 import { usePathname } from 'next/navigation';
 import { useFormStatus } from 'react-dom';
 
@@ -29,8 +27,8 @@ function SubmitButton({ totalCount }: { totalCount: number }) {
             {pending
                 ? 'Guardando...'
                 : totalCount > 0
-                  ? `Añadir ${totalCount} ingredientes`
-                  : 'Añadir ingredientes'}
+                ? `Añadir ${totalCount} ingredientes`
+                : 'Añadir ingredientes'}
         </Button>
     );
 }
@@ -42,7 +40,7 @@ function SaveIngredientsButton(props: SaveIngredientsButtonProps) {
     const pathname = usePathname();
     const productId: Product['id'] = parseInt(pathname.split('/').slice(-1)[0]);
 
-    const newIngredientList: NewIngredientList = {
+    const newIngredientList: NewIngredientsList = {
         productId,
         materialList: material,
         subproductList: product,

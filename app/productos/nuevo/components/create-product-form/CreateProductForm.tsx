@@ -7,6 +7,7 @@ import { useFormState } from 'react-dom';
 import { createProductServerAction } from '@productos/(lib)/ui/actions/createProductServerAction';
 import PriceTypeSelector from '@productos/nuevo/components/price-type-selector/PriceTypeSelector';
 import { useState } from 'react';
+import IngredientsSelector from '@productos/nuevo/components/ingredients-selector/IngredientsSelector';
 
 export type CreateProductFormErrors = {
     name: string;
@@ -74,6 +75,7 @@ function CreateProductForm() {
             )}
             {isDynamicPrice && (
                 <>
+                    <IngredientsSelector />
                     <Input
                         type='number'
                         label='Ganancia'
