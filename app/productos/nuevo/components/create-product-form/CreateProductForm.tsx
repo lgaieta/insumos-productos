@@ -7,6 +7,8 @@ import { useFormState } from 'react-dom';
 import { createProductServerAction } from '@productos/(lib)/ui/actions/createProductServerAction';
 import PriceTypeSelector from '@productos/nuevo/components/price-type-selector/PriceTypeSelector';
 import { useState } from 'react';
+import type Ingredient from '@common/entities/Ingredient';
+import DynamicPriceField from '@productos/nuevo/components/dynamic-price-field/DynamicPriceField';
 
 export type CreateProductFormErrors = {
     name: string;
@@ -20,6 +22,7 @@ type FormState = { errors: Partial<CreateProductFormErrors> };
 
 function CreateProductForm() {
     const [isDynamicPrice, setIsDynamicPrice] = useState(false);
+    const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>([]);
 
     const [{ errors }, formAction] = useFormState<FormState, FormData>(createProductServerAction, {
         errors: {},
@@ -43,61 +46,16 @@ function CreateProductForm() {
                 onToggle={setIsDynamicPrice}
             />
             {!isDynamicPrice && (
-                <Input
-                    type='number'
-                    label='Costo'
-                    name='price'
-                    variant='bordered'
-                    placeholder='Ingrese el costo del producto'
-                    labelPlacement='outside'
-                    endContent={
-                        <div className='pointer-events-none flex items-center'>
-                            <span className='text-foreground-400 text-base'>$</span>
-                        </div>
-                    }
-                    classNames={{ label: 'font-bold' }}
-                    size='lg'
+                <FixedPriceField
                     isInvalid={!!errors?.price}
                     errorMessage={errors?.price || null}
                 />
             )}
             {isDynamicPrice && (
-                <>
-                    <Input
-                        type='number'
-                        label='Ganancia'
-                        name='profit'
-                        variant='bordered'
-                        placeholder='Ingrese la ganancia del producto'
-                        labelPlacement='outside'
-                        endContent={
-                            <div className='pointer-events-none flex items-center'>
-                                <span className='text-foreground-400 text-base'>%</span>
-                            </div>
-                        }
-                        classNames={{ label: 'font-bold' }}
-                        size='lg'
-                        isInvalid={!!errors?.price}
-                        errorMessage={errors?.price || null}
-                    />
-                    <Input
-                        type='number'
-                        label='Costo'
-                        name='price'
-                        variant='bordered'
-                        placeholder='Ingrese el costo del producto'
-                        labelPlacement='outside'
-                        endContent={
-                            <div className='pointer-events-none flex items-center'>
-                                <span className='text-foreground-400 text-base'>$</span>
-                            </div>
-                        }
-                        classNames={{ label: 'font-bold' }}
-                        size='lg'
-                        isInvalid={!!errors?.price}
-                        errorMessage={errors?.price || null}
-                    />
-                </>
+                <DynamicPriceField
+                    selectedIngredients={selectedIngredients}
+                    onSelectedIngredientsChange={setSelectedIngredients}
+                />
             )}
             <LinkField
                 isInvalid={!!errors?.link}
@@ -137,6 +95,28 @@ function LinkField(props: { isInvalid: boolean; errorMessage: string | null }) {
             variant='bordered'
             placeholder='Copie el link del producto y péguelo aquí'
             labelPlacement='outside'
+            classNames={{ label: 'font-bold' }}
+            size='lg'
+            isInvalid={props.isInvalid}
+            errorMessage={props.errorMessage || null}
+        />
+    );
+}
+
+function FixedPriceField(props: { isInvalid: boolean; errorMessage: string | null }) {
+    return (
+        <Input
+            type='number'
+            label='Costo'
+            name='price'
+            variant='bordered'
+            placeholder='Ingrese el costo del producto'
+            labelPlacement='outside'
+            endContent={
+                <div className='pointer-events-none flex items-center'>
+                    <span className='text-foreground-400 text-base'>$</span>
+                </div>
+            }
             classNames={{ label: 'font-bold' }}
             size='lg'
             isInvalid={props.isInvalid}
