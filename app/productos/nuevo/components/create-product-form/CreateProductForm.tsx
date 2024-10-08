@@ -7,14 +7,12 @@ import { useFormState } from 'react-dom';
 import { createProductServerAction } from '@productos/(lib)/ui/actions/createProductServerAction';
 import PriceTypeSelector from '@productos/nuevo/components/price-type-selector/PriceTypeSelector';
 import { useState } from 'react';
-import IngredientsSelector from '@productos/nuevo/components/ingredients-selector/IngredientsSelector';
 
 export type CreateProductFormErrors = {
     name: string;
     price: string;
     image: string;
     link: string;
-    /** Used for errors caught by catch statement */
     server: string;
 };
 
@@ -32,19 +30,9 @@ function CreateProductForm() {
             className='flex flex-col gap-6 w-full max-w-[500px]'
             action={formAction}
         >
-            <Input
-                type='text'
-                label='Nombre'
-                name='name'
-                variant='bordered'
-                placeholder='Ingrese el nombre del producto'
-                labelPlacement='outside'
-                classNames={{ label: 'font-bold' }}
-                size='lg'
-                isClearable
+            <NameField
                 isInvalid={!!errors?.name}
                 errorMessage={errors?.name || null}
-                autoFocus
             />
             <ImageUploader
                 isError={errors?.image !== undefined}
@@ -75,7 +63,6 @@ function CreateProductForm() {
             )}
             {isDynamicPrice && (
                 <>
-                    <IngredientsSelector />
                     <Input
                         type='number'
                         label='Ganancia'
@@ -112,21 +99,49 @@ function CreateProductForm() {
                     />
                 </>
             )}
-            <Input
-                type='text'
-                label='Link'
-                name='link'
-                variant='bordered'
-                placeholder='Copie el link del producto y péguelo aquí'
-                labelPlacement='outside'
-                classNames={{ label: 'font-bold' }}
-                size='lg'
+            <LinkField
                 isInvalid={!!errors?.link}
                 errorMessage={errors?.link || null}
             />
             <SubmitButton />
             {errors?.server && <p className='text-danger text-center text-sm'>{errors?.server}</p>}
         </form>
+    );
+}
+
+function NameField(props: { isInvalid: boolean; errorMessage: string | null }) {
+    return (
+        <Input
+            type='text'
+            label='Nombre'
+            name='name'
+            variant='bordered'
+            placeholder='Ingrese el nombre del producto'
+            labelPlacement='outside'
+            classNames={{ label: 'font-bold' }}
+            size='lg'
+            isClearable
+            isInvalid={props.isInvalid}
+            errorMessage={props.errorMessage || null}
+            autoFocus
+        />
+    );
+}
+
+function LinkField(props: { isInvalid: boolean; errorMessage: string | null }) {
+    return (
+        <Input
+            type='text'
+            label='Link'
+            name='link'
+            variant='bordered'
+            placeholder='Copie el link del producto y péguelo aquí'
+            labelPlacement='outside'
+            classNames={{ label: 'font-bold' }}
+            size='lg'
+            isInvalid={props.isInvalid}
+            errorMessage={props.errorMessage || null}
+        />
     );
 }
 
