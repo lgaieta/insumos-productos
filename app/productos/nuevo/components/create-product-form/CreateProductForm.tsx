@@ -9,6 +9,7 @@ import PriceTypeSelector from '@productos/nuevo/components/price-type-selector/P
 import { useState } from 'react';
 import type Ingredient from '@common/entities/Ingredient';
 import DynamicPriceField from '@productos/nuevo/components/dynamic-price-field/DynamicPriceField';
+import IngredientType from '@common/entities/IngredientType';
 
 export type CreateProductFormErrors = {
     name: string;
@@ -20,10 +21,40 @@ export type CreateProductFormErrors = {
 
 type FormState = { errors: Partial<CreateProductFormErrors> };
 
+const defaultIngredients: Ingredient[] = [
+    {
+        id: 1,
+        productId: 1,
+        componentId: 1,
+        componentName: 'Tomate',
+        type: IngredientType.Material,
+        unitPrice: 10,
+        amount: 2,
+    },
+    {
+        id: 2,
+        productId: 1,
+        componentId: 2,
+        componentName: 'Lechuga',
+        type: IngredientType.Material,
+        unitPrice: 5,
+        amount: 1,
+    },
+    {
+        id: 3,
+        productId: 1,
+        componentId: 3,
+        componentName: 'Pan',
+        type: IngredientType.Product,
+        unitPrice: 20,
+        amount: 1,
+    },
+];
+
 function CreateProductForm() {
     const [isDynamicPrice, setIsDynamicPrice] = useState(false);
-    const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>([]);
-
+    const [selectedIngredients, setSelectedIngredients] =
+        useState<Ingredient[]>(defaultIngredients);
     const [{ errors }, formAction] = useFormState<FormState, FormData>(createProductServerAction, {
         errors: {},
     });
@@ -54,7 +85,7 @@ function CreateProductForm() {
             {isDynamicPrice && (
                 <DynamicPriceField
                     selectedIngredients={selectedIngredients}
-                    onSelectedIngredientsChange={setSelectedIngredients}
+                    onSelectedIngredientsChange={ingredients => setSelectedIngredients(ingredients)}
                 />
             )}
             <LinkField

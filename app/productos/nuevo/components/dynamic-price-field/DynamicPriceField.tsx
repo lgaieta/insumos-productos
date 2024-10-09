@@ -1,5 +1,10 @@
 import type Ingredient from '@common/entities/Ingredient';
-import { Input } from '@nextui-org/react';
+import IngredientType from '@common/entities/IngredientType';
+import { Button, Card, CardBody, CardHeader, Divider, Input } from '@nextui-org/react';
+import SelectedIngredientsList from '@productos/nuevo/components/dynamic-price-field/SelectedIngredientsList';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import { MdClear } from 'react-icons/md';
+import { useDebouncedCallback } from 'use-debounce';
 
 type DynamicPriceFieldProps = {
     selectedIngredients: Ingredient[];
@@ -7,11 +12,39 @@ type DynamicPriceFieldProps = {
 };
 
 function DynamicPriceField(props: DynamicPriceFieldProps) {
+    const { selectedIngredients, onSelectedIngredientsChange } = props;
+
     return (
-        <>
-            <ProfitField />
-            <PriceField />
-        </>
+        <Card>
+            <CardBody className='p-6 flex flex-col gap-5'>
+                <Card shadow='sm'>
+                    <CardHeader className='flex flex-col sm:flex-row gap-2 justify-between'>
+                        <h2 className='text-lg font-bold'>Ingredientes</h2>
+                        <Button variant='flat'>Añadir ingredientes</Button>
+                    </CardHeader>
+                    <Divider />
+                    <CardBody>
+                        <SelectedIngredientsList
+                            ingredients={selectedIngredients}
+                            onRemoveIngredient={(ingredient: Ingredient) => {
+                                onSelectedIngredientsChange(
+                                    selectedIngredients.filter(i => i.id !== ingredient.id),
+                                );
+                            }}
+                            onAmountChange={(ingredient, amount) => {
+                                onSelectedIngredientsChange(
+                                    selectedIngredients.map(i =>
+                                        i.id === ingredient.id ? { ...ingredient, amount } : i,
+                                    ),
+                                );
+                            }}
+                        />
+                    </CardBody>
+                </Card>
+                <ProfitField />
+                <PriceField />
+            </CardBody>
+        </Card>
     );
 }
 
