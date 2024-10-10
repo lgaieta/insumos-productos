@@ -1,10 +1,25 @@
 import type Ingredient from '@common/entities/Ingredient';
-import IngredientType from '@common/entities/IngredientType';
-import { Button, Card, CardBody, CardHeader, Divider, Input } from '@nextui-org/react';
+import type Material from '@common/entities/Material';
+import Product from '@common/entities/Product';
+import {
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    Divider,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    Tab,
+    Tabs,
+    useDisclosure,
+} from '@nextui-org/react';
+import MaterialsListSelector from '@productos/nuevo/components/dynamic-price-field/MaterialsSelector';
 import SelectedIngredientsList from '@productos/nuevo/components/dynamic-price-field/SelectedIngredientsList';
-import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-import { MdClear } from 'react-icons/md';
-import { useDebouncedCallback } from 'use-debounce';
+import { useState } from 'react';
 
 type DynamicPriceFieldProps = {
     selectedIngredients: Ingredient[];
@@ -13,6 +28,9 @@ type DynamicPriceFieldProps = {
 
 function DynamicPriceField(props: DynamicPriceFieldProps) {
     const { selectedIngredients, onSelectedIngredientsChange } = props;
+    const [selectedMaterials, setSelectedMaterials] = useState<Material[]>([]);
+    const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+    const { isOpen, onOpenChange, onOpen } = useDisclosure();
 
     return (
         <Card>
@@ -20,7 +38,12 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                 <Card shadow='sm'>
                     <CardHeader className='flex flex-col sm:flex-row gap-2 justify-between'>
                         <h2 className='text-lg font-bold'>Ingredientes</h2>
-                        <Button variant='flat'>Añadir ingredientes</Button>
+                        <Button
+                            variant='flat'
+                            onPress={onOpen}
+                        >
+                            Añadir ingredientes
+                        </Button>
                     </CardHeader>
                     <Divider />
                     <CardBody>
@@ -41,6 +64,49 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                         />
                     </CardBody>
                 </Card>
+                <Modal
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                >
+                    <ModalContent>
+                        {onClose => (
+                            <>
+                                <ModalHeader>Añadir ingredientes</ModalHeader>
+                                <Divider />
+                                <ModalBody>
+                                    <Tabs
+                                        aria-label='Options'
+                                        fullWidth
+                                    >
+                                        <Tab
+                                            key='material'
+                                            title='Insumos'
+                                        >
+                                            <MaterialsListSelector
+                                                selectedMaterials={selectedMaterials}
+                                                onSelectedMaterialsChange={setSelectedMaterials}
+                                            />
+                                        </Tab>
+                                        <Tab
+                                            key='product'
+                                            title='Productos'
+                                        ></Tab>
+                                    </Tabs>
+                                </ModalBody>
+                                <Divider />
+                                <ModalFooter className='p-2'>
+                                    <Button
+                                        color='danger'
+                                        variant='light'
+                                        onPress={onClose}
+                                    >
+                                        Cerrar
+                                    </Button>
+                                </ModalFooter>
+                            </>
+                        )}
+                    </ModalContent>
+                </Modal>
                 <ProfitField />
                 <PriceField />
             </CardBody>

@@ -7,6 +7,7 @@ export const productAdapter = (incomingProduct: Omit<DBProduct, 'IMAGEN'>) => {
         price: parseFloat(incomingProduct.COSTO_UNITARIO),
         link: incomingProduct.LINK,
         image: incomingProduct?.IMAGEN || null,
+        priceType: incomingProduct.TIPO_PRECIO,
     };
 };
 
