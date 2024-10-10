@@ -5,9 +5,9 @@ import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
 import { MaterialValidationSchema } from '@insumos/(lib)/schemas/MaterialValidationSchema';
 import { updateMaterialAdapter } from '@insumos/(lib)/adapters/updateMaterialAdapter';
 import { MaterialDetailsFormErrors } from '@insumos-detalles/components/MaterialDetails';
-import { updateMaterialFromDatabase } from '@insumos/(lib)/services/updateMaterialFromDatabase';
 import { getEditedMaterialFromFormData } from '@insumos/(lib)/utils/getEditedMaterialFromFormData';
 import { revalidatePath } from 'next/cache';
+import MySQLMaterialRepository from '@insumos/(lib)/services/MySQLMaterialRepository';
 
 export async function editMaterialServerAction(
     materialId: Material['id'],
@@ -23,9 +23,8 @@ export async function editMaterialServerAction(
             return accumulateFormErrors(parsedResult);
         }
 
-        await updateMaterialFromDatabase(
-            await updateMaterialAdapter({ ...parsedResult.data, id: materialId }),
-        );
+        const materialRepository = new MySQLMaterialRepository();
+        await materialRepository.update({ ...parsedResult.data, id: materialId });
 
         revalidatePath(`/insumo/detalles/${materialId}`);
 

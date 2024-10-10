@@ -1,7 +1,9 @@
+export type MaterialId = number;
+
 type Material = {
-    id: number;
+    id: MaterialId;
     name: string;
-    image: Blob | string | null;
+    image: string | null;
     price: number;
     link: string | null;
 };

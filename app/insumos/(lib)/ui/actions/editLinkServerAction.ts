@@ -1,7 +1,7 @@
 'use server';
 
 import Material from '@common/entities/Material';
-import { updateMaterialFromDatabase } from '@insumos/(lib)/services/updateMaterialFromDatabase';
+import MySQLMaterialRepository from '@insumos/(lib)/services/MySQLMaterialRepository';
 import { revalidatePath } from 'next/cache';
 import { ZodError, z } from 'zod';
 
@@ -12,17 +12,18 @@ const linkValidator = z
     })
     .url('El link no es válido');
 
-export const editLinkServerAction = async (materialId: Material['id'], formData: FormData) => {
+export const editLinkServerAction = async (material: Material, formData: FormData) => {
     try {
         const link = formData.get('link') as string;
 
         const validLink = linkValidator.parse(link);
 
-        await updateMaterialFromDatabase({ INSUMO_ID: materialId, LINK: validLink });
+        const materialRepository = new MySQLMaterialRepository();
+        await materialRepository.update({ ...material, link: validLink });
 
         revalidatePath('/insumos');
 
-        console.log(`Edited material with id ${materialId} successfully`);
+        console.log(`Edited material with id ${material.id} successfully`);
         return null;
     } catch (e) {
         console.error(e);

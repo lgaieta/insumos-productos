@@ -23,8 +23,7 @@ export const getCellContent = (material: Material, columnKey: string | number) =
             />
         );
 
-    if (columnKey === 'link' && keyValue === null)
-        return <AddLinkButton materialId={material.id} />;
+    if (columnKey === 'link' && keyValue === null) return <AddLinkButton material={material} />;
 
     if (columnKey === 'link')
         return (

@@ -1,4 +1,6 @@
 -   add ui folder in (common) DONE
--   add ui folder in insumos lib
--   develop material repository entity
--   develop material respository mysql service
+-   add ui folder in insumos lib DONE
+-   develop material repository entity DONE
+-   develop material respository mysql service DONE
+-   replace old functions with new repository
+-   replace image loading with saving it in cdn

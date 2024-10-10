@@ -22,7 +22,7 @@ function ConfirmButton() {
     );
 }
 
-function AddLinkButton(props: { materialId: Material['id'] }) {
+function AddLinkButton(props: { material: Material }) {
     const [isInput, setIsInput] = useState(false);
     const [isError, setIsError] = useState<false | string>(false);
 
@@ -31,7 +31,7 @@ function AddLinkButton(props: { materialId: Material['id'] }) {
     const handleFormClick: MouseEventHandler<HTMLFormElement> = e => e.stopPropagation();
 
     const editLinkAction = async (formData: FormData) => {
-        const result = await editLinkServerAction(props.materialId, formData);
+        const result = await editLinkServerAction(props.material, formData);
         if (result !== null) return setIsError(result);
         setIsInput(false);
     };

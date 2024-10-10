@@ -2,9 +2,9 @@
 
 import { redirect } from 'next/navigation';
 import { MaterialValidationSchema } from '@insumos/(lib)/schemas/MaterialValidationSchema';
-import { pool } from '@common/services/pool';
-import { saveMaterialInDatabase } from '@insumos/(lib)/services/saveMaterialInDatabase';
 import { CreateMaterialFormErrors } from '@insumos/nuevo/components/create-material-form/CreateMaterialForm';
+import MySQLMaterialRepository from '@insumos/(lib)/services/MySQLMaterialRepository';
+import { blobToBase64 } from '@common/utils/blobToBase64';
 
 export const createMaterialServerAction = async (_: any, formData: FormData) => {
     try {
@@ -32,7 +32,12 @@ export const createMaterialServerAction = async (_: any, formData: FormData) => 
             return { errors };
         }
 
-        await saveMaterialInDatabase(pool, parsedResult.data);
+        const materialRepository = new MySQLMaterialRepository();
+        await materialRepository.create({
+            ...parsedResult.data,
+            id: 1,
+            image: parsedResult.data.image ? await blobToBase64(parsedResult.data.image) : null,
+        });
 
         console.log(`Saved material with name ${name} and price ${price} successfully`);
     } catch (e) {
