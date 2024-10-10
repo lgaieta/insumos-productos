@@ -1,6 +1,6 @@
 'use client';
 
-import ErrorBoundary from '@common/components/ErrorBoundary';
+import ErrorBoundary from '@common/ui/components/ErrorBoundary';
 import { ReactNode } from 'react';
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';

@@ -1,5 +1,5 @@
 import { ROWS_PER_PAGE } from '@common/constants';
-import { usePageNumber } from '@common/hooks/usePageNumber';
+import { usePageNumber } from '@common/ui/hooks/usePageNumber';
 import { useEffect, useRef, useState } from 'react';
 import { AsyncListOptions, useAsyncList } from 'react-stately';
 

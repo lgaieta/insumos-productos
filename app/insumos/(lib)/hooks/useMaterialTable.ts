@@ -1,6 +1,6 @@
 import { ROWS_PER_PAGE } from '@common/constants';
 import Material from '@common/entities/Material';
-import { LoadFunctionParams, useEntityTable } from '@common/hooks/useEntityTable';
+import { LoadFunctionParams, useEntityTable } from '@common/ui/hooks/useEntityTable';
 import { sortItems } from '@common/utils/sortItems';
 import { materialListAdapter } from '@insumos/(lib)/adapters/materialAdapter';
 import { materialImageListAdapter } from '@insumos/(lib)/adapters/materialImageAdapter';

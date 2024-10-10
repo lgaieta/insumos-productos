@@ -1,6 +1,6 @@
 import { ROWS_PER_PAGE } from '@common/constants';
 import Product from '@common/entities/Product';
-import { LoadFunctionParams, useEntityTable } from '@common/hooks/useEntityTable';
+import { LoadFunctionParams, useEntityTable } from '@common/ui/hooks/useEntityTable';
 import { sortItems } from '@common/utils/sortItems';
 import { productListAdapter } from '@productos/(lib)/adapters/productAdapter';
 import { productImageListAdapter } from '@productos/(lib)/adapters/productImageAdapter';

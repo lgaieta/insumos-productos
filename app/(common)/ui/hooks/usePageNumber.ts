@@ -1,4 +1,4 @@
-import { useStateWithSearchParams } from '@common/hooks/useStateWithSearchParams';
+import { useStateWithSearchParams } from '@common/ui/hooks/useStateWithSearchParams';
 
 const PAGE_PARAM_NAME = 'pagina';
 

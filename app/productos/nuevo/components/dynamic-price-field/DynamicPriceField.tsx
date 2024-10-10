@@ -17,7 +17,7 @@ import {
     Tabs,
     useDisclosure,
 } from '@nextui-org/react';
-import MaterialsListSelector from '@productos/nuevo/components/dynamic-price-field/MaterialsSelector';
+import { MaterialsListSelector } from '@productos/nuevo/components/dynamic-price-field/IngredientsTabLists';
 import SelectedIngredientsList from '@productos/nuevo/components/dynamic-price-field/SelectedIngredientsList';
 import { useState } from 'react';
 
