@@ -3,11 +3,11 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from 
 import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { useRouter } from 'next/navigation';
-import { useMaterialTable } from '@insumos/(lib)/hooks/useMaterialTable';
-import MaterialsTableSkeleton from '@insumos/(lib)/components/materials-table/MaterialsTableSkeleton';
-import NewMaterialButton from '@insumos/(lib)/components/materials-table/NewMaterialButton';
-import SearchInput from '@insumos/(lib)/components/materials-table/SearchInput';
-import { getCellContent } from '@insumos/(lib)/components/materials-table/getCellContent';
+import { useMaterialTable } from '@insumos/(lib)/ui/hooks/useMaterialTable';
+import MaterialsTableSkeleton from '@insumos/(lib)/ui/components/materials-table/MaterialsTableSkeleton';
+import NewMaterialButton from '@insumos/(lib)/ui/components/materials-table/NewMaterialButton';
+import SearchInput from '@insumos/(lib)/ui/components/materials-table/SearchInput';
+import { getCellContent } from '@insumos/(lib)/ui/components/materials-table/getCellContent';
 
 const materialsTableColumns = [
     { key: 'image', label: 'Imagen' },

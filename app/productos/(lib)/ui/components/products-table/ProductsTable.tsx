@@ -4,8 +4,8 @@ import { Pagination } from '@nextui-org/pagination';
 import { Spinner } from '@nextui-org/spinner';
 import { useRouter } from 'next/navigation';
 import { useProductTable } from '@productos/(lib)/ui/hooks/useProductTable';
-import { getCellContent } from '@insumos/(lib)/components/materials-table/getCellContent';
-import SearchInput from '@insumos/(lib)/components/materials-table/SearchInput';
+import { getCellContent } from '@insumos/(lib)/ui/components/materials-table/getCellContent';
+import SearchInput from '@insumos/(lib)/ui/components/materials-table/SearchInput';
 import NewProductButton from '@productos/(lib)/ui/components/products-table/NewProductButton';
 import ProductsTableSkeleton from '@productos/(lib)/ui/components/products-table/ProductsTableSkeleton';
 

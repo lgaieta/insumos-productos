@@ -1,5 +1,5 @@
 import Material from '@common/entities/Material';
-import { deleteMaterialServerAction } from '@insumos/(lib)/actions/deleteMaterialServerAction';
+import { deleteMaterialServerAction } from '@insumos/(lib)/ui/actions/deleteMaterialServerAction';
 import { MaterialDetailsFormErrors } from '@insumos-detalles/components/MaterialDetails';
 import { useFormState } from 'react-dom';
 
