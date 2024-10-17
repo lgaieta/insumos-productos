@@ -1,10 +1,8 @@
 'use server';
 
-import Ingredient from '@common/entities/Ingredient';
-import Product from '@common/entities/Product';
-import { deleteIngredientFromDatabase } from '@productos/(lib)/services/deleteIngredientFromDatabase';
+import type Ingredient from '@common/entities/Ingredient';
+import type Product from '@common/entities/Product';
 import { revalidatePath } from 'next/cache';
-import { updateProductPriceFromDatabase } from '../../services/updateProductPriceFromDatabase';
 import type IngredientRepository from '@common/entities/IngredientRepository';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 import type ProductRepository from '@common/entities/ProductRepository';

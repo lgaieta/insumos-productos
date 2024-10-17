@@ -5,7 +5,7 @@ export type ProductId = number;
 type Product = {
     id: ProductId;
     name: string;
-    image: Blob | string | null;
+    image: string | null;
     price: number;
     price_type: ProductPriceType;
     profit: number;

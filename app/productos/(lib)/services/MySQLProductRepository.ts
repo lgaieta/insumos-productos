@@ -3,7 +3,7 @@ import type { ProductId } from '@common/entities/Product';
 import ProductPriceType from '@common/entities/ProductPriceType';
 import type ProductRepository from '@common/entities/ProductRepository';
 import { pool } from '@common/services/pool';
-import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
+import { bytesToBase64 } from '@common/utils/bytesToBase64';
 import { RowDataPacket, type ResultSetHeader } from 'mysql2';
 
 export interface DBProductResult extends RowDataPacket {
@@ -27,6 +27,53 @@ interface DBProduct {
 }
 
 class MySQLProductRepository implements ProductRepository {
+    async getImageList(options: {
+        filterText: string;
+        cursor: number;
+        rowLimit: number;
+    }): Promise<{ id: ProductId; image: string }[]> {
+        interface Result extends RowDataPacket {
+            id: number;
+            image: Blob;
+        }
+        const [rows] = await pool.query<Result[]>(
+            `SELECT PRODUCTO_ID as id, IMAGEN as image FROM PRODUCTO WHERE NOMBRE LIKE ? LIMIT ? OFFSET ?`,
+            [`%${options.filterText}%`, options.rowLimit, options.cursor],
+        );
+
+        return rows.map(row => ({
+            id: row.id,
+            image: bytesToBase64(JSON.parse(JSON.stringify(row.image)).data),
+        }));
+    }
+
+    async getList(options: {
+        filterText: string;
+        cursor: number;
+        rowLimit: number;
+    }): Promise<Product[]> {
+        const [rows] = await pool.query<DBProductResult[]>(
+            'SELECT PRODUCTO_ID, NOMBRE, COSTO_UNITARIO, LINK FROM PRODUCTO WHERE NOMBRE LIKE ? LIMIT ? OFFSET ?',
+            [`%${options.filterText}%`, options.rowLimit, options.cursor],
+        );
+
+        return this.productListAdapter(rows);
+    }
+
+    async getProductsCount(filterText: string): Promise<number> {
+        interface Result extends RowDataPacket {
+            total: number;
+        }
+        const rowCountQuery = (
+            await pool.query<Result[]>(
+                'SELECT COUNT(*) AS total FROM PRODUCTO WHERE NOMBRE LIKE ?',
+                [`%${filterText}%`],
+            )
+        )[0][0];
+
+        return rowCountQuery.total;
+    }
+
     async getById(productId: ProductId): Promise<Product | null> {
         const [[result]] = await pool.query<DBProductResult[]>(
             'SELECT * FROM PRODUCTO WHERE PRODUCTO_ID = ?',
@@ -48,36 +95,10 @@ class MySQLProductRepository implements ProductRepository {
     async deleteById(productId: ProductId): Promise<void> {
         await pool.query('DELETE FROM PRODUCTO WHERE PRODUCTO_ID = ?', [productId]);
     }
-    async update(newProduct: Product): Promise<void> {
-        const data = await this.updateProductAdapter(newProduct);
+
+    async update(newProduct: Partial<Product> & { id: ProductId }): Promise<void> {
+        const data = await this.updatePartialProductAdapter(newProduct);
         await pool.query('UPDATE PRODUCTO SET ? WHERE PRODUCTO_ID = ?', [data, newProduct.id]);
-    }
-
-    /**
-     * Updates the price of a product and all its super products recursively.
-     * @param productId The id of the product to update.
-     */
-    async recalculatePriceRecursively(productId: Product['id']): Promise<void> {
-        await this.recalculatePrice(productId);
-
-        const [superProducts] = await pool.query<RowDataPacket[]>(
-            `SELECT PRODUCTO_ID FROM FORMULA_DETALLE WHERE INGREDIENTE_ID = ? AND TIPO_INGREDIENTE = 'producto'`,
-            [productId],
-        );
-
-        for (const superProduct of superProducts)
-            await this.recalculatePriceRecursively(superProduct['PRODUCTO_ID']);
-    }
-
-    async recalculatePrice(productId: ProductId): Promise<void> {
-        const ingredients = await new MySQLIngredientRepository().getByProductId(productId);
-
-        const totalPrice = ingredients.reduce(
-            (total, ingredient) => total + ingredient.unitPrice * ingredient.amount,
-            0,
-        );
-
-        await this.updatePrice(productId, totalPrice);
     }
 
     private productAdapter = (incomingProduct: DBProductResult): Product => {
@@ -102,15 +123,28 @@ class MySQLProductRepository implements ProductRepository {
         return {
             PRODUCTO_ID: product.id,
             NOMBRE: product.name,
-            IMAGEN:
-                typeof product.image === 'string'
-                    ? Buffer.from(product.image, 'base64')
-                    : product.image instanceof Blob
-                    ? Buffer.from(await product.image.arrayBuffer())
-                    : null,
+            IMAGEN: product.image ? Buffer.from(product.image, 'base64') : null,
             COSTO_UNITARIO: product.price,
             GANANCIA: product.profit,
             TIPO_PRECIO: product.price_type === ProductPriceType.Fixed ? 'fijo' : 'dinamico',
+            LINK: product.link,
+        };
+    }
+
+    private async updatePartialProductAdapter(
+        product: Partial<Product> & { id: ProductId },
+    ): Promise<Partial<DBProduct>> {
+        return {
+            PRODUCTO_ID: product.id,
+            NOMBRE: product.name,
+            IMAGEN: product.image ? Buffer.from(product.image, 'base64') : undefined,
+            COSTO_UNITARIO: product.price,
+            GANANCIA: product.profit,
+            TIPO_PRECIO: !product.price_type
+                ? undefined
+                : product.price_type === ProductPriceType.Fixed
+                ? 'fijo'
+                : 'dinamico',
             LINK: product.link,
         };
     }

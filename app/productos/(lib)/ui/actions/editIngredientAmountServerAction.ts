@@ -1,8 +1,8 @@
 'use server';
 
-import Ingredient from '@common/entities/Ingredient';
+import type Ingredient from '@common/entities/Ingredient';
 import type IngredientRepository from '@common/entities/IngredientRepository';
-import Product from '@common/entities/Product';
+import type Product from '@common/entities/Product';
 import type ProductRepository from '@common/entities/ProductRepository';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';

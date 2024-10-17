@@ -1,7 +1,8 @@
 'use server';
 
 import Product from '@common/entities/Product';
-import { updateProductFromDatabase } from '@productos/(lib)/services/updateProductFromDatabase';
+import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
+import UpdateProductLink from '@productos/(lib)/usecases/UpdateProductLink';
 import { revalidatePath } from 'next/cache';
 import { ZodError, z } from 'zod';
 
@@ -18,7 +19,10 @@ export const editLinkServerAction = async (productId: Product['id'], formData: F
 
         const validLink = linkValidator.parse(link);
 
-        await updateProductFromDatabase({ PRODUCTO_ID: productId, LINK: validLink });
+        await new UpdateProductLink().execute({
+            data: { id: productId, link: validLink },
+            productRepository: new MySQLProductRepository(),
+        });
 
         revalidatePath('/productos');
 

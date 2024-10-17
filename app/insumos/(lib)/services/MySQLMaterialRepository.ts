@@ -2,7 +2,6 @@ import type Material from '@common/entities/Material';
 import type { MaterialId } from '@common/entities/Material';
 import type MaterialRepository from '@common/entities/MaterialRepository';
 import { pool } from '@common/services/pool';
-import { blobToBase64 } from '@common/utils/blobToBase64';
 import { bytesToBase64 } from '@common/utils/bytesToBase64';
 import { ResultSetHeader, type RowDataPacket } from 'mysql2';
 

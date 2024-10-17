@@ -3,13 +3,10 @@
 import Product from '@common/entities/Product';
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
 import { ProductValidationSchema } from '@productos/(lib)/services/schemas/ProductValidationSchema';
-import { updateProductAdapter } from '@productos/(lib)/adapters/updateProductAdapter';
 import { ProductDetailsFormErrors } from '@productos/detalles/[id]/components/product-details/ProductDetails';
-import { updateProductFromDatabase } from '@productos/(lib)/services/updateProductFromDatabase';
 import { getEditedProductFromFormData } from '@productos/(lib)/utils/getEditedProductFromFormData';
 import { revalidatePath } from 'next/cache';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
-import type ProductRepository from '@common/entities/ProductRepository';
 import UpdateProduct from '@productos/(lib)/usecases/UpdateProduct';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 import ProductPriceType from '@common/entities/ProductPriceType';
