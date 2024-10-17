@@ -1,4 +1,3 @@
-import { materialListAdapter } from '@insumos/(lib)/adapters/materialAdapter';
 import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
 import { Listbox, ListboxItem } from '@nextui-org/react';
 import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
@@ -10,7 +9,6 @@ import { ReactNode, RefObject } from 'react';
 import type Material from '@common/entities/Material';
 import type Product from '@common/entities/Product';
 import { fetchProductList } from '@productos/(lib)/services/fetchProductList';
-import { productListAdapter } from '@productos/(lib)/adapters/productAdapter';
 
 type MaterialsListSelectorProps = {
     selectedMaterials: Material[];
@@ -28,10 +26,9 @@ export function MaterialsListSelector(props: MaterialsListSelectorProps) {
                     const response = await fetchMaterialList({
                         params: { cursor: String(pageParam) },
                     });
-                    const adapted = materialListAdapter(response.data);
 
                     return {
-                        items: adapted,
+                        items: response.data,
                         nextCursor: response.nextCursor,
                     };
                 },
@@ -97,10 +94,9 @@ export function ProductsListSelector(props: ProductsListSelectorProps) {
                     const response = await fetchProductList({
                         params: { cursor: String(pageParam) },
                     });
-                    const adapted = productListAdapter(response.data);
 
                     return {
-                        items: adapted,
+                        items: response.data,
                         nextCursor: response.nextCursor,
                     };
                 },

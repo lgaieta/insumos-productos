@@ -1,4 +1,3 @@
-import { productListAdapter } from '@productos/(lib)/adapters/productAdapter';
 import { fetchProductList } from '@productos/(lib)/services/fetchProductList';
 import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
 import IngredientsModalPaginationWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalPaginationWrapper';
@@ -20,10 +19,9 @@ function ProductListbox(props: ProductListboxProps) {
                     const response = await fetchProductList({
                         params: { cursor: String(pageParam) },
                     });
-                    const adapted = productListAdapter(response.data);
 
                     return {
-                        items: adapted,
+                        items: response.data,
                         nextCursor: response.nextCursor,
                     };
                 },

@@ -1,4 +1,3 @@
-import { materialListAdapter } from '@insumos/(lib)/adapters/materialAdapter';
 import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
 import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
 import IngredientsModalPaginationWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalPaginationWrapper';
@@ -20,10 +19,9 @@ function MaterialListbox(props: MaterialListboxProps) {
                     const response = await fetchMaterialList({
                         params: { cursor: String(pageParam) },
                     });
-                    const adapted = materialListAdapter(response.data);
 
                     return {
-                        items: adapted,
+                        items: response.data,
                         nextCursor: response.nextCursor,
                     };
                 },
