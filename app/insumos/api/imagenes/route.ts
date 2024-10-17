@@ -1,46 +1,30 @@
+import type { MaterialId } from '@common/entities/Material';
 import { GenericErrorResponse } from '@common/services/GenericErrorResponse';
 import { GenericApiGETResponse, handleApiGET } from '@common/services/handleApiGET';
-import {
-    DBMaterialImage,
-    getMaterialsImagesFromDatabase,
-} from '@insumos/(lib)/services/getMaterialImagesFromDatabase';
-import { getMaterialRowsCount } from '@insumos/(lib)/services/getMaterialRowsCount';
+import MySQLMaterialRepository from '@insumos/(lib)/services/MySQLMaterialRepository';
 import { type NextRequest } from 'next/server';
 
-type JsonStringifiedBuffer = {
-    data: number[];
-    type: 'Buffer';
-};
-
-type StringifiedDBMaterialImage = {
-    INSUMO_ID: DBMaterialImage['INSUMO_ID'];
-    IMAGEN: JsonStringifiedBuffer | null;
-};
-
-export type MaterialImageListApiResponse = GenericApiGETResponse<StringifiedDBMaterialImage[]>;
+export type MaterialImageListApiResponse = GenericApiGETResponse<
+    { id: MaterialId; image: string | null }[]
+>;
 
 export async function GET(request: NextRequest) {
     try {
+        const materialRepository = new MySQLMaterialRepository();
         const { data, total, nextCursor } = await handleApiGET({
             searchParams: request.nextUrl.searchParams,
             getData: async params =>
-                await getMaterialsImagesFromDatabase({
+                await materialRepository.getImageList({
                     filterText: params.filterText,
                     cursor: +params.cursor,
                     rowLimit: +params.rowLimit,
                 }),
-            getRowsCount: async params => await getMaterialRowsCount(params.filterText),
+            getRowsCount: async params =>
+                await materialRepository.getMaterialsCount(params.filterText),
         });
 
-        const dataWithNullsFiltered = data.filter(row => row.IMAGEN !== null);
-
-        const adaptedData = dataWithNullsFiltered.map(item => ({
-            INSUMO_ID: item.INSUMO_ID,
-            IMAGEN: item.IMAGEN?.toJSON() || null,
-        }));
-
         const response: MaterialImageListApiResponse = {
-            data: adaptedData,
+            data,
             total,
             nextCursor,
         };

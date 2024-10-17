@@ -1,14 +1,12 @@
-import { materialAdapter } from '@insumos/(lib)/adapters/materialAdapter';
 import MaterialDetails from '@insumos-detalles/components/MaterialDetails';
-import { getSingleMaterialFromDatabase } from '@insumos/(lib)/services/getSingleMaterialFromDatabase';
 import MaterialNotFoundErrorPage from '@insumos/detalles/[id]/components/MaterialNotFoundErrorPage';
+import MySQLMaterialRepository from '@insumos/(lib)/services/MySQLMaterialRepository';
 
 async function MaterialPage({ params }: { params: { id: string } }) {
-    const dbResult = await getSingleMaterialFromDatabase(+params.id);
+    const materialRepository = new MySQLMaterialRepository();
+    const material = await materialRepository.getById(+params.id);
 
-    if (dbResult === undefined) return <MaterialNotFoundErrorPage />;
-
-    const material = materialAdapter(dbResult);
+    if (!material) return <MaterialNotFoundErrorPage />;
 
     return (
         <main className='max-w-5xl w-full mt-10 mx-auto px-4 min-[400px]:px-8'>

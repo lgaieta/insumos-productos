@@ -12,6 +12,7 @@ interface MaterialRepository {
     getList(options: QueryOptions): Promise<Material[]>;
     getMaterialsCount(filterText: string): Promise<number>;
     getById(materialId: MaterialId): Promise<Material | null>;
+    getImageList(options: QueryOptions): Promise<{ id: MaterialId; image: string }[]>;
     create(material: Material): Promise<Material>;
     update(material: Material): Promise<Material>;
 }

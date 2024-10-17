@@ -2,6 +2,7 @@ import type Material from '@common/entities/Material';
 import type { MaterialId } from '@common/entities/Material';
 import type MaterialRepository from '@common/entities/MaterialRepository';
 import { pool } from '@common/services/pool';
+import { blobToBase64 } from '@common/utils/blobToBase64';
 import { bytesToBase64 } from '@common/utils/bytesToBase64';
 import { ResultSetHeader, type RowDataPacket } from 'mysql2';
 
@@ -55,6 +56,26 @@ class MySQLMaterialRepository implements MaterialRepository {
         if (!foundMaterial) return null;
 
         return this.materialAdapter(foundMaterial);
+    }
+
+    async getImageList(options: {
+        filterText: string;
+        cursor: number;
+        rowLimit: number;
+    }): Promise<{ id: MaterialId; image: string }[]> {
+        interface Result extends RowDataPacket {
+            id: number;
+            image: Blob;
+        }
+        const [rows] = await pool.query<Result[]>(
+            `SELECT INSUMO_ID as id, IMAGEN as image FROM INSUMO WHERE NOMBRE LIKE ? LIMIT ? OFFSET ?`,
+            [`%${options.filterText}%`, options.rowLimit, options.cursor],
+        );
+
+        return rows.map(row => ({
+            id: row.id,
+            image: bytesToBase64(JSON.parse(JSON.stringify(row.image)).data),
+        }));
     }
 
     async create(material: Material): Promise<Material> {

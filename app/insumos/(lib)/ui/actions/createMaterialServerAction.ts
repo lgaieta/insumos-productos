@@ -15,7 +15,7 @@ export const createMaterialServerAction = async (_: any, formData: FormData) => 
 
         const parsedResult = MaterialValidationSchema.safeParse({
             name,
-            image: file.size === 0 ? null : file,
+            image: file.size === 0 ? null : blobToBase64(file),
             price,
             link,
         });
@@ -36,7 +36,7 @@ export const createMaterialServerAction = async (_: any, formData: FormData) => 
         await materialRepository.create({
             ...parsedResult.data,
             id: 1,
-            image: parsedResult.data.image ? await blobToBase64(parsedResult.data.image) : null,
+            image: parsedResult.data.image || null,
         });
 
         console.log(`Saved material with name ${name} and price ${price} successfully`);

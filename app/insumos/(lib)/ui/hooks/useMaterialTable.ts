@@ -2,12 +2,12 @@ import { ROWS_PER_PAGE } from '@common/constants';
 import Material from '@common/entities/Material';
 import { LoadFunctionParams, useEntityTable } from '@common/ui/hooks/useEntityTable';
 import { sortItems } from '@common/utils/sortItems';
-import { materialListAdapter } from '@insumos/(lib)/adapters/materialAdapter';
-import { materialImageListAdapter } from '@insumos/(lib)/adapters/materialImageAdapter';
-import { mergeMaterialsWithImages } from '@insumos/(lib)/adapters/mergeMaterialsWithImages';
 import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
 import { fetchMaterialImageList } from '@insumos/(lib)/services/fetchMaterialImageList';
 import { useState } from 'react';
+
+const mergeMaterialsWithImages = (materials: Material[], images: { [id: number]: string }) =>
+    materials.map(material => ({ ...material, image: images[material.id] || null }));
 
 export const useMaterialTable = () => {
     const [materialImageList, setMaterialImageList] = useState({});
@@ -27,9 +27,12 @@ export const useMaterialTable = () => {
 
         if (signal!.aborted) return;
 
-        const adapted = materialImageListAdapter(data);
+        const preparedList = data.map(item => ({
+            id: item.id,
+            image: `data:image/png;base64,${item.image}`,
+        }));
 
-        setMaterialImageList(adapted);
+        setMaterialImageList(preparedList);
     };
 
     const table = useEntityTable<Material>({
@@ -48,9 +51,7 @@ export const useMaterialTable = () => {
 
             loadImages({ filterText, cursor, signal });
 
-            const adaptedMaterialList = materialListAdapter(response.data);
-
-            const sortedMaterialList = adaptedMaterialList.sort((a, b) =>
+            const sortedMaterialList = response.data.sort((a, b) =>
                 sortItems(
                     a,
                     b,
