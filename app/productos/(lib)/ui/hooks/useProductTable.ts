@@ -2,12 +2,13 @@ import { ROWS_PER_PAGE } from '@common/constants';
 import Product from '@common/entities/Product';
 import { LoadFunctionParams, useEntityTable } from '@common/ui/hooks/useEntityTable';
 import { sortItems } from '@common/utils/sortItems';
-import { productListAdapter } from '@productos/(lib)/adapters/productAdapter';
-import { productImageListAdapter } from '@productos/(lib)/adapters/productImageAdapter';
-import { mergeProductsWithImages } from '@productos/(lib)/adapters/mergeProductsWithImages';
 import { fetchProductList } from '@productos/(lib)/services/fetchProductList';
 import { fetchProductImageList } from '@productos/(lib)/services/fetchProductImageList';
 import { useState } from 'react';
+import type Material from '@common/entities/Material';
+
+const mergeProductsWithImages = (materials: Material[], images: { [id: number]: string }) =>
+    materials.map(material => ({ ...material, image: images[material.id] || null }));
 
 export const useProductTable = () => {
     const [productImageList, setProductImageList] = useState({});
@@ -27,9 +28,12 @@ export const useProductTable = () => {
 
         if (signal!.aborted) return;
 
-        const adapted = productImageListAdapter(data);
+        const preparedList = data.map(item => ({
+            id: item.id,
+            image: `data:image/png;base64,${item.image}`,
+        }));
 
-        setProductImageList(adapted);
+        setProductImageList(preparedList);
     };
 
     const table = useEntityTable<Product>({
@@ -48,9 +52,7 @@ export const useProductTable = () => {
 
             loadImages({ filterText, cursor, signal });
 
-            const adaptedProductList = productListAdapter(response.data);
-
-            const sortedProductList = adaptedProductList.sort((a, b) =>
+            const sortedProductList = response.data.sort((a, b) =>
                 sortItems(
                     a,
                     b,
