@@ -1,7 +1,0 @@
--   add ui folder in (common) DONE
--   add ui folder in insumos lib DONE
--   develop material repository entity DONE
--   develop material respository mysql service DONE
--   replace old functions with new repository DONE
--   replace image loading with saving it in cdn DELAYED
--   Move all functions to MySQLProductRepository
