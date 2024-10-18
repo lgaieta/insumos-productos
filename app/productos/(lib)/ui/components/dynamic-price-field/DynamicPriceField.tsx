@@ -17,7 +17,10 @@ import {
     Tabs,
     useDisclosure,
 } from '@nextui-org/react';
-import { MaterialsListSelector } from '@productos/(lib)/ui/components/dynamic-price-field/IngredientsTabLists';
+import {
+    MaterialsListSelector,
+    ProductsListSelector,
+} from '@productos/(lib)/ui/components/dynamic-price-field/IngredientsTabLists';
 import SelectedIngredientsList from '@productos/(lib)/ui/components/dynamic-price-field/SelectedIngredientsList';
 import { useState } from 'react';
 
@@ -90,7 +93,12 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                                         <Tab
                                             key='product'
                                             title='Productos'
-                                        ></Tab>
+                                        >
+                                            <ProductsListSelector
+                                                selectedProducts={selectedProducts}
+                                                onSelectedProductsChange={setSelectedProducts}
+                                            />
+                                        </Tab>
                                     </Tabs>
                                 </ModalBody>
                                 <Divider />
