@@ -1,8 +1,8 @@
 'use client';
 
 import { Input } from '@nextui-org/input';
-import ImageUploader from '@insumos-nuevo/components/image-uploader/ImageUploader';
-import SubmitButton from '@insumos-nuevo/components/submit-button/SubmitButton';
+import ImageUploader from '@insumos/(lib)/ui/components/image-uploader/ImageUploader';
+import SubmitButton from '@insumos/(lib)/ui/components/submit-button/SubmitButton';
 import { useFormState } from 'react-dom';
 import { createMaterialServerAction } from '@insumos/(lib)/ui/actions/createMaterialServerAction';
 

@@ -1,16 +1,16 @@
-import DeleteButton from '@insumos/detalles/[id]/components/DeleteButton';
-import EditButton from '@insumos/detalles/[id]/components/EditButton';
 import { CardFooter } from '@nextui-org/card';
+import DeleteButton from '@productos/(lib)/ui/components/product-details/DeleteButton';
+import EditButton from '@productos/(lib)/ui/components/product-details/EditButton';
 import { ButtonHTMLAttributes } from 'react';
 
-type MaterialCardFooterProps = {
+type ProductCardFooterProps = {
     isEditable: boolean;
     onEditPress: () => void;
     editFormAction: ButtonHTMLAttributes<HTMLButtonElement>['formAction'];
     onDeletePress: () => void;
 };
 
-function MaterialCardFooter(props: MaterialCardFooterProps) {
+function ProductCardFooter(props: ProductCardFooterProps) {
     return (
         <CardFooter className='w-full gap-2 justify-end'>
             <EditButton
@@ -26,4 +26,4 @@ function MaterialCardFooter(props: MaterialCardFooterProps) {
     );
 }
 
-export default MaterialCardFooter;
+export default ProductCardFooter;

@@ -1,6 +1,6 @@
 'use client';
 import { Button, useDisclosure } from '@nextui-org/react';
-import IngredientsModal from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModal';
+import IngredientsModal from '@productos/(lib)/ui/components/ingredients-modal/IngredientsModal';
 
 function IngredientsListOpenModalButton() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();

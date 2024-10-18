@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ImageUploader from '@insumos/nuevo/components/image-uploader/ImageUploader';
+import ImageUploader from '@productos/(lib)/ui/components/image-uploader/ImageUploader';
 
 describe('ImageUploader', () => {
     test('renders', () => {

@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { MaterialValidationSchema } from '@insumos/(lib)/schemas/MaterialValidationSchema';
-import { CreateMaterialFormErrors } from '@insumos/nuevo/components/create-material-form/CreateMaterialForm';
+import { CreateMaterialFormErrors } from '@insumos/(lib)/ui/components/create-material-form/CreateMaterialForm';
 import MySQLMaterialRepository from '@insumos/(lib)/services/MySQLMaterialRepository';
 import { blobToBase64 } from '@common/utils/blobToBase64';
 

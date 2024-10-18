@@ -1,14 +1,14 @@
 'use client';
 
 import { Input } from '@nextui-org/input';
-import ImageUploader from '@productos-nuevo/components/image-uploader/ImageUploader';
-import SubmitButton from '@productos-nuevo/components/submit-button/SubmitButton';
+import ImageUploader from '@productos/(lib)/ui/components/image-uploader/ImageUploader';
+import SubmitButton from '@productos/(lib)/ui/components/submit-button/SubmitButton';
 import { useFormState } from 'react-dom';
 import { createProductServerAction } from '@productos/(lib)/ui/actions/createProductServerAction';
-import PriceTypeSelector from '@productos/nuevo/components/price-type-selector/PriceTypeSelector';
+import PriceTypeSelector from '@productos/(lib)/ui/components/price-type-selector/PriceTypeSelector';
 import { useState } from 'react';
 import type Ingredient from '@common/entities/Ingredient';
-import DynamicPriceField from '@productos/nuevo/components/dynamic-price-field/DynamicPriceField';
+import DynamicPriceField from '@productos/(lib)/ui/components/dynamic-price-field/DynamicPriceField';
 import IngredientType from '@common/entities/IngredientType';
 
 export type CreateProductFormErrors = {

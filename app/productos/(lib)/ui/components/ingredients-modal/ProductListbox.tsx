@@ -1,8 +1,8 @@
 import { fetchProductList } from '@productos/(lib)/services/fetchProductList';
 import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
-import IngredientsModalPaginationWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalPaginationWrapper';
+import IngredientsModalPaginationWrapper from '@productos/(lib)/ui/components/ingredients-modal/IngredientsModalPaginationWrapper';
 import { adaptQueryDataForListbox } from '@productos/(lib)/utils/adaptQueryDataForListbox';
-import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
+import ListboxSkeleton from '@productos/(lib)/ui/components/ingredients-modal/ListboxSkeleton';
 import { Key } from 'react-stately';
 
 type ProductListboxProps = {

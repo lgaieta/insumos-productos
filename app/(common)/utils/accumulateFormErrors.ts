@@ -1,4 +1,4 @@
-import { MaterialDetailsFormErrors } from '@insumos-detalles/components/MaterialDetails';
+import { MaterialDetailsFormErrors } from '@insumos/(lib)/ui/components/material-details/MaterialDetails';
 import { SafeParseError } from 'zod';
 
 export const accumulateFormErrors = <Structure extends Object>(

@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
 import Product from '@common/entities/Product';
-import IngredientsGridList from '@productos/detalles/[id]/components/ingredients-list/IngredientsGridList';
-import IngredientsListOpenModalButton from '@productos/detalles/[id]/components/ingredients-list/IngredientsListOpenModalButton';
+import IngredientsGridList from '@productos/(lib)/ui/components/ingredients-list/IngredientsGridList';
+import IngredientsListOpenModalButton from '@productos/(lib)/ui/components/ingredients-list/IngredientsListOpenModalButton';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 type IngredientsListProps = {
     productId: Product['id'];

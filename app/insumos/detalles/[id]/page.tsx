@@ -1,5 +1,5 @@
-import MaterialDetails from '@insumos-detalles/components/MaterialDetails';
-import MaterialNotFoundErrorPage from '@insumos/detalles/[id]/components/MaterialNotFoundErrorPage';
+import MaterialDetails from '@insumos/(lib)/ui/components/material-details/MaterialDetails';
+import MaterialNotFoundErrorPage from '@insumos/(lib)/ui/components/material-details/MaterialNotFoundErrorPage';
 import MySQLMaterialRepository from '@insumos/(lib)/services/MySQLMaterialRepository';
 
 async function MaterialPage({ params }: { params: { id: string } }) {

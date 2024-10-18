@@ -1,6 +1,6 @@
 import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
 import { Listbox, ListboxItem } from '@nextui-org/react';
-import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
+import ListboxSkeleton from '@productos/(lib)/ui/components/ingredients-modal/ListboxSkeleton';
 import { adaptQueryDataForListbox } from '@productos/(lib)/utils/adaptQueryDataForListbox';
 import { Spinner } from '@nextui-org/react';
 import { useInfiniteScroll } from '@nextui-org/use-infinite-scroll';

@@ -3,12 +3,12 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@nextu
 import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { Tabs, Tab } from '@nextui-org/tabs';
-import MaterialListbox from '@productos/detalles/[id]/components/ingredients-modal/MaterialListbox';
-import ProductListbox from '@productos/detalles/[id]/components/ingredients-modal/ProductListbox';
+import MaterialListbox from '@productos/(lib)/ui/components/ingredients-modal/MaterialListbox';
+import ProductListbox from '@productos/(lib)/ui/components/ingredients-modal/ProductListbox';
 import { useState } from 'react';
 import { Key } from 'react-stately';
 import { ModalProps } from '@nextui-org/react';
-import SaveIngredientsButton from '@productos/detalles/[id]/components/ingredients-modal/SaveIngredientsButton';
+import SaveIngredientsButton from '@productos/(lib)/ui/components/ingredients-modal/SaveIngredientsButton';
 
 function IngredientsModal(props: Omit<ModalProps, 'children'>) {
     const [selectedMaterials, setSelectedMaterials] = useState<Set<Key>>(new Set());

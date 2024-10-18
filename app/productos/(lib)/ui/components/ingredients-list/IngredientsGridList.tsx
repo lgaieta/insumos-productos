@@ -1,7 +1,7 @@
 'use client';
 import Ingredient from '@common/entities/Ingredient';
-import DeleteIngredientButton from '@productos/detalles/[id]/components/ingredients-list/DeleteIngredientButton';
-import IngredientAmount from '@productos/detalles/[id]/components/ingredients-list/IngredientAmount';
+import DeleteIngredientButton from '@productos/(lib)/ui/components/ingredients-list/DeleteIngredientButton';
+import IngredientAmount from '@productos/(lib)/ui/components/ingredients-list/IngredientAmount';
 import { Table, TableHeader, TableBody, TableColumn, TableRow, TableCell } from '@nextui-org/react';
 import { Key } from 'react';
 import Link from 'next/link';

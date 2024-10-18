@@ -1,17 +1,17 @@
-import MaterialImageAvatar from '@insumos/detalles/[id]/components/MaterialImageAvatar';
 import { CardHeader } from '@nextui-org/card';
+import ProductImageAvatar from '@productos/(lib)/ui/components/product-details/ProductImageAvatar';
 
-type MaterialCardHeaderProps = {
+type ProductCardHeaderProps = {
     isEditable: boolean;
     imageSrc: string | null;
     title: string;
     classNames?: { imageContainer: string };
 };
 
-function MaterialCardHeader(props: MaterialCardHeaderProps) {
+function ProductCardHeader(props: ProductCardHeaderProps) {
     return (
         <CardHeader className='p-5 flex-wrap gap-4'>
-            <MaterialImageAvatar
+            <ProductImageAvatar
                 isEditable={props.isEditable}
                 imageSrc={props.imageSrc}
                 classNames={props.classNames}
@@ -21,4 +21,4 @@ function MaterialCardHeader(props: MaterialCardHeaderProps) {
     );
 }
 
-export default MaterialCardHeader;
+export default ProductCardHeader;

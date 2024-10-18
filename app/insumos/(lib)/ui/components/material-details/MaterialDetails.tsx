@@ -4,13 +4,13 @@ import Material from '@common/entities/Material';
 import { useEditMaterial } from '@insumos/(lib)/ui/hooks/useEditMaterial';
 import { useDeleteMaterial } from '@insumos/(lib)/ui/hooks/useDeleteMaterial';
 import { useDisclosure } from '@nextui-org/modal';
-import ConfirmDeleteModal from '@insumos/detalles/[id]/components/ConfirmDeleteModal';
-import MaterialCard from '@insumos/detalles/[id]/components/MaterialCard';
-import MaterialCardBody from '@insumos/detalles/[id]/components/MaterialCardBody';
-import MaterialCardEditableBody from '@insumos/detalles/[id]/components/MaterialCardEditableBody';
-import MaterialCardFooter from '@insumos/detalles/[id]/components/MaterialCardFooter';
-import MaterialCardHeader from '@insumos/detalles/[id]/components/MaterialCardHeader';
-import MaterialImage from '@insumos/detalles/[id]/components/MaterialImage';
+import ConfirmDeleteModal from '@insumos/(lib)/ui/components/material-details/ConfirmDeleteModal';
+import MaterialCard from '@insumos/(lib)/ui/components/material-details/MaterialCard';
+import MaterialCardBody from '@insumos/(lib)/ui/components/material-details/MaterialCardBody';
+import MaterialCardEditableBody from '@insumos/(lib)/ui/components/material-details/MaterialCardEditableBody';
+import MaterialCardFooter from '@insumos/(lib)/ui/components/material-details/MaterialCardFooter';
+import MaterialCardHeader from '@insumos/(lib)/ui/components/material-details/MaterialCardHeader';
+import MaterialImage from '@insumos/(lib)/ui/components/material-details/MaterialImage';
 import { Divider } from '@nextui-org/react';
 
 export type MaterialDetailsFormErrors = {

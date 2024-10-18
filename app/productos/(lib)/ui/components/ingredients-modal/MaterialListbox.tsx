@@ -1,7 +1,7 @@
 import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
 import { Listbox, ListboxItem, Selection } from '@nextui-org/react';
-import IngredientsModalPaginationWrapper from '@productos/detalles/[id]/components/ingredients-modal/IngredientsModalPaginationWrapper';
-import ListboxSkeleton from '@productos/detalles/[id]/components/ingredients-modal/ListboxSkeleton';
+import IngredientsModalPaginationWrapper from '@productos/(lib)/ui/components/ingredients-modal/IngredientsModalPaginationWrapper';
+import ListboxSkeleton from '@productos/(lib)/ui/components/ingredients-modal/ListboxSkeleton';
 import { adaptQueryDataForListbox } from '@productos/(lib)/utils/adaptQueryDataForListbox';
 import { Key } from 'react-stately';
 

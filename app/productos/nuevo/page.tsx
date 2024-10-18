@@ -1,4 +1,4 @@
-import CreateProductForm from '@productos-nuevo/components/create-product-form/CreateProductForm';
+import CreateProductForm from '@productos/(lib)/ui/components/create-product-form/CreateProductForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

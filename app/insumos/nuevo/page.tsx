@@ -1,4 +1,4 @@
-import CreateMaterialForm from '@insumos-nuevo/components/create-material-form/CreateMaterialForm';
+import CreateMaterialForm from '@insumos/(lib)/ui/components/create-material-form/CreateMaterialForm';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

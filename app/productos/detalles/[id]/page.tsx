@@ -1,8 +1,8 @@
-import IngredientsList from '@productos/detalles/[id]/components/ingredients-list/IngredientsList';
-import IngredientsListErrorBoundary from '@productos/detalles/[id]/components/ingredients-list/IngredientsListErrorBoundary';
-import IngredientsListSkeleton from '@productos/detalles/[id]/components/ingredients-list/IngredientsListSkeleton';
-import ProductDetails from '@productos/detalles/[id]/components/product-details/ProductDetails';
-import ProductNotFoundErrorPage from '@productos/detalles/[id]/components/product-details/ProductNotFoundErrorPage';
+import IngredientsList from '@productos/(lib)/ui/components/ingredients-list/IngredientsList';
+import IngredientsListErrorBoundary from '@productos/(lib)/ui/components/ingredients-list/IngredientsListErrorBoundary';
+import IngredientsListSkeleton from '@productos/(lib)/ui/components/ingredients-list/IngredientsListSkeleton';
+import ProductDetails from '@productos/(lib)/ui/components/product-details/ProductDetails';
+import ProductNotFoundErrorPage from '@productos/(lib)/ui/components/product-details/ProductNotFoundErrorPage';
 import { Suspense } from 'react';
 import GetProduct from '@productos/(lib)/usecases/GetProduct';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
