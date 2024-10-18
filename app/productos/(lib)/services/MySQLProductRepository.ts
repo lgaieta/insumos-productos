@@ -107,7 +107,7 @@ class MySQLProductRepository implements ProductRepository {
             name: incomingProduct.NOMBRE,
             price: parseFloat(incomingProduct.COSTO_UNITARIO),
             profit: parseFloat(incomingProduct.GANANCIA),
-            price_type:
+            priceType:
                 incomingProduct.TIPO_PRECIO === 'fijo'
                     ? ProductPriceType.Fixed
                     : ProductPriceType.Dynamic,
@@ -126,7 +126,7 @@ class MySQLProductRepository implements ProductRepository {
             IMAGEN: product.image ? Buffer.from(product.image, 'base64') : null,
             COSTO_UNITARIO: product.price,
             GANANCIA: product.profit,
-            TIPO_PRECIO: product.price_type === ProductPriceType.Fixed ? 'fijo' : 'dinamico',
+            TIPO_PRECIO: product.priceType === ProductPriceType.Fixed ? 'fijo' : 'dinamico',
             LINK: product.link,
         };
     }
@@ -140,9 +140,9 @@ class MySQLProductRepository implements ProductRepository {
             IMAGEN: product.image ? Buffer.from(product.image, 'base64') : undefined,
             COSTO_UNITARIO: product.price,
             GANANCIA: product.profit,
-            TIPO_PRECIO: !product.price_type
+            TIPO_PRECIO: !product.priceType
                 ? undefined
-                : product.price_type === ProductPriceType.Fixed
+                : product.priceType === ProductPriceType.Fixed
                 ? 'fijo'
                 : 'dinamico',
             LINK: product.link,

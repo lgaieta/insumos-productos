@@ -2,6 +2,7 @@ import type { IngredientId } from '@common/entities/Ingredient';
 import type IngredientRepository from '@common/entities/IngredientRepository';
 import type { ProductId } from '@common/entities/Product';
 import type ProductRepository from '@common/entities/ProductRepository';
+import UpdateSuperProductsPrice from '@productos/(lib)/usecases/UpdateSuperProductsPrice';
 
 class UpdateIngredientAmount {
     static async execute({
@@ -19,7 +20,13 @@ class UpdateIngredientAmount {
     }) {
         try {
             await ingredientRepository.updateAmount(ingredientId, newAmount);
-            await productRepository.recalculatePriceRecursively(productId);
+            const product = await productRepository.getById(productId);
+            await new UpdateSuperProductsPrice().execute({
+                product: product!,
+                productRepository,
+                ingredientRepository,
+            });
+
             return {
                 success: true,
             };

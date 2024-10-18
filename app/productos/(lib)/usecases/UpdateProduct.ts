@@ -16,7 +16,7 @@ class UpdateProduct {
             const { newProduct, productRepository, ingredientRepository } = dependencies;
 
             const newProductPrice =
-                newProduct.price_type === ProductPriceType.Fixed
+                newProduct.priceType === ProductPriceType.Fixed
                     ? newProduct.price
                     : await this.calculateProductPrice({
                           product: newProduct,

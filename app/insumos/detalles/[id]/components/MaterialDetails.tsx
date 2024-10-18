@@ -53,14 +53,14 @@ function MaterialDetails(props: MaterialDetailsProps) {
             />
             <MaterialImage
                 isEditable={isEditable}
-                imageSrc={material.image instanceof Blob ? null : material.image}
+                imageSrc={material.image}
                 imageAlt={material.name}
             />
             <MaterialCard className='sm:col-span-2'>
                 <MaterialCardHeader
                     title={material.name}
                     isEditable={isEditable}
-                    imageSrc={material.image instanceof Blob ? null : material.image}
+                    imageSrc={material.image}
                     classNames={{ imageContainer: 'md:hidden' }}
                 />
                 <Divider />

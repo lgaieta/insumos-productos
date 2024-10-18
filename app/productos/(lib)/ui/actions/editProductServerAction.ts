@@ -29,7 +29,7 @@ export async function editProductServerAction(
             newProduct: {
                 id: currentProduct.id,
                 ...parsedResult.data,
-                price_type: ProductPriceType.Fixed,
+                priceType: ProductPriceType.Fixed,
             },
             productRepository: new MySQLProductRepository(),
             ingredientRepository: new MySQLIngredientRepository(),

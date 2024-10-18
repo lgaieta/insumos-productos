@@ -7,7 +7,7 @@ type Product = {
     name: string;
     image: string | null;
     price: number;
-    price_type: ProductPriceType;
+    priceType: ProductPriceType;
     profit: number;
     link: string | null;
 };

@@ -1,16 +1,17 @@
-import { productAdapter } from '@productos/(lib)/adapters/productAdapter';
 import IngredientsList from '@productos/detalles/[id]/components/ingredients-list/IngredientsList';
 import IngredientsListErrorBoundary from '@productos/detalles/[id]/components/ingredients-list/IngredientsListErrorBoundary';
 import IngredientsListSkeleton from '@productos/detalles/[id]/components/ingredients-list/IngredientsListSkeleton';
 import ProductDetails from '@productos/detalles/[id]/components/product-details/ProductDetails';
 import ProductNotFoundErrorPage from '@productos/detalles/[id]/components/product-details/ProductNotFoundErrorPage';
-import { getSingleProductFromDatabase } from '@productos/(lib)/services/getSingleProductFromDatabase';
 import { Suspense } from 'react';
 import GetProduct from '@productos/(lib)/usecases/GetProduct';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 
 async function ProductPage({ params }: { params: { id: string } }) {
-    const storageResult = await GetProduct.execute({productId: Number(params.id), productRepository: new MySQLProductRepository()});
+    const storageResult = await GetProduct.execute({
+        productId: Number(params.id),
+        productRepository: new MySQLProductRepository(),
+    });
 
     if (storageResult.success === false) return <ProductNotFoundErrorPage />;
 

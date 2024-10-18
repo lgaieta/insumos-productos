@@ -1,8 +1,8 @@
 import type { IngredientId } from '@common/entities/Ingredient';
 import type IngredientRepository from '@common/entities/IngredientRepository';
-import type NewIngredientsList from '@common/entities/NewIngredientsList';
 import type { ProductId } from '@common/entities/Product';
 import type ProductRepository from '@common/entities/ProductRepository';
+import UpdateSuperProductsPrice from '@productos/(lib)/usecases/UpdateSuperProductsPrice';
 
 class DeleteIngredient {
     static async execute({
@@ -18,7 +18,13 @@ class DeleteIngredient {
     }) {
         try {
             await ingredientRepository.deleteById(ingredientId);
-            await productRepository.recalculatePriceRecursively(productId);
+            const product = await productRepository.getById(productId);
+
+            await new UpdateSuperProductsPrice().execute({
+                product: product!,
+                ingredientRepository,
+                productRepository,
+            });
 
             return {
                 success: true,

@@ -1,17 +1,17 @@
 'use server';
 
 import type Ingredient from '@common/entities/Ingredient';
-import type Product from '@common/entities/Product';
 import { revalidatePath } from 'next/cache';
 import type IngredientRepository from '@common/entities/IngredientRepository';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 import type ProductRepository from '@common/entities/ProductRepository';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 import DeleteIngredient from '@productos/(lib)/usecases/DeleteIngredient';
+import type { ProductId } from '@common/entities/Product';
 
 export async function deleteIngredientServerAction(
     ingredientId: Ingredient['id'],
-    productId: Product['id'],
+    productId: ProductId,
 ) {
     const ingredientRepository: IngredientRepository = new MySQLIngredientRepository();
     const productRepository: ProductRepository = new MySQLProductRepository();

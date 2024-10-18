@@ -53,14 +53,14 @@ function ProductDetails(props: ProductDetailsProps) {
             />
             <ProductImage
                 isEditable={isEditable}
-                imageSrc={null}
+                imageSrc={product.image}
                 imageAlt={product.name}
             />
             <ProductCard className='sm:col-span-2'>
                 <ProductCardHeader
                     title={product.name}
                     isEditable={isEditable}
-                    imageSrc={null}
+                    imageSrc={product.image}
                     classNames={{ imageContainer: 'md:hidden' }}
                 />
                 <Divider />

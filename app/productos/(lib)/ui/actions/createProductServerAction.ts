@@ -5,6 +5,7 @@ import { ProductValidationSchema } from '@productos/(lib)/services/schemas/Produ
 import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
 import CreateProduct from '@productos/(lib)/usecases/CreateProduct';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
+import ProductPriceType from '@common/entities/ProductPriceType';
 
 export const createProductServerAction = async (_: any, formData: FormData) => {
     try {
@@ -27,7 +28,11 @@ export const createProductServerAction = async (_: any, formData: FormData) => {
         }
 
         await CreateProduct.execute({
-            newProduct: { id: 1, ...parsedResult.data },
+            newProduct: {
+                id: 1,
+                ...parsedResult.data,
+                priceType: ProductPriceType.Fixed,
+            },
             productRepository: new MySQLProductRepository(),
         });
 

@@ -36,7 +36,7 @@ class UpdateSuperProductsPrice {
         ingredientRepository: IngredientRepository;
         productRepository: ProductRepository;
     }) {
-        if (product.price_type === ProductPriceType.Fixed) return;
+        if (product.priceType === ProductPriceType.Fixed) return;
 
         const ingredients = (await ingredientRepository.getByComponentId(product.id)).filter(
             ingredient => ingredient.type === IngredientType.Product,

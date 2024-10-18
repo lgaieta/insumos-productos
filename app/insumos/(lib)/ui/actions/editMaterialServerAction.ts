@@ -14,7 +14,7 @@ export async function editMaterialServerAction(
     formData: FormData,
 ) {
     try {
-        const editedMaterial = getEditedMaterialFromFormData(formData);
+        const editedMaterial = await getEditedMaterialFromFormData(formData);
         const parsedResult = MaterialValidationSchema.safeParse(editedMaterial);
 
         if (parsedResult.success === false) {

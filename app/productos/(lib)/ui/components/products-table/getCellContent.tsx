@@ -1,11 +1,10 @@
 import Product from '@/(common)/entities/Product';
 import { getKeyValue } from '@nextui-org/table';
-import { Key } from 'react';
 import { Button } from '@nextui-org/button';
 import { Avatar } from '@nextui-org/avatar';
 import NextLink from 'next/link';
 import { MdCameraAlt } from 'react-icons/md';
-import AddLinkButton from '@productos/(lib)/components/products-table/AddLinkButton';
+import AddLinkButton from '@productos/(lib)/ui/components/products-table/AddLinkButton';
 
 export const getCellContent = (product: Product, columnKey: string | number) => {
     const keyValue = getKeyValue(product, columnKey);
