@@ -5,7 +5,6 @@ import {
     Button,
     Card,
     CardBody,
-    CardHeader,
     Divider,
     Input,
     Modal,
@@ -17,11 +16,13 @@ import {
     Tabs,
     useDisclosure,
 } from '@nextui-org/react';
+import IngredientsSelectorModal from '@productos/(lib)/ui/components/dynamic-price-field/IngredientsSelectorModal';
 import {
     MaterialsListSelector,
     ProductsListSelector,
 } from '@productos/(lib)/ui/components/dynamic-price-field/IngredientsTabLists';
-import SelectedIngredientsList from '@productos/(lib)/ui/components/dynamic-price-field/SelectedIngredientsList';
+import { mergeProductsWithMaterials } from '@productos/(lib)/ui/components/dynamic-price-field/mergeProductsWithMaterials';
+import SelectedIngredients from '@productos/(lib)/ui/components/dynamic-price-field/SelectedIngredients';
 import { useState } from 'react';
 
 type DynamicPriceFieldProps = {
@@ -38,83 +39,44 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
     return (
         <Card>
             <CardBody className='p-6 flex flex-col gap-5'>
-                <Card shadow='sm'>
-                    <CardHeader className='flex flex-col sm:flex-row gap-2 justify-between'>
-                        <h2 className='text-lg font-bold'>Ingredientes</h2>
-                        <Button
-                            variant='flat'
-                            onPress={onOpen}
-                        >
-                            Añadir ingredientes
-                        </Button>
-                    </CardHeader>
-                    <Divider />
-                    <CardBody>
-                        <SelectedIngredientsList
-                            ingredients={selectedIngredients}
-                            onRemoveIngredient={(ingredient: Ingredient) => {
-                                onSelectedIngredientsChange(
-                                    selectedIngredients.filter(i => i.id !== ingredient.id),
-                                );
-                            }}
-                            onAmountChange={(ingredient, amount) => {
-                                onSelectedIngredientsChange(
-                                    selectedIngredients.map(i =>
-                                        i.id === ingredient.id ? { ...ingredient, amount } : i,
-                                    ),
-                                );
-                            }}
-                        />
-                    </CardBody>
-                </Card>
-                <Modal
+                <SelectedIngredients
+                    selectedIngredients={selectedIngredients}
+                    onAddIngredientsClick={onOpen}
+                    onRemoveIngredient={ingredient =>
+                        onSelectedIngredientsChange(
+                            selectedIngredients.filter(i => i.id !== ingredient.id),
+                        )
+                    }
+                    onAmountChange={(ingredient, amount) => {
+                        onSelectedIngredientsChange(
+                            selectedIngredients.map(i =>
+                                i.id === ingredient.id ? { ...ingredient, amount } : i,
+                            ),
+                        );
+                    }}
+                />
+                <IngredientsSelectorModal
                     isOpen={isOpen}
                     onOpenChange={onOpenChange}
-                >
-                    <ModalContent>
-                        {onClose => (
-                            <>
-                                <ModalHeader>Añadir ingredientes</ModalHeader>
-                                <Divider />
-                                <ModalBody>
-                                    <Tabs
-                                        aria-label='Options'
-                                        fullWidth
-                                    >
-                                        <Tab
-                                            key='material'
-                                            title='Insumos'
-                                        >
-                                            <MaterialsListSelector
-                                                selectedMaterials={selectedMaterials}
-                                                onSelectedMaterialsChange={setSelectedMaterials}
-                                            />
-                                        </Tab>
-                                        <Tab
-                                            key='product'
-                                            title='Productos'
-                                        >
-                                            <ProductsListSelector
-                                                selectedProducts={selectedProducts}
-                                                onSelectedProductsChange={setSelectedProducts}
-                                            />
-                                        </Tab>
-                                    </Tabs>
-                                </ModalBody>
-                                <Divider />
-                                <ModalFooter className='p-2'>
-                                    <Button
-                                        color='danger'
-                                        variant='light'
-                                        onPress={onClose}
-                                    >
-                                        Cerrar
-                                    </Button>
-                                </ModalFooter>
-                            </>
-                        )}
-                    </ModalContent>
-                </Modal>
+                    selectedMaterials={selectedMaterials}
+                    onSelectedMaterialsChange={setSelectedMaterials}
+                    selectedProducts={selectedProducts}
+                    onSelectedProductsChange={setSelectedProducts}
+                    onSubmit={() =>
+                        onSelectedIngredientsChange(
+                            Array.from(
+                                new Set(
+                                    selectedIngredients.concat(
+                                        mergeProductsWithMaterials(
+                                            selectedMaterials,
+                                            selectedProducts,
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        )
+                    }
+                />
                 <ProfitField />
                 <PriceField />
             </CardBody>

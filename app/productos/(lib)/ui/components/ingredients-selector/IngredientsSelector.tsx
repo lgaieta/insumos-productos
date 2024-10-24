@@ -2,7 +2,6 @@ import type Ingredient from '@common/entities/Ingredient';
 import IngredientType from '@common/entities/IngredientType';
 import IngredientsGridList from '@productos/(lib)/ui/components/ingredients-list/IngredientsGridList';
 import IngredientsListOpenModalButton from '@productos/(lib)/ui/components/ingredients-list/IngredientsListOpenModalButton';
-import SaveIngredientsButton from '@productos/(lib)/ui/components/ingredients-modal/SaveIngredientsButton';
 
 const ingredients: Ingredient[] = [
     {

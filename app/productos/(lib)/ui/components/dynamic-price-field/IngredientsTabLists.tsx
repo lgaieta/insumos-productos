@@ -1,5 +1,5 @@
 import { fetchMaterialList } from '@insumos/(lib)/services/fetchMaterialList';
-import { Listbox, ListboxItem } from '@nextui-org/react';
+import { Listbox, ListboxItem, type Selection } from '@nextui-org/react';
 import ListboxSkeleton from '@productos/(lib)/ui/components/ingredients-modal/ListboxSkeleton';
 import { adaptQueryDataForListbox } from '@productos/(lib)/utils/adaptQueryDataForListbox';
 import { Spinner } from '@nextui-org/react';
@@ -17,6 +17,11 @@ type MaterialsListSelectorProps = {
 
 export function MaterialsListSelector(props: MaterialsListSelectorProps) {
     const selectedKeys = new Set(props.selectedMaterials.map(i => i.id));
+
+    const handleSelectionChange = (selection: Selection, data: Material[]) => {
+        if (selection === 'all') return data;
+        props.onSelectedMaterialsChange(data.filter(material => selection.has(material.id)));
+    };
 
     return (
         <PaginationWrapper
@@ -48,15 +53,12 @@ export function MaterialsListSelector(props: MaterialsListSelectorProps) {
                             aria-label='Lista de insumos'
                             selectionMode='multiple'
                             selectedKeys={selectedKeys}
-                            onSelectionChange={selection => {
-                                if (selection === 'all')
-                                    return adaptQueryDataForListbox(query.data);
-                                props.onSelectedMaterialsChange(
-                                    adaptQueryDataForListbox(query.data).filter(material =>
-                                        selection.has(material.id),
-                                    ),
-                                );
-                            }}
+                            onSelectionChange={selection =>
+                                handleSelectionChange(
+                                    selection,
+                                    adaptQueryDataForListbox(query.data),
+                                )
+                            }
                         >
                             {material => (
                                 <ListboxItem
@@ -85,6 +87,11 @@ type ProductsListSelectorProps = {
 
 export function ProductsListSelector(props: ProductsListSelectorProps) {
     const selectedKeys = new Set(props.selectedProducts.map(i => i.id));
+
+    const handleSelectionChange = (selection: Selection, data: Product[]) => {
+        if (selection === 'all') return data;
+        props.onSelectedProductsChange(data.filter(product => selection.has(product.id)));
+    };
 
     return (
         <PaginationWrapper
@@ -117,12 +124,9 @@ export function ProductsListSelector(props: ProductsListSelectorProps) {
                             selectionMode='multiple'
                             selectedKeys={selectedKeys}
                             onSelectionChange={selection => {
-                                if (selection === 'all')
-                                    return adaptQueryDataForListbox(query.data);
-                                props.onSelectedProductsChange(
-                                    adaptQueryDataForListbox(query.data).filter(product =>
-                                        selection.has(product.id),
-                                    ),
+                                handleSelectionChange(
+                                    selection,
+                                    adaptQueryDataForListbox(query.data),
                                 );
                             }}
                         >
