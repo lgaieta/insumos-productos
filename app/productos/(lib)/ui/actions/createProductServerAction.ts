@@ -6,14 +6,21 @@ import { accumulateFormErrors } from '@common/utils/accumulateFormErrors';
 import CreateProduct from '@productos/(lib)/usecases/CreateProduct';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 import ProductPriceType from '@common/entities/ProductPriceType';
+import type Ingredient from '@common/entities/Ingredient';
 
-export const createProductServerAction = async (_: any, formData: FormData) => {
+export const createProductServerAction = async (
+    _: any,
+    formData: FormData,
+    ingredients?: Ingredient[],
+) => {
     try {
         const name = formData.get('name') as string;
         const file = formData.get('image') as Blob;
         const price = parseFloat(formData.get('price') as string);
         const profit = parseFloat(formData.get('profit') as string);
         const link = (formData.get('link') as string) || null;
+
+        console.log(ingredients);
 
         const parsedResult = ProductValidationSchema.safeParse({
             name,

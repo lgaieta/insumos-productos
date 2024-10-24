@@ -55,7 +55,16 @@ function CreateProductForm() {
     const [isDynamicPrice, setIsDynamicPrice] = useState(false);
     const [selectedIngredients, setSelectedIngredients] =
         useState<Ingredient[]>(defaultIngredients);
-    const [{ errors }, formAction] = useFormState<FormState, FormData>(createProductServerAction, {
+
+    const bindedAction = async (prevState: FormState, formData: FormData) => {
+        return await createProductServerAction(
+            prevState,
+            formData,
+            isDynamicPrice ? selectedIngredients : undefined,
+        );
+    };
+
+    const [{ errors }, formAction] = useFormState<FormState, FormData>(bindedAction, {
         errors: {},
     });
 

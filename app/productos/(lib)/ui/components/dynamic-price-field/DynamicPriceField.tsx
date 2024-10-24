@@ -1,29 +1,11 @@
 import type Ingredient from '@common/entities/Ingredient';
 import type Material from '@common/entities/Material';
 import Product from '@common/entities/Product';
-import {
-    Button,
-    Card,
-    CardBody,
-    Divider,
-    Input,
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    Tab,
-    Tabs,
-    useDisclosure,
-} from '@nextui-org/react';
+import { Card, CardBody, Input, useDisclosure } from '@nextui-org/react';
 import IngredientsSelectorModal from '@productos/(lib)/ui/components/dynamic-price-field/IngredientsSelectorModal';
-import {
-    MaterialsListSelector,
-    ProductsListSelector,
-} from '@productos/(lib)/ui/components/dynamic-price-field/IngredientsTabLists';
 import { mergeProductsWithMaterials } from '@productos/(lib)/ui/components/dynamic-price-field/mergeProductsWithMaterials';
 import SelectedIngredients from '@productos/(lib)/ui/components/dynamic-price-field/SelectedIngredients';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 type DynamicPriceFieldProps = {
     selectedIngredients: Ingredient[];
@@ -35,6 +17,31 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
     const [selectedMaterials, setSelectedMaterials] = useState<Material[]>([]);
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const { isOpen, onOpenChange, onOpen } = useDisclosure();
+
+    const initialPrice = useMemo(
+        () =>
+            selectedIngredients.reduce(
+                (acc, ingredient) => acc + ingredient.unitPrice * ingredient.amount,
+                0,
+            ),
+        [selectedIngredients],
+    );
+
+    const [price, setPrice] = useState(0);
+    const [profit, setProfit] = useState(0);
+
+    const handlePriceChange = (value: number) => {
+        const newPrice = Number(value);
+        setPrice(newPrice);
+        const newProfit = 100 * (newPrice / initialPrice - 1);
+        setProfit(newProfit);
+    };
+
+    const handleProfitChange = (value: number) => {
+        setProfit(Number(value));
+        const newPrice = initialPrice * (1 + Number(value) / 100);
+        setPrice(newPrice);
+    };
 
     return (
         <Card>
@@ -77,14 +84,20 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                         )
                     }
                 />
-                <ProfitField />
-                <PriceField />
+                <ProfitField
+                    value={String(profit)}
+                    onChange={value => handleProfitChange(+value)}
+                />
+                <PriceField
+                    value={String(price)}
+                    onChange={value => handlePriceChange(+value)}
+                />
             </CardBody>
         </Card>
     );
 }
 
-function PriceField() {
+function PriceField(props: { value: string; onChange: (value: string) => void }) {
     return (
         <Input
             type='number'
@@ -98,13 +111,15 @@ function PriceField() {
                     <span className='text-foreground-400 text-base'>$</span>
                 </div>
             }
+            value={props.value}
+            onChange={event => props.onChange(event.target.value)}
             classNames={{ label: 'font-bold' }}
             size='lg'
         />
     );
 }
 
-function ProfitField() {
+function ProfitField(props: { value: string; onChange: (value: string) => void }) {
     return (
         <Input
             type='number'
@@ -118,6 +133,8 @@ function ProfitField() {
                     <span className='text-foreground-400 text-base'>%</span>
                 </div>
             }
+            value={props.value}
+            onChange={event => props.onChange(event.target.value)}
             classNames={{ label: 'font-bold' }}
             size='lg'
         />
