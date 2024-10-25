@@ -64,7 +64,7 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                             selectedIngredients.map(i =>
                                 i.componentId === ingredient.componentId &&
                                 i.type === ingredient.type
-                                    ? { ...ingredient, amount }
+                                    ? { ...ingredient, amount: amount <= 0 ? 1 : amount }
                                     : i,
                             ),
                         )
@@ -88,6 +88,7 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                         onClose();
                     }}
                 />
+                <p className='text-base'>Total de insumos: ${initialPrice}</p>
                 <ProfitField
                     value={String(profit)}
                     onChange={value => handleProfitChange(+value)}
