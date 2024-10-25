@@ -1,36 +1,80 @@
-create database insumos_productos if not exists;
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Linux (x86_64)
+--
+-- Server version	8.0.30
 
-use insumos_productos;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-create table if not exists `INSUMO`  (
-  `INSUMO_ID` int not null auto_increment,
-  `NOMBRE` varchar(45) default NULL,
-  `IMAGEN` mediumblob default NULL,
-  `COSTO_UNITARIO` decimal(18,2) default NULL,
-  `LINK` varchar(500) default NULL,
-  primary key(`INSUMO_ID`)
-) engine=InnoDB default charset=utf8 collate=utf8_general_ci;
+--
+-- Table structure for table `FORMULA_DETALLE`
+--
 
-create table if not exists `PRODUCTO` (
-  `PRODUCTO_ID` int not null auto_increment,
-  `NOMBRE` varchar(45) default NULL,
-  `COSTO_UNITARIO` decimal(18,2) default NULL,
-  `LINK` varchar(500) default NULL,
-  `IMAGEN` mediumblob default NULL,
-  `GANANCIA` decimal(9,4) default NULL,
-  `TIPO_PRECIO` enum('fijo', 'dinamico') default 'fijo',
-   primary key(`PRODUCTO_ID`)
-) engine=InnoDB default charset=utf8 collate=utf8_general_ci;
-
-CREATE TABLE IF NOT EXISTS `FORMULA_DETALLE` (
+DROP TABLE IF EXISTS `FORMULA_DETALLE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `FORMULA_DETALLE` (
   `FORMULA_DETALLE_ID` int NOT NULL AUTO_INCREMENT,
   `PRODUCTO_ID` int NOT NULL,
   `INGREDIENTE_ID` int NOT NULL,
-  `TIPO_INGREDIENTE` varchar(20) NOT NULL,
-  `CANTIDAD` decimal(18,2) DEFAULT 1,
+  `TIPO_INGREDIENTE` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `CANTIDAD` decimal(18,2) DEFAULT '1.00',
   PRIMARY KEY (`FORMULA_DETALLE_ID`),
-  FOREIGN KEY (`PRODUCTO_ID`) REFERENCES PRODUCTO(`PRODUCTO_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `avoid_duplicates` (`PRODUCTO_ID`,`INGREDIENTE_ID`,`TIPO_INGREDIENTE`),
+  CONSTRAINT `FORMULA_DETALLE_ibfk_1` FOREIGN KEY (`PRODUCTO_ID`) REFERENCES `PRODUCTO` (`PRODUCTO_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-ALTER TABLE `FORMULA_DETALLE`
-  ADD UNIQUE KEY `avoid_duplicates` (`PRODUCTO_ID`,`INGREDIENTE_ID`,`TIPO_INGREDIENTE`);
+--
+-- Table structure for table `INSUMO`
+--
+
+DROP TABLE IF EXISTS `INSUMO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `INSUMO` (
+  `INSUMO_ID` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(45) DEFAULT NULL,
+  `IMAGEN` mediumblob,
+  `COSTO_UNITARIO` decimal(18,2) DEFAULT NULL,
+  `LINK` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`INSUMO_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `PRODUCTO`
+--
+
+DROP TABLE IF EXISTS `PRODUCTO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PRODUCTO` (
+  `PRODUCTO_ID` int NOT NULL AUTO_INCREMENT,
+  `NOMBRE` varchar(45) DEFAULT NULL,
+  `COSTO_UNITARIO` decimal(18,2) DEFAULT NULL,
+  `LINK` varchar(500) DEFAULT NULL,
+  `IMAGEN` mediumblob,
+  `GANANCIA` decimal(9,4) DEFAULT NULL,
+  `TIPO_PRECIO` enum('fijo','dinamico') DEFAULT 'fijo',
+  PRIMARY KEY (`PRODUCTO_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-10-25 15:52:58

@@ -12,7 +12,7 @@ export default function SelectedIngredientsList(props: {
     return (
         <div className='grid grid-cols-1 min-[500px]:grid-cols-2 gap-2'>
             {props.ingredients.map(ingredient => (
-                <IngredientCard key={ingredient.id}>
+                <IngredientCard key={ingredient.componentId}>
                     <IngredientName ingredient={ingredient} />
                     <IngredientPrice ingredient={ingredient} />
                     <IngredientAmount

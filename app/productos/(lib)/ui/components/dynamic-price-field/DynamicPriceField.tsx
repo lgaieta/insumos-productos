@@ -4,6 +4,7 @@ import Product from '@common/entities/Product';
 import { Card, CardBody, Input, useDisclosure } from '@nextui-org/react';
 import IngredientsSelectorModal from '@productos/(lib)/ui/components/dynamic-price-field/IngredientsSelectorModal';
 import { mergeProductsWithMaterials } from '@productos/(lib)/ui/components/dynamic-price-field/mergeProductsWithMaterials';
+import { removeDuplicatedIngredients } from '@productos/(lib)/ui/components/dynamic-price-field/removeDuplicatedIngredients';
 import SelectedIngredients from '@productos/(lib)/ui/components/dynamic-price-field/SelectedIngredients';
 import { useMemo, useState } from 'react';
 
@@ -16,7 +17,7 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
     const { selectedIngredients, onSelectedIngredientsChange } = props;
     const [selectedMaterials, setSelectedMaterials] = useState<Material[]>([]);
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-    const { isOpen, onOpenChange, onOpen } = useDisclosure();
+    const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
 
     const initialPrice = useMemo(
         () =>
@@ -51,16 +52,23 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                     onAddIngredientsClick={onOpen}
                     onRemoveIngredient={ingredient =>
                         onSelectedIngredientsChange(
-                            selectedIngredients.filter(i => i.id !== ingredient.id),
+                            selectedIngredients.filter(
+                                i =>
+                                    i.componentId !== ingredient.componentId &&
+                                    i.type === ingredient.type,
+                            ),
                         )
                     }
-                    onAmountChange={(ingredient, amount) => {
+                    onAmountChange={(ingredient, amount) =>
                         onSelectedIngredientsChange(
                             selectedIngredients.map(i =>
-                                i.id === ingredient.id ? { ...ingredient, amount } : i,
+                                i.componentId === ingredient.componentId &&
+                                i.type === ingredient.type
+                                    ? { ...ingredient, amount }
+                                    : i,
                             ),
-                        );
-                    }}
+                        )
+                    }
                 />
                 <IngredientsSelectorModal
                     isOpen={isOpen}
@@ -69,20 +77,16 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                     onSelectedMaterialsChange={setSelectedMaterials}
                     selectedProducts={selectedProducts}
                     onSelectedProductsChange={setSelectedProducts}
-                    onSubmit={() =>
+                    onSubmit={() => {
                         onSelectedIngredientsChange(
-                            Array.from(
-                                new Set(
-                                    selectedIngredients.concat(
-                                        mergeProductsWithMaterials(
-                                            selectedMaterials,
-                                            selectedProducts,
-                                        ),
-                                    ),
+                            removeDuplicatedIngredients(
+                                selectedIngredients.concat(
+                                    mergeProductsWithMaterials(selectedMaterials, selectedProducts),
                                 ),
                             ),
-                        )
-                    }
+                        );
+                        onClose();
+                    }}
                 />
                 <ProfitField
                     value={String(profit)}
