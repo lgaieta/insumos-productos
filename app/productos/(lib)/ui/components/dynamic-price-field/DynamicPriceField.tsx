@@ -6,7 +6,7 @@ import IngredientsSelectorModal from '@productos/(lib)/ui/components/dynamic-pri
 import { mergeProductsWithMaterials } from '@productos/(lib)/ui/components/dynamic-price-field/mergeProductsWithMaterials';
 import { removeDuplicatedIngredients } from '@productos/(lib)/ui/components/dynamic-price-field/removeDuplicatedIngredients';
 import SelectedIngredients from '@productos/(lib)/ui/components/dynamic-price-field/SelectedIngredients';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 type DynamicPriceFieldProps = {
     selectedIngredients: Ingredient[];
@@ -28,7 +28,7 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
         [selectedIngredients],
     );
 
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState(initialPrice);
     const [profit, setProfit] = useState(0);
 
     const handlePriceChange = (value: number) => {
@@ -44,22 +44,27 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
         setPrice(newPrice);
     };
 
+    useEffect(() => {
+        handleProfitChange(profit);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedIngredients]);
+
     return (
         <Card>
             <CardBody className='p-6 flex flex-col gap-5'>
                 <SelectedIngredients
                     selectedIngredients={selectedIngredients}
                     onAddIngredientsClick={onOpen}
-                    onRemoveIngredient={ingredient =>
+                    onRemoveIngredient={ingredient => {
                         onSelectedIngredientsChange(
                             selectedIngredients.filter(
                                 i =>
                                     i.componentId !== ingredient.componentId &&
                                     i.type === ingredient.type,
                             ),
-                        )
-                    }
-                    onAmountChange={(ingredient, amount) =>
+                        );
+                    }}
+                    onAmountChange={(ingredient, amount) => {
                         onSelectedIngredientsChange(
                             selectedIngredients.map(i =>
                                 i.componentId === ingredient.componentId &&
@@ -67,8 +72,8 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                                     ? { ...ingredient, amount: amount <= 0 ? 1 : amount }
                                     : i,
                             ),
-                        )
-                    }
+                        );
+                    }}
                 />
                 <IngredientsSelectorModal
                     isOpen={isOpen}
@@ -88,12 +93,14 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                         onClose();
                     }}
                 />
-                <p className='text-base'>Total de insumos: ${initialPrice}</p>
+                <p className='text-base'>Costo total de insumos: ${initialPrice}</p>
                 <ProfitField
+                    isDisabled={selectedIngredients.length < 1}
                     value={String(profit)}
                     onChange={value => handleProfitChange(+value)}
                 />
                 <PriceField
+                    isDisabled={selectedIngredients.length < 1}
                     value={String(price)}
                     onChange={value => handlePriceChange(+value)}
                 />
@@ -102,11 +109,15 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
     );
 }
 
-function PriceField(props: { value: string; onChange: (value: string) => void }) {
+function PriceField(props: {
+    value: string;
+    onChange: (value: string) => void;
+    isDisabled: boolean;
+}) {
     return (
         <Input
             type='number'
-            label='Costo'
+            label='Precio unitario'
             name='price'
             variant='bordered'
             placeholder='Ingrese el costo del producto'
@@ -119,12 +130,17 @@ function PriceField(props: { value: string; onChange: (value: string) => void })
             value={props.value}
             onChange={event => props.onChange(event.target.value)}
             classNames={{ label: 'font-bold' }}
+            isDisabled={props.isDisabled}
             size='lg'
         />
     );
 }
 
-function ProfitField(props: { value: string; onChange: (value: string) => void }) {
+function ProfitField(props: {
+    value: string;
+    onChange: (value: string) => void;
+    isDisabled: boolean;
+}) {
     return (
         <Input
             type='number'
@@ -141,6 +157,7 @@ function ProfitField(props: { value: string; onChange: (value: string) => void }
             value={props.value}
             onChange={event => props.onChange(event.target.value)}
             classNames={{ label: 'font-bold' }}
+            isDisabled={props.isDisabled}
             size='lg'
         />
     );
