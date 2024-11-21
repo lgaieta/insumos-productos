@@ -87,15 +87,18 @@ export function MaterialsListSelector(props: MaterialsListSelectorProps) {
 
 type ProductsListSelectorProps = {
     selectedProducts: Product[];
-    onSelectedProductsChange: (materials: Product[]) => void;
+    onSelectedProductsChange: (products: Product[]) => void;
 };
 
 export function ProductsListSelector(props: ProductsListSelectorProps) {
-    const selectedKeys = new Set(props.selectedProducts.map(i => i.id));
+    const selectedKeys = useMemo(
+        () => new Set(props.selectedProducts.map(i => String(i.id))),
+        [props.selectedProducts],
+    );
 
     const handleSelectionChange = (selection: Selection, data: Product[]) => {
         if (selection === 'all') return props.onSelectedProductsChange(data);
-        props.onSelectedProductsChange(data.filter(product => selection.has(product.id)));
+        props.onSelectedProductsChange(data.filter(product => selection.has(String(product.id))));
     };
 
     return (
