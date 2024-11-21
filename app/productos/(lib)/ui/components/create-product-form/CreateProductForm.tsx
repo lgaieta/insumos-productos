@@ -21,40 +21,9 @@ export type CreateProductFormErrors = {
 
 type FormState = { errors: Partial<CreateProductFormErrors> };
 
-const defaultIngredients: Ingredient[] = [
-    {
-        id: 1,
-        productId: 1,
-        componentId: 1,
-        componentName: 'Tomate',
-        type: IngredientType.Material,
-        unitPrice: 10,
-        amount: 2,
-    },
-    {
-        id: 2,
-        productId: 1,
-        componentId: 2,
-        componentName: 'Lechuga',
-        type: IngredientType.Material,
-        unitPrice: 5,
-        amount: 1,
-    },
-    {
-        id: 3,
-        productId: 1,
-        componentId: 3,
-        componentName: 'Pan',
-        type: IngredientType.Product,
-        unitPrice: 20,
-        amount: 1,
-    },
-];
-
 function CreateProductForm() {
     const [isDynamicPrice, setIsDynamicPrice] = useState(false);
-    const [selectedIngredients, setSelectedIngredients] =
-        useState<Ingredient[]>(defaultIngredients);
+    const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>([]);
 
     const bindedAction = async (prevState: FormState, formData: FormData) => {
         return await createProductServerAction(

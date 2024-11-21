@@ -23,6 +23,12 @@ function SelectedIngredients(props: SelectedIngredientsProps) {
             </CardHeader>
             <Divider />
             <CardBody>
+                {props.selectedIngredients.length < 1 && (
+                    <p className='text-default-500'>
+                        Haz click en &quot;Añadir ingredientes&quot; para agregar ingredientes a la
+                        fórmula.
+                    </p>
+                )}
                 <SelectedIngredientsList
                     ingredients={props.selectedIngredients}
                     onRemoveIngredient={props.onRemoveIngredient}
