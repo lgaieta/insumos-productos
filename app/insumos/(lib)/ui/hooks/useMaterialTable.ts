@@ -25,7 +25,7 @@ export const useMaterialTable = () => {
             cache: 'no-store',
         });
 
-        if (signal!.aborted) return;
+        if (signal!.aborted || !data) return;
 
         const preparedList = data.map(item => ({
             id: item.id,
