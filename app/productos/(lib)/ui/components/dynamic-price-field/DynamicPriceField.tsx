@@ -59,8 +59,8 @@ function DynamicPriceField(props: DynamicPriceFieldProps) {
                         onSelectedIngredientsChange(
                             selectedIngredients.filter(
                                 i =>
-                                    i.componentId !== ingredient.componentId &&
-                                    i.type === ingredient.type,
+                                    i.componentId !== ingredient.componentId ||
+                                    i.type !== ingredient.type,
                             ),
                         );
                     }}
