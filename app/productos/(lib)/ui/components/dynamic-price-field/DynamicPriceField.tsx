@@ -159,6 +159,8 @@ function ProfitField(props: {
             classNames={{ label: 'font-bold' }}
             isDisabled={props.isDisabled}
             size='lg'
+            isInvalid={Number(props.value) < 0}
+            errorMessage={Number(props.value) < 0 ? 'La ganancia no puede ser negativa' : undefined}
         />
     );
 }
