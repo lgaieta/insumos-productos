@@ -7,6 +7,9 @@ import CreateProduct from '@productos/(lib)/usecases/CreateProduct';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 import ProductPriceType from '@common/entities/ProductPriceType';
 import type Ingredient from '@common/entities/Ingredient';
+import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
+import IngredientType from '@common/entities/IngredientType';
+import type NewIngredientsList from '@common/entities/NewIngredientsList';
 
 export const createProductServerAction = async (
     _: any,
@@ -20,8 +23,6 @@ export const createProductServerAction = async (
         const profit = parseFloat(formData.get('profit') as string);
         const link = (formData.get('link') as string) || null;
 
-        console.log(ingredients);
-
         const parsedResult = ProductValidationSchema.safeParse({
             name,
             image: file.size === 0 ? null : file,
@@ -34,7 +35,7 @@ export const createProductServerAction = async (
             return accumulateFormErrors(parsedResult);
         }
 
-        await CreateProduct.execute({
+        const productId = await CreateProduct.execute({
             newProduct: {
                 id: 1,
                 ...parsedResult.data,
@@ -42,6 +43,29 @@ export const createProductServerAction = async (
             },
             productRepository: new MySQLProductRepository(),
         });
+
+        const ingredientRepository = new MySQLIngredientRepository();
+        if (ingredients)
+            await ingredientRepository.saveList(
+                ingredients.reduce(
+                    (acc: NewIngredientsList, el) => {
+                        if (el.type === IngredientType.Material)
+                            return {
+                                ...acc,
+                                materialList: [...acc.materialList, [el.componentId, el.amount]],
+                            };
+                        else
+                            return {
+                                ...acc,
+                                subproductList: [
+                                    ...acc.subproductList,
+                                    [el.componentId, el.amount],
+                                ],
+                            };
+                    },
+                    { productId, materialList: [], subproductList: [] },
+                ),
+            );
 
         console.log(`Saved product with name ${name} and price ${price} successfully`);
     } catch (e) {

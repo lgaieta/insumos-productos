@@ -40,13 +40,12 @@ function SaveIngredientsButton(props: SaveIngredientsButtonProps) {
     const pathname = usePathname();
     const productId: Product['id'] = parseInt(pathname.split('/').slice(-1)[0]);
 
-    const newIngredientList: NewIngredientsList = {
-        productId,
-        materialList: material,
-        subproductList: product,
-    };
-
     const action = () => {
+        const newIngredientList: NewIngredientsList = {
+            productId,
+            materialList: material.map(e => [e, 1]),
+            subproductList: product.map(e => [e, 1]),
+        };
         saveIngredientListServerAction(newIngredientList);
         props.afterSave?.();
     };

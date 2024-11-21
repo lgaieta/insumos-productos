@@ -10,7 +10,7 @@ import { revalidatePath } from 'next/cache';
 
 export async function saveIngredientListServerAction(newIngredientsList: NewIngredientsList) {
     const filteredProducts = newIngredientsList.subproductList.filter(
-        subproduct => subproduct !== newIngredientsList.productId,
+        subproduct => subproduct[0] !== newIngredientsList.productId,
     );
     const ingredientRepository: IngredientRepository = new MySQLIngredientRepository();
     const productRepository: ProductRepository = new MySQLProductRepository();

@@ -7,9 +7,10 @@ import { pool } from '@common/services/pool';
 import type { RowDataPacket } from 'mysql2';
 
 type NewDBIngredient = [
-    productId: DBIngredient['PRODUCTO_ID'],
-    componentId: DBIngredient['INGREDIENTE_ID'],
-    type: DBIngredient['TIPO_INGREDIENTE'],
+    DBIngredient['PRODUCTO_ID'],
+    DBIngredient['INGREDIENTE_ID'],
+    DBIngredient['TIPO_INGREDIENTE'],
+    number,
 ];
 
 export interface DBIngredient extends RowDataPacket {
@@ -88,7 +89,7 @@ class MySQLIngredientRepository implements IngredientRepository {
         const ingredientsToSave = this.newDBIngredientAdapter(newIngredientsList);
 
         await pool.query(
-            'INSERT IGNORE INTO FORMULA_DETALLE (PRODUCTO_ID, INGREDIENTE_ID, TIPO_INGREDIENTE) VALUES ?',
+            'INSERT IGNORE INTO FORMULA_DETALLE (PRODUCTO_ID, INGREDIENTE_ID, TIPO_INGREDIENTE, CANTIDAD) VALUES ?',
             [ingredientsToSave],
         );
     }
@@ -129,11 +130,11 @@ class MySQLIngredientRepository implements IngredientRepository {
         newIngredientsList: NewIngredientsList,
     ): NewDBIngredient[] => {
         const materialIngredients: NewDBIngredient[] = newIngredientsList.materialList.map(
-            materialId => [newIngredientsList.productId, materialId, 'insumo'],
+            material => [newIngredientsList.productId, material[0], 'insumo', material[1]],
         );
 
         const subproductIngredients: NewDBIngredient[] = newIngredientsList.subproductList.map(
-            subproductId => [newIngredientsList.productId, subproductId, 'producto'],
+            subproduct => [newIngredientsList.productId, subproduct[0], 'producto', subproduct[1]],
         );
 
         return [...materialIngredients, ...subproductIngredients];
