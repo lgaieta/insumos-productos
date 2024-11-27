@@ -18,13 +18,6 @@ class DeleteIngredient {
     }) {
         try {
             await ingredientRepository.deleteById(ingredientId);
-            const product = await productRepository.getById(productId);
-
-            await new UpdateSuperProductsPrice().execute({
-                product: product!,
-                ingredientRepository,
-                productRepository,
-            });
 
             return {
                 success: true,
