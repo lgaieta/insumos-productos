@@ -39,7 +39,10 @@ export const createProductServerAction = async (
             newProduct: {
                 id: 1,
                 ...parsedResult.data,
-                priceType: ProductPriceType.Fixed,
+                priceType:
+                    !ingredients || ingredients.length > 0
+                        ? ProductPriceType.Dynamic
+                        : ProductPriceType.Fixed,
             },
             productRepository: new MySQLProductRepository(),
         });
