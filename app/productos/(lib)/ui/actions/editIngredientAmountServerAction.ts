@@ -7,7 +7,9 @@ import type ProductRepository from '@common/entities/ProductRepository';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
 import { IngredientAmountSchema } from '@productos/(lib)/services/schemas/IngredientValidationSchema';
+import RecalculateDynamicProductPrice from '@productos/(lib)/usecases/RecalculateDynamicProductPrice';
 import UpdateIngredientAmount from '@productos/(lib)/usecases/UpdateIngredientAmount';
+import UpdateSuperProductsPrice from '@productos/(lib)/usecases/UpdateSuperProductsPrice';
 import { revalidatePath } from 'next/cache';
 
 type Params = {
@@ -22,14 +24,14 @@ export async function editIngredientAmountServerAction(params: Params) {
     const validatedAmount = IngredientAmountSchema.safeParse(newAmount);
 
     if (validatedAmount.success === false) {
-        return { error: 'true' };
+        return { error: 'Invalid ingredient amount' };
     }
 
     const ingredientRepository: IngredientRepository = new MySQLIngredientRepository();
     const productRepository: ProductRepository = new MySQLProductRepository();
 
     try {
-        const { success } = await UpdateIngredientAmount.execute({
+        const { success: updateIngredientSuccess } = await UpdateIngredientAmount.execute({
             newAmount: validatedAmount.data,
             ingredientId,
             ingredientRepository,
@@ -37,9 +39,31 @@ export async function editIngredientAmountServerAction(params: Params) {
             productId,
         });
 
-        if (!success) {
-            return { error: 'true' };
+        if (!updateIngredientSuccess) {
+            return { error: 'Failed to update ingredient amount' };
         }
+
+        const product = await productRepository.getById(productId);
+
+        if (!product) return { error: 'Product not found' };
+
+        const { success: recalculateProductSuccess } =
+            await new RecalculateDynamicProductPrice().execute({
+                product,
+                ingredientRepository,
+                productRepository,
+            });
+
+        if (!recalculateProductSuccess) return { error: 'Failed to recalculate product price' };
+
+        const { success: updateSuperProductsSuccess } =
+            await new UpdateSuperProductsPrice().execute({
+                product,
+                productRepository,
+                ingredientRepository,
+            });
+
+        if (!updateSuperProductsSuccess) return { error: 'Failed to update super products price' };
 
         console.log(`Updated ingredient ${ingredientId} successfully`);
     } catch (e) {
