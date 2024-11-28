@@ -10,6 +10,7 @@ import type Ingredient from '@common/entities/Ingredient';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 import IngredientType from '@common/entities/IngredientType';
 import type NewIngredientsList from '@common/entities/NewIngredientsList';
+import { parse } from 'path';
 
 export const createProductServerAction = async (
     _: any,
@@ -20,7 +21,7 @@ export const createProductServerAction = async (
         const name = formData.get('name') as string;
         const file = formData.get('image') as Blob;
         const price = parseFloat(formData.get('price') as string);
-        const profit = parseFloat(formData.get('profit') as string);
+        const profit = parseFloat(formData.get('profit') as string) || 0;
         const link = (formData.get('link') as string) || null;
 
         const parsedResult = ProductValidationSchema.safeParse({
@@ -28,7 +29,7 @@ export const createProductServerAction = async (
             image: file.size === 0 ? null : file,
             price,
             link,
-            profit,
+            profit: profit,
         });
 
         if (parsedResult.success === false) {
@@ -40,9 +41,9 @@ export const createProductServerAction = async (
                 id: 1,
                 ...parsedResult.data,
                 priceType:
-                    !ingredients || ingredients.length > 0
-                        ? ProductPriceType.Dynamic
-                        : ProductPriceType.Fixed,
+                    !ingredients || ingredients.length < 1
+                        ? ProductPriceType.Fixed
+                        : ProductPriceType.Dynamic,
             },
             productRepository: new MySQLProductRepository(),
         });
