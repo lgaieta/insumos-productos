@@ -6,6 +6,7 @@ import ProductNotFoundErrorPage from '@productos/(lib)/ui/components/product-det
 import { Suspense } from 'react';
 import GetProduct from '@productos/(lib)/usecases/GetProduct';
 import MySQLProductRepository from '@productos/(lib)/services/MySQLProductRepository';
+import ProductPriceType from '@common/entities/ProductPriceType';
 
 async function ProductPage({ params }: { params: { id: string } }) {
     const storageResult = await GetProduct.execute({
@@ -18,11 +19,13 @@ async function ProductPage({ params }: { params: { id: string } }) {
     return (
         <main className='flex flex-col gap-10 max-w-5xl w-full mt-10 pb-10 mx-auto px-4 min-[400px]:px-8'>
             <ProductDetails product={storageResult.product} />
-            <IngredientsListErrorBoundary>
-                <Suspense fallback={<IngredientsListSkeleton />}>
-                    <IngredientsList productId={storageResult.product.id} />
-                </Suspense>
-            </IngredientsListErrorBoundary>
+            {storageResult.product.priceType === ProductPriceType.Dynamic && (
+                <IngredientsListErrorBoundary>
+                    <Suspense fallback={<IngredientsListSkeleton />}>
+                        <IngredientsList productId={storageResult.product.id} />
+                    </Suspense>
+                </IngredientsListErrorBoundary>
+            )}
         </main>
     );
 }
