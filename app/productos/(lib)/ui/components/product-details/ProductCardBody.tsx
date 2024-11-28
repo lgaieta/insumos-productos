@@ -1,4 +1,5 @@
 import Product from '@common/entities/Product';
+import ProductPriceType from '@common/entities/ProductPriceType';
 import { CardBody, Button } from '@nextui-org/react';
 import NextLink from 'next/link';
 
@@ -19,14 +20,18 @@ function ProductCardBody(props: ProductCardBodyProps) {
                 <p className='font-bold h-[20px] leading-none'>Nombre</p>
                 <p>{product.name}</p>
             </div>
-            <div className='flex flex-col w-full px-3 py-[10px]'>
-                <p className='font-bold h-[20px] leading-none'>Precio inicial</p>
-                <p>${(product.price / (1 + product.profit / 100)).toString()}</p>
-            </div>
-            <div className='flex flex-col w-full px-3 py-[10px]'>
-                <p className='font-bold h-[20px] leading-none'>Ganancia</p>
-                <p>{product.profit.toString()}%</p>
-            </div>
+            {product.priceType === ProductPriceType.Dynamic && (
+                <>
+                    <div className='flex flex-col w-full px-3 py-[10px]'>
+                        <p className='font-bold h-[20px] leading-none'>Precio inicial</p>
+                        <p>${(product.price / (1 + product.profit / 100)).toString()}</p>
+                    </div>
+                    <div className='flex flex-col w-full px-3 py-[10px]'>
+                        <p className='font-bold h-[20px] leading-none'>Ganancia</p>
+                        <p>{product.profit.toString()}%</p>
+                    </div>
+                </>
+            )}
             <div className='flex flex-col w-full px-3 py-[10px]'>
                 <p className='font-bold h-[20px] leading-none'>Precio total</p>
                 <p>${product.price.toString()}</p>
