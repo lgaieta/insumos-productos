@@ -1,4 +1,5 @@
-import { object, string, number, instanceof as zodInstanceof } from 'zod';
+import ProductPriceType from '@common/entities/ProductPriceType';
+import { object, string, number, instanceof as zodInstanceof, nativeEnum } from 'zod';
 
 export const ProductValidationSchema = object({
     name: string({
@@ -18,4 +19,5 @@ export const ProductValidationSchema = object({
         invalid_type_error: 'La ganancia no es válida',
     }).nonnegative({ message: 'La ganancia no puede ser un número negativo' }),
     link: string().url({ message: 'El link no es válido' }).nullable(),
+    priceType: nativeEnum(ProductPriceType),
 });

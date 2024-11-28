@@ -3,6 +3,7 @@ import { Input } from '@nextui-org/input';
 import Product from '@common/entities/Product';
 import { useState } from 'react';
 import ProductPriceType from '@common/entities/ProductPriceType';
+import PriceTypeSelector from '@productos/(lib)/ui/components/price-type-selector/PriceTypeSelector';
 
 type ProductCardEditableBodyProps = {
     product: Product;
@@ -29,8 +30,12 @@ function ProductCardEditableBody(props: ProductCardEditableBodyProps) {
         setPrice(newPrice);
     };
 
+    const [isDynamicPrice, setIsDynamicPrice] = useState(
+        product.priceType === ProductPriceType.Dynamic,
+    );
+
     return (
-        <CardBody className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+        <CardBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
             <div className='flex flex-col w-full px-3 py-[10px]'>
                 <p className='font-bold h-[20px] leading-none'>N° Producto</p>
                 <p>{product.id.toString()}</p>
@@ -46,6 +51,15 @@ function ProductCardEditableBody(props: ProductCardEditableBodyProps) {
                 isClearable
                 isRequired
                 autoFocus
+            />
+            <PriceTypeSelector
+                isDynamic={isDynamicPrice}
+                onToggle={setIsDynamicPrice}
+            />
+            <input
+                type='hidden'
+                name='priceType'
+                value={isDynamicPrice ? ProductPriceType.Dynamic : ProductPriceType.Fixed}
             />
             {product.priceType === ProductPriceType.Dynamic && (
                 <Input

@@ -134,7 +134,7 @@ class MySQLProductRepository implements ProductRepository {
     private async updatePartialProductAdapter(
         product: Partial<Product> & { id: ProductId },
     ): Promise<Partial<DBProduct>> {
-        return {
+        const adaptedProduct = {
             PRODUCTO_ID: product.id,
             NOMBRE: product.name,
             IMAGEN: product.image ? Buffer.from(product.image, 'base64') : undefined,
@@ -147,6 +147,10 @@ class MySQLProductRepository implements ProductRepository {
                 : 'dinamico',
             LINK: product.link,
         };
+        const filteredUndefinedProperties = Object.fromEntries(
+            Object.entries(adaptedProduct).filter(([key, value]) => value !== undefined),
+        );
+        return filteredUndefinedProperties;
     }
 }
 

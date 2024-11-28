@@ -36,7 +36,7 @@ export async function editProductServerAction(
             ...parsedResult.data,
         };
 
-        const { success } = await new UpdateProduct().execute({
+        const { success, message } = await new UpdateProduct().execute({
             newProduct: validatedProduct,
             productRepository,
             ingredientRepository,
@@ -45,7 +45,9 @@ export async function editProductServerAction(
         if (!success)
             return {
                 errors: {
-                    server: 'Ha ocurrido un error al editar los datos, por favor inténtelo nuevamente.',
+                    server:
+                        message ||
+                        'Ha ocurrido un error al editar los datos, por favor inténtelo nuevamente.',
                 },
             };
 

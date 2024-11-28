@@ -15,6 +15,19 @@ class UpdateProduct {
         try {
             const { newProduct, productRepository, ingredientRepository } = dependencies;
 
+            const dbProduct = await productRepository.getById(newProduct.id);
+
+            if (dbProduct?.priceType !== newProduct.priceType) {
+                const ingredients = await ingredientRepository.getByProductId(newProduct.id);
+                if (ingredients.length > 0) {
+                    return {
+                        success: false,
+                        message:
+                            'No se puede cambiar el tipo de precio de un producto con ingredientes asociados, elimine los ingredientes y luego cambie el tipo.',
+                    };
+                }
+            }
+
             const newProductPrice =
                 newProduct.priceType === ProductPriceType.Fixed
                     ? newProduct.price

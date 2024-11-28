@@ -11,7 +11,7 @@ function ProductCardBody(props: ProductCardBodyProps) {
     const { product } = props;
 
     return (
-        <CardBody className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+        <CardBody className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
             <div className='flex flex-col w-full px-3 py-[10px]'>
                 <p className='font-bold h-[20px] leading-none'>N° Producto</p>
                 <p>{product.id.toString()}</p>
@@ -19,6 +19,10 @@ function ProductCardBody(props: ProductCardBodyProps) {
             <div className='flex flex-col w-full px-3 py-[10px]'>
                 <p className='font-bold h-[20px] leading-none'>Nombre</p>
                 <p>{product.name}</p>
+            </div>
+            <div className='flex flex-col w-full px-3 py-[10px]'>
+                <p className='font-bold h-[20px] leading-none'>Tipo de precio</p>
+                <p>{product.priceType === ProductPriceType.Dynamic ? 'Variable' : 'Fijo'}</p>
             </div>
             {product.priceType === ProductPriceType.Dynamic && (
                 <>
