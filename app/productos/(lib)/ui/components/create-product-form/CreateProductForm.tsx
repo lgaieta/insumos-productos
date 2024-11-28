@@ -9,7 +9,7 @@ import PriceTypeSelector from '@productos/(lib)/ui/components/price-type-selecto
 import { useState } from 'react';
 import type Ingredient from '@common/entities/Ingredient';
 import DynamicPriceField from '@productos/(lib)/ui/components/dynamic-price-field/DynamicPriceField';
-import IngredientType from '@common/entities/IngredientType';
+import ProductPriceType from '@common/entities/ProductPriceType';
 
 export type CreateProductFormErrors = {
     name: string;
@@ -53,6 +53,11 @@ function CreateProductForm() {
             <PriceTypeSelector
                 isDynamic={isDynamicPrice}
                 onToggle={setIsDynamicPrice}
+            />
+            <input
+                type='hidden'
+                name='priceType'
+                value={isDynamicPrice ? ProductPriceType.Dynamic : ProductPriceType.Fixed}
             />
             {!isDynamicPrice && (
                 <FixedPriceField
