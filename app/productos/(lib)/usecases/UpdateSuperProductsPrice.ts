@@ -3,6 +3,7 @@ import IngredientType from '@common/entities/IngredientType';
 import type Product from '@common/entities/Product';
 import ProductPriceType from '@common/entities/ProductPriceType';
 import type ProductRepository from '@common/entities/ProductRepository';
+import RecalculateDynamicProductPrice from '@productos/(lib)/usecases/RecalculateDynamicProductPrice';
 
 type UpdateSuperProductsPriceDependencies = {
     product: Product;
@@ -36,49 +37,31 @@ class UpdateSuperProductsPrice {
         ingredientRepository: IngredientRepository;
         productRepository: ProductRepository;
     }) {
-        if (product.priceType === ProductPriceType.Fixed) return;
-
         const ingredients = (await ingredientRepository.getByComponentId(product.id)).filter(
             ingredient => ingredient.type === IngredientType.Product,
         );
 
+        if (ingredients.length === 0) return;
+
         for (const ingredient of ingredients) {
-            const superProduct = await productRepository.getById(ingredient.componentId);
+            const superProduct = await productRepository.getById(ingredient.productId);
 
             if (!superProduct) continue;
 
-            const newPrice = await this.calculateProductPrice({
+            await new RecalculateDynamicProductPrice().execute({
                 product: superProduct,
+                productRepository,
                 ingredientRepository,
             });
 
-            await productRepository.update(product);
-
-            console.log(product.id);
+            console.log(`Recalculated price for product ${superProduct.name} (${superProduct.id})`);
 
             await this.recalculate({
-                product: { ...superProduct, price: newPrice },
+                product: superProduct,
                 ingredientRepository,
                 productRepository,
             });
         }
-    }
-
-    private async calculateProductPrice({
-        product,
-        ingredientRepository,
-    }: {
-        product: Product;
-        ingredientRepository: IngredientRepository;
-    }) {
-        const ingredients = await ingredientRepository.getByProductId(product.id);
-
-        const ingredientsSum = ingredients.reduce(
-            (total, ingredient) => total + ingredient.unitPrice * ingredient.amount,
-            0,
-        );
-
-        return ingredientsSum * (1 + product.profit / 100);
     }
 }
 

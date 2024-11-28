@@ -16,7 +16,7 @@ class RecalculateDynamicProductPrice {
 
             if (!product) return { success: false };
 
-            if (product.priceType === ProductPriceType.Fixed) return { success: false };
+            if (product.priceType === ProductPriceType.Fixed) return { success: true };
 
             const ingredients = await ingredientRepository.getByProductId(product.id);
 

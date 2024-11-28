@@ -10,29 +10,36 @@ import MySQLProductRepository from '@productos/(lib)/services/MySQLProductReposi
 import UpdateProduct from '@productos/(lib)/usecases/UpdateProduct';
 import MySQLIngredientRepository from '@productos/(lib)/services/MySQLIngredientRepository';
 import ProductPriceType from '@common/entities/ProductPriceType';
+import UpdateSuperProductsPrice from '@productos/(lib)/usecases/UpdateSuperProductsPrice';
 
 export async function editProductServerAction(
     currentProduct: Product,
     _: { errors: ProductDetailsFormErrors },
     formData: FormData,
 ) {
-    'use server';
     try {
-        const editedProduct = getEditedProductFromFormData(formData);
-        const parsedResult = ProductValidationSchema.safeParse(editedProduct);
+        const editedProduct = await getEditedProductFromFormData(formData);
+        const parsedResult = ProductValidationSchema.safeParse({
+            ...editedProduct,
+            profit: editedProduct.profit || 0,
+        });
 
         if (parsedResult.success === false) {
             return accumulateFormErrors(parsedResult);
         }
 
+        const productRepository = new MySQLProductRepository();
+        const ingredientRepository = new MySQLIngredientRepository();
+
+        const validatedProduct = {
+            ...currentProduct,
+            ...parsedResult.data,
+        };
+
         const { success } = await new UpdateProduct().execute({
-            newProduct: {
-                id: currentProduct.id,
-                ...parsedResult.data,
-                priceType: ProductPriceType.Fixed,
-            },
-            productRepository: new MySQLProductRepository(),
-            ingredientRepository: new MySQLIngredientRepository(),
+            newProduct: validatedProduct,
+            productRepository,
+            ingredientRepository,
         });
 
         if (!success)
@@ -41,6 +48,22 @@ export async function editProductServerAction(
                     server: 'Ha ocurrido un error al editar los datos, por favor inténtelo nuevamente.',
                 },
             };
+
+        const { success: recalculateProductSuccess } = await new UpdateSuperProductsPrice().execute(
+            {
+                product: validatedProduct,
+                productRepository,
+                ingredientRepository,
+            },
+        );
+
+        if (!recalculateProductSuccess) {
+            return {
+                errors: {
+                    server: 'Ha ocurrido un error al editar los datos, por favor inténtelo nuevamente.',
+                },
+            };
+        }
 
         revalidatePath(`/producto/detalles/${currentProduct.id}`);
 

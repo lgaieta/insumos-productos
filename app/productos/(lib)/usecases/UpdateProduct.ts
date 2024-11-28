@@ -25,14 +25,6 @@ class UpdateProduct {
 
             await productRepository.update({ ...newProduct, price: newProductPrice });
 
-            const { success } = await new UpdateSuperProductsPrice().execute({
-                product: newProduct,
-                ingredientRepository,
-                productRepository,
-            });
-
-            if (!success) throw new Error('Failed updating super products price');
-
             return { success: true };
         } catch (e) {
             console.error(e);

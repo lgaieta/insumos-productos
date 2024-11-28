@@ -2,6 +2,7 @@ import { CardBody } from '@nextui-org/card';
 import { Input } from '@nextui-org/input';
 import Product from '@common/entities/Product';
 import { useState } from 'react';
+import ProductPriceType from '@common/entities/ProductPriceType';
 
 type ProductCardEditableBodyProps = {
     product: Product;
@@ -10,13 +11,13 @@ type ProductCardEditableBodyProps = {
 function ProductCardEditableBody(props: ProductCardEditableBodyProps) {
     const { product } = props;
 
-    const initialPrice = (product.price / (1 + product.profit / 100))
+    const initialPrice = product.price / (1 + product.profit / 100);
 
     const [price, setPrice] = useState(product.price);
     const [profit, setProfit] = useState(product.profit);
 
     const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newPrice = Number(event.target.value)
+        const newPrice = Number(event.target.value);
         setPrice(newPrice);
         const newProfit = 100 * (newPrice / initialPrice - 1);
         setProfit(newProfit);
@@ -31,7 +32,7 @@ function ProductCardEditableBody(props: ProductCardEditableBodyProps) {
     return (
         <CardBody className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
             <div className='flex flex-col w-full px-3 py-[10px]'>
-                <p className='font-bold h-[20px] leading-none'>N° Productos</p>
+                <p className='font-bold h-[20px] leading-none'>N° Producto</p>
                 <p>{product.id.toString()}</p>
             </div>
             <Input
@@ -46,31 +47,37 @@ function ProductCardEditableBody(props: ProductCardEditableBodyProps) {
                 isRequired
                 autoFocus
             />
-            <Input
-                label='Precio inicial'
-                name='initial_price'
-                defaultValue={initialPrice.toString()}
-                classNames={{
-                    label: '!text-base !font-bold text-foreground',
-                }}
-                isDisabled
-                disabled
-                size='lg'
-                startContent={<div className='pointer-events-none flex items-center'>$</div>}
-            />
-            <Input
-                label='Ganancia'
-                name='profit'
-                value={profit.toString()}
-                onChange={handleProfitChange}
-                classNames={{
-                    label: '!text-base !font-bold text-foreground',
-                }}
-                size='lg'
-                isClearable
-                isRequired
-                startContent={<div className='pointer-events-none flex items-center'>%</div>}
-            />
+            {product.priceType === ProductPriceType.Dynamic && (
+                <Input
+                    label='Precio inicial'
+                    name='initial_price'
+                    defaultValue={initialPrice.toString()}
+                    classNames={{
+                        label: '!text-base !font-bold text-foreground',
+                    }}
+                    min={0}
+                    isDisabled
+                    disabled
+                    size='lg'
+                    startContent={<div className='pointer-events-none flex items-center'>$</div>}
+                />
+            )}
+            {product.priceType === ProductPriceType.Dynamic && (
+                <Input
+                    label='Ganancia'
+                    name='profit'
+                    value={profit.toString()}
+                    onChange={handleProfitChange}
+                    classNames={{
+                        label: '!text-base !font-bold text-foreground',
+                    }}
+                    min={0}
+                    size='lg'
+                    isClearable
+                    isRequired
+                    startContent={<div className='pointer-events-none flex items-center'>%</div>}
+                />
+            )}
             <Input
                 label='Precio'
                 name='price'
@@ -79,6 +86,7 @@ function ProductCardEditableBody(props: ProductCardEditableBodyProps) {
                 classNames={{
                     label: '!text-base !font-bold text-foreground',
                 }}
+                min={0}
                 size='lg'
                 isClearable
                 isRequired
