@@ -1,4 +1,4 @@
-import type { ProductId } from '@common/entities/Product';
+import type { Ingredient, IngredientType, ProductId } from '@common/entities/Product';
 import type Product from '@common/entities/Product';
 
 type QueryOptions = {
@@ -15,6 +15,8 @@ interface ProductRepository {
     create(newProduct: Product): Promise<ProductId>;
     update(newProduct: Partial<Product> & { id: ProductId }): Promise<void>;
     deleteById(productId: ProductId): Promise<void>;
+    getProductsByIngredientIdAndType(itemId: number, type: IngredientType): Promise<Product[]>;
+    getIngredientsByProductId(productId: number): Promise<Ingredient[]>;
 }
 
 export default ProductRepository;
