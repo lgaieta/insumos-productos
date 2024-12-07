@@ -12,7 +12,7 @@ interface ProductRepository {
     getList(options: QueryOptions): Promise<Product[]>;
     getProductsCount(filterText: string): Promise<number>;
     getImageList(options: QueryOptions): Promise<{ id: ProductId; image: string }[]>;
-    create(newProduct: Product): Promise<ProductId>;
+    create(newProduct: Product): Promise<Product>;
     update(newProduct: Partial<Product> & { id: ProductId }): Promise<void>;
     deleteById(productId: ProductId): Promise<void>;
     getProductsByIngredientIdAndType(itemId: number, type: IngredientType): Promise<Product[]>;
