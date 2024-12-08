@@ -1,0 +1,34 @@
+import { test, expect } from '@playwright/test';
+
+test('create and delete fixed product', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+  await page.getByRole('link', { name: 'Productos', exact: true }).click();
+  await page.getByRole('link', { name: 'Insumos y productos' }).click();
+  await page.getByRole('button', { name: 'Productos Artículos listos' }).click();
+  await page.getByRole('button', { name: 'Nuevo Producto' }).click();
+  await page.getByPlaceholder('Ingrese el nombre del producto').click();
+  await page.getByPlaceholder('Ingrese el nombre del producto').fill('Producto de ejemplo');
+  await page.getByPlaceholder('Ingrese el costo del producto').click();
+  await page.getByPlaceholder('Ingrese el costo del producto').fill('12345');
+  await page.getByRole('button', { name: 'Continuar' }).click();
+  await expect(page).toHaveURL('http://localhost:3000/productos?pagina=1');
+  await page.getByLabel('Buscar por nombre').click();
+  await page.getByLabel('Buscar por nombre').fill('Producto de ejemplo');
+  await expect(page.getByRole('gridcell', { name: 'Producto de ejemplo' })).toBeVisible();
+  await page.getByRole('gridcell', { name: 'Producto de ejemplo' }).click();
+  await expect(page.getByRole('heading', { name: 'Producto de ejemplo' })).toBeVisible();
+  await expect(page.getByText('12345')).toBeVisible();
+  await page.getByRole('button', { name: 'Editar' }).click();
+  await page.getByLabel('Nombre').fill('Producto de ejemplo modificado');
+  await page.getByLabel('Precio').click();
+  await page.getByLabel('Precio').fill('1234');
+  await page.getByRole('button', { name: 'Confirmar edición' }).click();
+  await expect(page.getByRole('heading', { name: 'Producto de ejemplo modificado' })).toBeVisible();
+  await page.getByText('1234').click();
+  await expect(page.getByText('1234')).toBeVisible();
+  await page.getByRole('button', { name: 'Borrar' }).click();
+  await page.getByRole('button', { name: 'Borrar' }).click();
+  await page.getByLabel('Buscar por nombre').click();
+  await page.getByLabel('Buscar por nombre').fill('Producto de ejemplo modificado');
+  await expect(page.getByText('No se encontraron productos')).toBeVisible();
+});
