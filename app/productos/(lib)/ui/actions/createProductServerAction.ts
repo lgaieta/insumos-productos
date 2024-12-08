@@ -30,6 +30,10 @@ export const createProductServerAction = async (
             price,
             link,
             profit: profit,
+            priceType:
+                !ingredients || ingredients.length < 1
+                    ? ProductPriceType.Fixed
+                    : ProductPriceType.Dynamic,
         });
 
         if (parsedResult.success === false) {
@@ -40,10 +44,6 @@ export const createProductServerAction = async (
             newProduct: {
                 id: 1,
                 ...parsedResult.data,
-                priceType:
-                    !ingredients || ingredients.length < 1
-                        ? ProductPriceType.Fixed
-                        : ProductPriceType.Dynamic,
             },
             productRepository: new MySQLProductRepository(),
         });
