@@ -31,8 +31,11 @@ export const createProductServerAction = async (
             image: file.size === 0 ? null : file,
             price,
             link,
-            profit,
-            priceType,
+            profit: profit,
+            priceType:
+                !ingredients || ingredients.length < 1
+                    ? ProductPriceType.Fixed
+                    : ProductPriceType.Dynamic,
         });
 
         if (parsedResult.success === false) {
@@ -43,11 +46,6 @@ export const createProductServerAction = async (
             newProduct: {
                 id: 1,
                 ...parsedResult.data,
-                priceType:
-                    (!ingredients || ingredients.length < 1) &&
-                    parsedResult.data.priceType === ProductPriceType.Fixed
-                        ? ProductPriceType.Fixed
-                        : ProductPriceType.Dynamic,
             },
             productRepository: new MySQLProductRepository(),
         });
