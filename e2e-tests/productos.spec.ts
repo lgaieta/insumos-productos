@@ -52,19 +52,38 @@ test.describe('Product Management', () => {
     });
 
     test('create and delete dynamic product', async ({ page }) => {
-        // Common variables
+        // Common constants
         const baseUrl = 'http://localhost:3000/';
+        const searchPlaceholder = 'Buscar por nombre';
+        const productsPageURL = 'http://localhost:3000/productos?pagina=1';
+
+        // Fixed product constants
         const fixedProductName = 'Producto fijo de ejemplo ' + String(Date.now());
         const fixedProductCost = '1000';
         const fixedProductModifiedCost = '3000';
+
+        // Material (Insumo) constants
+        const insumosPageURL = 'http://localhost:3000/insumos?pagina=1';
+        const insumoName = 'Nombre de insumo ' + String(Date.now());
+        const insumoCost = '12500';
+        const modifiedInsumoCost = '2000';
+
+        // Dynamic product constants
         const dynamicProductName = 'Producto dinamico de ejemplo ' + String(Date.now());
         const dynamicProductProfit = '10';
-        const searchPlaceholder = 'Buscar por nombre';
-        const namePlaceholder = 'Ingrese el nombre del producto';
-        const costPlaceholder = 'Ingrese el costo del producto';
-        const expectedNewDynamicProductPrice = new Big(Number(fixedProductModifiedCost))
+        const expectedNewDynamicProductPrice = new Big(
+            Number(fixedProductModifiedCost) + Number(modifiedInsumoCost),
+        )
             .times(new Big(Number(dynamicProductProfit)).div(100).plus(1))
             .toString();
+
+        // Create a new material (insumo)
+        await page.goto(baseUrl);
+        await page.getByRole('button', { name: 'Insumos Costos de materiales' }).click();
+        await page.getByRole('button', { name: 'Nuevo Insumo' }).click();
+        await page.getByPlaceholder('Ingrese el nombre del insumo').fill(insumoName);
+        await page.getByPlaceholder('Ingrese el costo del insumo').fill(insumoCost);
+        await page.getByRole('button', { name: 'Continuar' }).click();
 
         // Go to products page
         await page.goto(baseUrl);
@@ -72,25 +91,33 @@ test.describe('Product Management', () => {
 
         // Create a new fixed product
         await page.getByRole('button', { name: 'Nuevo Producto' }).click();
-        await page.getByPlaceholder(namePlaceholder).click();
-        await page.getByPlaceholder(namePlaceholder).fill(fixedProductName);
-        await page.getByPlaceholder(costPlaceholder).click();
-        await page.getByPlaceholder(costPlaceholder).fill(fixedProductCost);
+        await page.getByPlaceholder('Ingrese el nombre del producto').fill(fixedProductName);
+        await page.getByPlaceholder('Ingrese el costo del producto').fill(fixedProductCost);
         await page.getByRole('button', { name: 'Continuar' }).click();
 
-        // Create a new dynamic product
+        // Create a new dynamic product including the material
         await page.getByRole('button', { name: 'Nuevo Producto' }).click();
-        await page.getByPlaceholder(namePlaceholder).click();
-        await page.getByPlaceholder(namePlaceholder).fill(dynamicProductName);
+        await page.getByPlaceholder('Ingrese el nombre del producto').fill(dynamicProductName);
         await page.getByRole('main').locator('span').nth(2).click();
         await page.getByRole('button', { name: 'Añadir ingredientes' }).click();
         await page.getByRole('tab', { name: 'Productos' }).click();
         await page.getByText(fixedProductName).click();
+        await page.getByRole('tab', { name: 'Insumos' }).click();
+        await page.getByText(insumoName).click();
         await page.getByRole('button', { name: 'Añadir ingredientes' }).click();
-        await page.getByPlaceholder('Ingrese la ganancia del').click();
         await page.getByPlaceholder('Ingrese la ganancia del').fill(dynamicProductProfit);
         await page.getByRole('button', { name: 'Continuar' }).click();
-        await expect(page).toHaveURL('http://localhost:3000/productos?pagina=1');
+        await expect(page).toHaveURL(productsPageURL);
+
+        // Verify and update material
+        await page.goto(insumosPageURL);
+        await page.getByLabel(searchPlaceholder).fill(insumoName);
+        await page.getByRole('gridcell', { name: insumoName }).click();
+        await page.getByRole('button', { name: 'Editar' }).click();
+        await page.getByLabel('Precio').fill(modifiedInsumoCost);
+        await page.getByRole('button', { name: 'Confirmar edición' }).click();
+
+        await page.goto(productsPageURL);
 
         // Search the fixed product
         await page.getByLabel(searchPlaceholder).click();
@@ -115,7 +142,17 @@ test.describe('Product Management', () => {
         await expect(page.getByText('$' + expectedNewDynamicProductPrice)).toBeVisible({
             timeout: 10000,
         });
-        await page.goBack();
+        // Remove ingredients
+        await page.getByLabel(fixedProductName).getByRole('button').nth(2).click();
+        await page.getByLabel(insumoName).getByRole('button').nth(2).click();
+        // Delete the dynamic product
+        await page.getByRole('button', { name: 'Borrar' }).click();
+        await page.getByRole('button', { name: 'Borrar' }).click();
+        await expect(page).toHaveURL(productsPageURL);
+        // Check if the dynamic product was deleted successfully
+        await page.getByLabel(searchPlaceholder).click();
+        await page.getByLabel(searchPlaceholder).fill(dynamicProductName);
+        await expect(page.getByText('No se encontraron productos')).toBeVisible();
 
         // Search the fixed product
         await page.getByLabel(searchPlaceholder).click();
@@ -126,19 +163,11 @@ test.describe('Product Management', () => {
         await page.getByRole('button', { name: 'Borrar' }).click();
         await page.getByRole('button', { name: 'Borrar' }).click();
 
-        // Search the dynamic product
-        await page.getByLabel(searchPlaceholder).click();
-        await page.getByLabel(searchPlaceholder).fill(dynamicProductName);
-        await expect(page.getByRole('gridcell', { name: dynamicProductName })).toBeVisible();
-        // Go to dynamic product details
-        await page.getByRole('gridcell', { name: dynamicProductName }).click();
-        // Delete the dynamic product
+        // Delete the material
+        await page.goto(insumosPageURL);
+        await page.getByLabel(searchPlaceholder).fill(insumoName);
+        await page.getByRole('gridcell', { name: insumoName }).click();
         await page.getByRole('button', { name: 'Borrar' }).click();
         await page.getByRole('button', { name: 'Borrar' }).click();
-        await expect(page).toHaveURL('http://localhost:3000/productos?pagina=1');
-        // Check if the dynamic product was deleted successfully
-        await page.getByLabel(searchPlaceholder).click();
-        await page.getByLabel(searchPlaceholder).fill(dynamicProductName);
-        await expect(page.getByText('No se encontraron productos')).toBeVisible();
     });
 });
